@@ -1,3 +1,8 @@
+:host {
+  z-index: 3;
+  box-shadow: 0px 2px 6px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+}
+
 .is-mobile .nav__toolbar {
   position: fixed;
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
