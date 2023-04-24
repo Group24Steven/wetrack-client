@@ -1,42 +1,88 @@
-
-<mat-grid-list cols="3" rowHeight="3:1" title="Dashboard" gutterSize="1rem">
-  <mat-grid-tile class="overflow-visible">
-    <mat-card class="flex-1 h-full">
+<div class="grid grid-flow-row gap-4 sm:grid-cols-1 lg:grid-cols-3">
+  <div class="w-full">
+    <mat-card>
       <mat-card-header>
         <h2>Meine Zeiterfassung</h2>
       </mat-card-header>
       <mat-card-content>
-       
+
+        <div class="flex justify-between items-center mt-4 mb-4">
+          <div class="flex-1 flex justify-center">
+            <li class="list-none text-center">
+              <ul><b>5:30 Std.</b></ul>
+              <ul>24. Apr 2023</ul>
+            </li>
+          </div>
+          <div class="flex-1 flex justify-center">
+            <mat-progress-spinner color="primary" mode="determinate" defaultColor="#333333" [value]="65">
+            </mat-progress-spinner>
+          </div>
+          <div class="flex-1 flex justify-center">
+            <button mat-fab>
+              <mat-icon>add_task</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <mat-list>
+          <div *ngFor="let time of times">
+            <mat-list-item>
+              <mat-icon matListItemIcon>work</mat-icon>
+              <div matListItemTitle>{{time.name}}</div>
+              <span matListItemMeta>{{time.time}} h</span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-list>
+
+
       </mat-card-content>
-      <mat-card-footer>
-      
-      </mat-card-footer>
     </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile class="overflow-visible">
-    <mat-card class="flex-1 h-full">
+  </div>
+
+  <div class="w-full">
+    <mat-card>
       <mat-card-header>
         <h2>Meine Projekte</h2>
       </mat-card-header>
       <mat-card-content>
-       
+
+        <mat-list>
+          <div *ngFor="let project of projects">
+            <mat-list-item>
+              <mat-icon matListItemIcon>workspaces</mat-icon>
+              <div matListItemTitle>{{project.name}}</div>
+              <div matListItemLine>{{project.updated}}</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list>
       </mat-card-content>
-      <mat-card-footer>
-      
-      </mat-card-footer>
     </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile class="overflow-visible">
-    <mat-card class="flex-1 h-full">
+  </div>
+
+  <div class="w-full">
+    <mat-card>
       <mat-card-header>
         <h2>Meine Aufgaben</h2>
       </mat-card-header>
       <mat-card-content>
-       
+
+        <mat-list>
+          <div *ngFor="let task of tasks">
+            <mat-list-item>
+              <mat-icon matListItemIcon>task</mat-icon>
+              <div matListItemTitle>{{task.name}}</div>
+              <div matListItemLine>{{task.updated}}</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list>
       </mat-card-content>
-      <mat-card-footer>
-      
-      </mat-card-footer>
     </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+
+  </div>
+
+</div>
