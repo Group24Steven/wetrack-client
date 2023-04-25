@@ -8,9 +8,8 @@ import { environment } from 'src/environments/environment.development';
   providedIn: 'root'
 })
 export class TenantService extends BaseApiService<Tenant> {
-  protected override baseUrl: string = environment.apiUrl
 
   constructor(private httpClient: HttpClient) {
-    super(httpClient)
-   }
+    super(httpClient, 'tenants')
+  }
 }

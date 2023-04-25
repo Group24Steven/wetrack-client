@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { tap } from 'rxjs/operators';
 
 interface LoginResponse {
-  authToken: string;
+  auth_token: string;
 }
 
 @Injectable({
@@ -24,19 +24,23 @@ export class AuthService {
       // Here, the tap operator takes a function that receives the res (response) object, 
       // and the setAuthToken method is called with the authToken property of the response object. 
       // This allows the authToken to be saved in the local storage as a side effect of the login method without affecting the data being emitted by the Observable.
-      tap((res) => this.setAuthToken(res.authToken)) 
+      tap((res) => this.setAuthToken(res.auth_token))
     );
   }
 
   logout(): void {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('auth_token')
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('authToken');
+    return !!localStorage.getItem('auth_token')
   }
 
   private setAuthToken(token: string): void {
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('auth_token', token)
+  }
+
+  public static getAuthToken(): string | null {
+    return localStorage.getItem('auth_token')
   }
 }

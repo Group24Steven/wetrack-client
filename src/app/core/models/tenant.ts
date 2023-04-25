@@ -1,3 +1,3 @@
 export class Tenant {
-  constructor( email: string, token: string, url: string, name?: string,) {}
+  constructor( email: string, weclappToken: string, weclappUrl: string, name?: string,) {}
 }
