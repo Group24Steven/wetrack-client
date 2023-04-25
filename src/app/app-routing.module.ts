@@ -14,7 +14,7 @@ const routes: Routes = [
     data: { 
       layout: AppLayoutType.Center
     }, 
-    loadComponent: () => import('./components/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
  },
  {
    path: 'dashboard',
@@ -22,15 +22,23 @@ const routes: Routes = [
    data: { 
      layout: AppLayoutType.Sidenav
    }, 
-   loadComponent: () => import('./components/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+   loadComponent: () => import('./modules/dashboard/dashboard.component').then((m) => m.DashboardComponent),
  },
+ {
+  path: 'tenants',
+  canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+  data: { 
+    layout: AppLayoutType.Sidenav
+  }, 
+  loadComponent: () => import('./modules/tenants/tenants.component').then((m) => m.TenantsComponent),
+},
  {
   path: '**',
   title: '404',
   data: { 
     layout: AppLayoutType.Center
   }, 
-  loadComponent: () => import('./components/not-found/not-found.component').then((m) => m.NotFoundComponent),
+  loadComponent: () => import('./modules/not-found/not-found.component').then((m) => m.NotFoundComponent),
 },
 ];
 

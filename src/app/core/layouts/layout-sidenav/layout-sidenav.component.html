@@ -3,17 +3,25 @@
   <mat-sidenav-container class="sidenav__container h-full">
     <mat-sidenav class="sidenav__nav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
+
         <mat-list-item>
           <mat-icon matListItemIcon>dashboard</mat-icon>
           <a routerLink="/dashboard">Dashboard</a>
         </mat-list-item>
+
         <mat-list-item>
           <mat-icon matListItemIcon>workspaces</mat-icon>
-          <a routerLink="/dashboard">Projekte</a>
+          <a routerLink="/projetcs">Projekte</a>
         </mat-list-item>
+
         <mat-list-item>
           <mat-icon matListItemIcon>task</mat-icon>
-          <a routerLink="/dashboard">Aufgaben</a>
+          <a routerLink="/tasks">Aufgaben</a>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-icon matListItemIcon>group</mat-icon>
+          <a routerLink="/tenants">Mandanten</a>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
