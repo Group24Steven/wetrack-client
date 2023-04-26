@@ -1,7 +1,7 @@
 <div class="layout__container" [class.is-mobile]="mobileQuery.matches">
   <app-navbar (sidenavToggle)="snav.toggle()"></app-navbar>
   <mat-sidenav-container class="sidenav__container h-full">
-    <mat-sidenav class="sidenav__nav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-sidenav class="sidenav__nav mat-elevation-z4" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
 
         <mat-list-item>
@@ -27,7 +27,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <div class="containter p-4">
+      <div class="containter">
         <main>
           <router-outlet></router-outlet>
         </main>
