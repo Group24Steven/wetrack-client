@@ -30,12 +30,12 @@ export class LoginComponent implements AfterViewInit{
 
   @ViewChild('submitButton') submitButton: MatButton
 
-  get email() {
-    return this.loginForm.get('email')?.value
+  get emailControl() {
+    return this.loginForm.get('email')
   }
 
-  get password() {
-    return this.loginForm.get('password')?.value
+  get passwordControl() {
+    return this.loginForm.get('password')
   }
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
@@ -54,7 +54,7 @@ export class LoginComponent implements AfterViewInit{
     if (!this.loginForm.valid) return
     this.loading = true
 
-    this.authService.login(this.email, this.password).subscribe(() => {
+    this.authService.login(this.emailControl?.value, this.passwordControl?.value).subscribe(() => {
       this.loading = false
     
       this.router.navigate(['/dashboard'])

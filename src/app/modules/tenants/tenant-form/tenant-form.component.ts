@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
@@ -24,8 +24,20 @@ export class TenantFormComponent implements OnInit {
   tenantForm: FormGroup
   @Output() formSubmit: EventEmitter<any> = new EventEmitter()
 
-  constructor(private fb: FormBuilder) {
-    this.tenantForm = this.fb.group({
+  get emailControl() {
+    return this.tenantForm.get('email')
+  }
+
+  get weclappTokenControl() {
+    return this.tenantForm.get('weclappToken') 
+  }
+
+  get weclappUrlControl() {
+    return this.tenantForm.get('weclappUrl')
+  }
+
+  constructor(private formBuilder: FormBuilder) {
+    this.tenantForm = this.formBuilder.group({
       name: [''],
       email: ['', [Validators.required, Validators.email]],
       weclappToken: ['', Validators.required],

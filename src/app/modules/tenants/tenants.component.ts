@@ -26,7 +26,7 @@ export class TenantsComponent implements OnInit {
   searchTerm = ''
   isLoading = false
 
-  displayedColumns: string[] = ['id', 'email', 'weclappToken', 'weclappUrl']
+  displayedColumns: string[] = ['email', 'weclappToken', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
 
   @ViewChild(MatPaginator) paginator: MatPaginator
@@ -41,8 +41,7 @@ export class TenantsComponent implements OnInit {
     const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, { width: '400px' })
 
     dialogRef.afterClosed().subscribe((value: any) => {
-      if (Object.keys(value).length < 1) return
-      
+      if (value === undefined || Object.keys(value).length < 1) return
       this.createTenant(value)
     })
   }
