@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubHeadlineComponent } from './sub-headline.component';
+import { HeadlineTwoComponent } from './headline-two.component';
 
 describe('SubHeadlineComponent', () => {
-  let component: SubHeadlineComponent;
-  let fixture: ComponentFixture<SubHeadlineComponent>;
+  let component: HeadlineTwoComponent;
+  let fixture: ComponentFixture<HeadlineTwoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ SubHeadlineComponent ]
+      imports: [HeadlineTwoComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
-    fixture = TestBed.createComponent(SubHeadlineComponent);
+    fixture = TestBed.createComponent(HeadlineTwoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

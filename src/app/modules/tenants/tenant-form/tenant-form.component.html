@@ -1,0 +1,23 @@
+<form [formGroup]="tenantForm" (ngSubmit)="onSubmit()" class="flex flex-col w-full">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Url</mat-label>
+    <input matInput formControlName="weclappUrl" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Token</mat-label>
+    <input matInput formControlName="weclappToken" required>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="tenantForm.invalid">Submit</button>
+</form>

@@ -11,33 +11,46 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
 import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { TenantDialogComponent } from './tenant-dialog/tenant-dialog.component'
 
 @Component({
   selector: 'app-tenants',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule],
   templateUrl: './tenants.component.html',
   styleUrls: ['./tenants.component.scss']
 })
 export class TenantsComponent implements OnInit {
 
+  searchTerm = ''
+  isLoading = false
+
   displayedColumns: string[] = ['id', 'email', 'weclappToken', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
-  isLoading = false
-  searchTerm = ''
 
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  constructor(private tenantsService: TenantService) { }
+  constructor(private tenantService: TenantService, private dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.loadUsers()
   }
 
-  loadUsers(): void {
+  openTenantForm(): void {
+    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, { width: '400px' })
+
+    dialogRef.afterClosed().subscribe((value: any) => {
+      if (Object.keys(value).length < 1) return
+      
+      this.createTenant(value)
+    })
+  }
+
+  private loadUsers(): void {
     this.isLoading = true;
 
-    this.tenantsService.index().pipe(
+    this.tenantService.index().pipe(
       tap((tenants: Tenant[]) => {
         this.dataSource.data = tenants;
         this.dataSource.paginator = this.paginator
@@ -50,5 +63,18 @@ export class TenantsComponent implements OnInit {
         this.isLoading = false
       })
     ).subscribe()
+  }
+
+  private createTenant(tenantData: Tenant): void {
+    this.isLoading = true;
+
+    this.tenantService.store(tenantData).pipe(
+      finalize(() => {
+        this.isLoading = false
+      })
+    ).subscribe({
+      next: (value: Tenant) => console.log(value),
+      error: (error: any) => console.log(error),
+    })
   }
 }

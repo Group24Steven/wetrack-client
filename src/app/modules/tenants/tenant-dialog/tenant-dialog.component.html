@@ -1,0 +1,9 @@
+<div class="flex items-center justify-between pt-4 pl-4 pr-4">
+  <app-headline-two title="Mandanten erstellen"/>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="p-4">
+  <app-tenant-form (formSubmit)="onFormSubmit($event)"></app-tenant-form>
+</div>

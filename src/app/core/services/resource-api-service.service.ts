@@ -1,5 +1,4 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from './auth.service';
@@ -21,20 +20,19 @@ export class BaseApiService<T> {
   }
 
   store(data: T): Observable<T> {
-    return this.http.post<T>(this.url, data);
+    return this.http.post<T>(this.url, data, { headers: this.getHeaders() });
   }
 
   update(id: number, data: T): Observable<T> {
-    return this.http.put<T>(`${this.url}/${id}`, data);
+    return this.http.put<T>(`${this.url}/${id}`, data, { headers: this.getHeaders() });
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete(`${this.url}/${id}`, { headers: this.getHeaders() });
   }
 
   private getHeaders(): HttpHeaders {
     const token = AuthService.getAuthToken()
-    console.log(token)
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`

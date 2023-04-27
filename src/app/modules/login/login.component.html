@@ -15,15 +15,14 @@
       <mat-form-field class="w-full">
         <mat-label>Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
 
       <div class="flex justify-between mb-2">
         <a mat-button color="primary">Forgot password?</a>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+        <button mat-raised-button #submitButton color="primary" type="submit"  [disabled]="!loginForm.valid">Login</button>
       </div>
 
     </form>

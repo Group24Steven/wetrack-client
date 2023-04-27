@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-sub-headline',
+  selector: 'app-headline-two',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './sub-headline.component.html',
-  styleUrls: ['./sub-headline.component.scss'],
+  templateUrl: './headline-two.component.html',
+  styleUrls: ['./headline-two.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubHeadlineComponent {
+export class HeadlineTwoComponent {
   @Input() title: string = ''
 }
