@@ -6,12 +6,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-
+import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatCardModule, MatListModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule],
+  imports: [
+    CommonModule, MatGridListModule, MatCardModule, MatListModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule,
+    HeadlineTwoComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -11,35 +11,43 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    data: { 
+    data: {
       layout: AppLayoutType.Center
-    }, 
+    },
     loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
- },
- {
-   path: 'dashboard',
-   canActivate: [authGuardFn({ redirectTo: ['/login'] })],
-   data: { 
-     layout: AppLayoutType.Sidenav
-   }, 
-   loadComponent: () => import('./modules/dashboard/dashboard.component').then((m) => m.DashboardComponent),
- },
- {
-  path: 'tenants',
-  canActivate: [authGuardFn({ redirectTo: ['/login'] })],
-  data: { 
-    layout: AppLayoutType.Sidenav
-  }, 
-  loadComponent: () => import('./modules/tenants/tenants.component').then((m) => m.TenantsComponent),
-},
- {
-  path: '**',
-  title: '404',
-  data: { 
-    layout: AppLayoutType.Center
-  }, 
-  loadComponent: () => import('./modules/not-found/not-found.component').then((m) => m.NotFoundComponent),
-},
+  },
+  {
+    path: 'dashboard',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+  },
+  {
+    path: 'timer',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/timer/timer.component').then((m) => m.TimerComponent),
+  },
+  {
+    path: 'tenants',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/tenants/tenants.component').then((m) => m.TenantsComponent),
+  },
+  {
+    path: '**',
+    title: '404',
+    data: {
+      layout: AppLayoutType.Center
+    },
+    loadComponent: () => import('./modules/not-found/not-found.component').then((m) => m.NotFoundComponent),
+  },
 ];
 
 @NgModule({

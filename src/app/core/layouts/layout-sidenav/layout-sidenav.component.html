@@ -1,27 +1,32 @@
 <div class="layout__container" [class.is-mobile]="mobileQuery.matches">
-  <app-navbar (sidenavToggle)="snav.toggle()"></app-navbar>
-  <mat-sidenav-container class="sidenav__container h-full">
+  <app-navbar (sidenavToggle)="snav.toggle()" class="z-10"></app-navbar>
+  <mat-sidenav-container class="sidenav__container">
     <mat-sidenav class="sidenav__nav mat-elevation-z2" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
 
-        <mat-list-item>
+        <mat-list-item routerLink="/dashboard">
           <mat-icon matListItemIcon>dashboard</mat-icon>
-          <a routerLink="/dashboard">Dashboard</a>
+          <span>Dashboard</span>
         </mat-list-item>
 
-        <mat-list-item>
+        <mat-list-item routerLink="/timer">
+          <mat-icon matListItemIcon>timer</mat-icon>
+          <span>Timer</span>
+        </mat-list-item>
+
+        <mat-list-item routerLink="/projetcs">
           <mat-icon matListItemIcon>workspaces</mat-icon>
-          <a routerLink="/projetcs">Projekte</a>
+          <span>Projekte</span>
         </mat-list-item>
 
-        <mat-list-item>
+        <mat-list-item routerLink="/tasks">
           <mat-icon matListItemIcon>task</mat-icon>
-          <a routerLink="/tasks">Aufgaben</a>
+          <span>Aufgaben</span>
         </mat-list-item>
 
-        <mat-list-item>
+        <mat-list-item routerLink="/tenants">
           <mat-icon matListItemIcon>group</mat-icon>
-          <a routerLink="/tenants">Mandanten</a>
+          <span>Mandanten</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
