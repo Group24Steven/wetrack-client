@@ -5,6 +5,8 @@ export class Project {
     projectNumber: string,
     tags: any,
     status: string,
-    description: string
+    description: string,
+    projectStartDate: number,
+    lastModifiedDate: number,
   ) { }
 }

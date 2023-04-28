@@ -8,8 +8,8 @@ export class ProjectTask {
         projectId: string,
         priority: ProjectPriority,
         projectNumber: string,
-        createdDate: number,
         status: ProjectStatus,
+        createdDate: number,
         lastModifiedDate: number,
         startDate: number,
     ) { }
