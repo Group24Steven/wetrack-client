@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from './resource-api-service.service';
-import { Task } from '../models/task';
 import { HttpClient } from '@angular/common/http';
-import { ApiEndpoint } from '../enums/api-endpoint';
+import { ApiEndpoint } from '../../enums/api-endpoint';
+import { ProjectTask } from '../../models/project-task';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService extends BaseApiService<Task> {
+export class ProjectTaskService extends BaseApiService<ProjectTask>{
 
   constructor(private httpClient: HttpClient) {
-    super(httpClient, ApiEndpoint.Tasks);
-  }
+    super(httpClient, ApiEndpoint.ProjectTasks)
+   }
 }

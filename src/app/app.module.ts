@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutCenteredComponent } from './core/layouts/layout-centered/layout-centered.component';
 import { LayoutSidenavComponent } from './core/layouts/layout-sidenav/layout-sidenav.component';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     LayoutCenteredComponent,
     LayoutSidenavComponent,
     FormsModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

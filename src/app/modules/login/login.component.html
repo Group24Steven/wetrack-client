@@ -1,7 +1,7 @@
 <mat-card>
 
   <mat-card-header>
-    <h1 class="">Log in</h1>
+    <app-headline class="pb-4" title="Log in"></app-headline>
   </mat-card-header>
 
   <mat-card-content>
@@ -18,7 +18,8 @@
       <mat-form-field class="w-full">
         <mat-label>Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="passwordControl?.hasError('required')">
@@ -28,13 +29,14 @@
 
       <div class="flex justify-between mb-2">
         <a mat-button color="primary">Forgot password?</a>
-        <button mat-raised-button #submitButton color="primary" type="submit"  [disabled]="!loginForm.valid">Login</button>
+        <button mat-raised-button #submitButton color="primary" type="submit"
+          [disabled]="!loginForm.valid">Login</button>
       </div>
 
     </form>
   </mat-card-content>
-    <app-progress-bar [loading]="loading"></app-progress-bar>
   <mat-card-footer>
+    <app-progress-bar [loading$]="loading$"></app-progress-bar>
   </mat-card-footer>
 
 </mat-card>

@@ -2,7 +2,6 @@ import { Component, ViewChild, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
-import { TenantService } from 'src/app/core/services/tenant.service'
 import { Tenant } from 'src/app/core/models/tenant'
 import { catchError, finalize, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -13,6 +12,9 @@ import { MatCardModule } from '@angular/material/card'
 import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TenantDialogComponent } from './tenant-dialog/tenant-dialog.component'
+import { TenantService } from 'src/app/core/services/api/tenant.service'
+import { NotificationServiceService } from '../../core/services/notification-service.service';
+import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
   selector: 'app-tenants',
@@ -24,14 +26,14 @@ import { TenantDialogComponent } from './tenant-dialog/tenant-dialog.component'
 export class TenantsComponent implements OnInit {
 
   searchTerm = ''
-  isLoading = false
+  loading = false
 
   displayedColumns: string[] = ['email', 'weclappToken', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
 
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  constructor(private tenantService: TenantService, private dialog: MatDialog,) { }
+  constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationServiceService) { }
 
   ngOnInit(): void {
     this.loadUsers()
@@ -47,33 +49,38 @@ export class TenantsComponent implements OnInit {
   }
 
   private loadUsers(): void {
-    this.isLoading = true;
+    this.loading = true;
 
     this.tenantService.index().pipe(
       tap((tenants: Tenant[]) => {
-        this.dataSource.data = tenants;
+        this.dataSource.data = tenants
         this.dataSource.paginator = this.paginator
       }),
       catchError((error) => {
-        console.error('Error fetching tenants:', error);
-        return of([]); // Return an empty array on error
+        return of([]) // Return an empty array on error
       }),
       finalize(() => {
-        this.isLoading = false
+        this.loading = false
       })
-    ).subscribe()
+    ).subscribe({
+      error: (err: HttpErrorResponse) => {
+        this.notificationService.showError(err.error.message)
+      }
+    })
   }
 
   private createTenant(tenantData: Tenant): void {
-    this.isLoading = true;
+    this.loading = true;
 
     this.tenantService.store(tenantData).pipe(
       finalize(() => {
-        this.isLoading = false
+        this.loading = false
       })
     ).subscribe({
-      next: (value: Tenant) => console.log(value),
-      error: (error: any) => console.log(error),
+      next: (value: Tenant) => this.loadUsers(),
+      error: (err: HttpErrorResponse) => {
+        this.notificationService.showError(err.error.message)
+      }
     })
   }
 }

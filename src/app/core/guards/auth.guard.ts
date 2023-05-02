@@ -1,6 +1,6 @@
 import { inject } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router'
-import { AuthService } from '../services/auth.service'
+import { AuthService } from '../services/api/auth.service'
 
 export function authGuardFn({ redirectTo }: { redirectTo: any[] }): CanActivateFn {
     return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
