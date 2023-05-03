@@ -1,0 +1,15 @@
+<mat-card>
+	<mat-card-header>
+		<app-headline-two title="Meine Projekte"></app-headline-two>
+	</mat-card-header>
+	<mat-card-content>
+
+		<mat-list>
+			<mat-list-item *ngFor="let project of projects">
+				<mat-icon matListItemIcon>workspaces</mat-icon>
+				<div matListItemTitle>{{project.name}}</div>
+				<div matListItemLine>{{project.updated}}</div>
+			</mat-list-item>
+		</mat-list>
+	</mat-card-content>
+</mat-card>

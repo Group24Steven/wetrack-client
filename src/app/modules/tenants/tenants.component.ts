@@ -13,7 +13,7 @@ import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TenantDialogComponent } from './tenant-dialog/tenant-dialog.component'
 import { TenantService } from 'src/app/core/services/api/tenant.service'
-import { NotificationServiceService } from '../../core/services/notification-service.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
@@ -33,7 +33,7 @@ export class TenantsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationServiceService) { }
+  constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadUsers()
@@ -77,7 +77,9 @@ export class TenantsComponent implements OnInit {
         this.loading = false
       })
     ).subscribe({
-      next: (value: Tenant) => this.loadUsers(),
+      next: () => {
+        this.loadUsers()
+      },
       error: (err: HttpErrorResponse) => {
         this.notificationService.showError(err.error.message)
       }

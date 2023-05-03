@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApiService } from './resource-api-service.service';
+import { BaseApiService } from './base-api.service';
 import { HttpClient } from '@angular/common/http';
 import { ApiEndpoint } from '../../enums/api-endpoint';
 import { ProjectTask } from '../../models/project-task';

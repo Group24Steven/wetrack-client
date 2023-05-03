@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <app-headline-two title="Meine Aufgaben"></app-headline-two>
+  </mat-card-header>
+  <mat-card-content>
+
+    <mat-list>
+      <mat-list-item *ngFor="let task of tasks">
+        <mat-icon matListItemIcon>task</mat-icon>
+        <div matListItemTitle>{{task.name}}</div>
+        <div matListItemLine>{{task.updated}}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

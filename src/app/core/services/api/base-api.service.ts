@@ -19,7 +19,7 @@ export class BaseApiService<T> {
     return this.http.get<T>(`${this.url}/${id}`);
   }
 
-  store(data: T): Observable<T> {
+  store(data: any): Observable<T> {
     return this.http.post<T>(this.url, data, { headers: this.getHeaders() });
   }
 

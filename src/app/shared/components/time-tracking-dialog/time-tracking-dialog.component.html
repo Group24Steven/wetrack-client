@@ -1,0 +1,37 @@
+<div class="px-4 pt-4">
+  <app-headline-two title="Zeiterfassung"></app-headline-two>
+</div>
+<mat-dialog-content>
+  <form [formGroup]="timeTrackingForm">
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Auswahl Type</mat-label>
+      <mat-select formControlName="type" [(value)]="selectedType">
+        <mat-option [value]="option.value" *ngFor="let option of types">{{ option.viewValue }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>{{selectedType}}</mat-label>
+      <input type="text" matInput formControlName="task" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Dauer</mat-label>
+      <input matInput formControlName="duration" placeholder="Dauer in Sekunden">
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Beschreibung</mat-label>
+      <textarea matInput formControlName="description" placeholder="Beschreibung der Zeiterfassung"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="content-between">
+  <button mat-button mat-dialog-close>Abbrechen</button>
+  <button mat-button (click)="submitTimeTracking()" [disabled]="timeTrackingForm.invalid">Speichern</button>
+</mat-dialog-actions>

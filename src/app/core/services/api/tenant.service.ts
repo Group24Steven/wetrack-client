@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseApiService } from './resource-api-service.service';
+import { BaseApiService } from './base-api.service';
 import { ApiEndpoint } from '../../enums/api-endpoint';
 import { Tenant } from '../../models/tenant';
 

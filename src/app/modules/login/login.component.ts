@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { BehaviorSubject, finalize } from 'rxjs'
 import { AuthService } from 'src/app/core/services/api/auth.service'
-import { NotificationServiceService } from 'src/app/core/services/notification-service.service'
+import { NotificationService } from 'src/app/core/services/notification.service'
 import { HttpErrorResponse } from '@angular/common/http'
 import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component'
 
@@ -42,7 +42,7 @@ export class LoginComponent implements AfterViewInit {
     return this.loginForm.get('password')
   }
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private notificationService: NotificationServiceService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private notificationService: NotificationService) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],

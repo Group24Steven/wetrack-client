@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
+import { TimeRecord } from '../../models/time-record';
 import { BaseApiService } from './base-api.service';
 import { HttpClient } from '@angular/common/http';
 import { ApiEndpoint } from '../../enums/api-endpoint';
-import { Task } from '../../models/task';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService extends BaseApiService<Task> {
+export class TimeRecordService extends BaseApiService<TimeRecord> {
 
   constructor(private httpClient: HttpClient) {
-    super(httpClient, ApiEndpoint.Tasks);
+    super(httpClient, ApiEndpoint.TimeRecords)
   }
 }
