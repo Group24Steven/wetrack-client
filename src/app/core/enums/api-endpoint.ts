@@ -5,5 +5,6 @@ export enum ApiEndpoint {
     ProjectTasks = 'project-tasks', 
     Tasks = 'tasks',
     Timers = 'timers',
+    Tickets = 'tickets',
     TimeRecords = 'time-records'
 }

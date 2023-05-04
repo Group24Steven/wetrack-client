@@ -5,3 +5,19 @@
 .mdc-list-item__start {
   margin-right: 1rem;
 }
+
+.spinner {
+  position: relative;
+}
+.spinner__background {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #F5F5F5;
+}

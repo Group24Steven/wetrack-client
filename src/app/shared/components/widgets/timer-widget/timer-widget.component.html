@@ -13,7 +13,11 @@
         </li>
       </div>
       <div class="flex-1 flex justify-center">
-        <mat-progress-spinner color="primary" mode="determinate" defaultColor="#333333" [value]="todaySeconds / 28800 * 100"></mat-progress-spinner>
+
+        <div class="spinner">
+          <div class="spinner__background"></div>
+          <mat-progress-spinner color="primary" mode="determinate" [value]="todaySeconds | workPercent"></mat-progress-spinner>
+        </div>
       </div>
       <div class="flex-1 flex justify-center">
         <button mat-fab (click)="openTimeTrackingDialog()">
@@ -26,9 +30,10 @@
       <mat-list>
         <mat-list-item *ngFor="let time of timeRecords">
           <i matListItemIcon class="material-icons-outlined">timer</i>
-          <div matListItemTitle>{{time.task.name}}</div>
-          <span matListItemLine *ngIf="time.task.description">{{time.task.description}}</span>
-          <div matListItemMeta><span class="font-semibold">{{time.durationSeconds | duration}}</span></div>
+          <div matListItemTitle>{{time.task?.name}}</div>
+          <div matListItemLine *ngIf="time.description"><span class="text-sm font-light">{{time.description}}</span>
+          </div>
+          <div matListItemMeta><span>{{time.durationSeconds | duration}}</span></div>
           <mat-divider></mat-divider>
         </mat-list-item>
       </mat-list>
@@ -37,7 +42,8 @@
   </mat-card-content>
 
   <mat-card-footer>
-    <mat-paginator [length]="timeRecords?.length" [pageSize]="pageSize" [pageIndex]="pageIndex"(page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
+    <mat-paginator [length]="paginator.total" [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
+      (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
 
     <app-progress-bar [loading$]="loading$"></app-progress-bar>
   </mat-card-footer>
