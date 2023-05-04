@@ -14,20 +14,16 @@ export class TimeTrackingService {
   constructor(private taskService: TaskService, private projectService: ProjectService, private ticketService: TicketService, private timeRecordService: TimeRecordService) { }
 
   public loadSearchOptions(type: TimeRecordType, search?: string): Observable<any> {
-    if (type === TimeRecordType.Ticket)
-      return this.ticketService.index()
+    if (type === TimeRecordType.Ticket) return this.ticketService.index()
 
-    if (type === TimeRecordType.Project)
-      return this.projectService.index()
+    if (type === TimeRecordType.Project) return this.projectService.index()
 
-    if (type === TimeRecordType.Customer)
-      return this.projectService.index()
+    if (type === TimeRecordType.Customer) return this.projectService.index()
 
     return this.taskService.index()
   }
 
   public safe(type: TimeRecordType, weclappId: string, description: string, durationSeconds: number): Observable<any> {
-    console.log(type)
     const data: any = {
       title: 'test',
       description: description,

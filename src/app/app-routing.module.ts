@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutType } from './core/enums/app-layout.type';
 import { authGuardFn } from './core/guards/auth.guard';
-import { LoginComponent } from './modules/login/login.component';
 
 const routes: Routes = [
   {
@@ -15,8 +14,7 @@ const routes: Routes = [
     data: {
       layout: AppLayoutType.Center
     },
-    component: LoginComponent
-    //loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'dashboard',
