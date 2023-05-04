@@ -12,7 +12,7 @@ import { BehaviorSubject, finalize } from 'rxjs'
 import { AuthService } from 'src/app/core/services/api/auth.service'
 import { NotificationService } from 'src/app/core/services/notification.service'
 import { HttpErrorResponse } from '@angular/common/http'
-import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component'
+import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component'
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,7 @@ import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component
     CommonModule,
     ReactiveFormsModule,
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatCardModule,
-    ProgressBarComponent, HeadlineComponent
+    ProgressBarComponent, HeadlineTwoComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
