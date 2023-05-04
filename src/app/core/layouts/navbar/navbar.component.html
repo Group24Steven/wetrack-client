@@ -1,4 +1,22 @@
-<mat-toolbar color="primary" class="mat-elevation-z4 pl-0" style="padding: 0 6px;">
-  <button mat-icon-button (click)="toggle()"><mat-icon>menu</mat-icon></button>
-  <h1 class="ml-4 text-3xl leading-normal">wetrack</h1>
+<mat-toolbar color="primary" class="mat-elevation-z4 pl-0 flex justify-between items-center"
+  style="padding: 0 0 0 4px;">
+  <div class="flex">
+    <button mat-icon-button (click)="toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="ml-4 text-3xl leading-normal">wetrack</h1>
+  </div>
+  <div class="pr-4">
+    <div class="ml-4 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-white rounded-full">
+      <button mat-icon-button [matMenuTriggerFor]="menu"><span class="text-teal-700">MD</span></button>
+    </div>
+    <mat-menu #menu="matMenu">
+      <div mat-menu-item disabled="true">
+        <div class="flex flex-col text-center">
+          <span>{{currentUser?.name}}</span>
+          <span class="text-sm">{{currentUser?.email}}</span>
+        </div>
+      </div>
+      <button mat-menu-item (click)="logout()">Abmelden</button>
+      <button mat-menu-item>Hilfe</button>
+    </mat-menu>
+  </div>
 </mat-toolbar>

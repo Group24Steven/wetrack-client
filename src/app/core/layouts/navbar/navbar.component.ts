@@ -2,16 +2,20 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/api/auth.service';
+import { User } from '../../models/user';
+import { MatMenuModule } from '@angular/material/menu';
+import { NotificationService } from '../../services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     CommonModule, RouterModule,
-    MatToolbarModule, MatIconModule, MatButtonModule,
+    MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule,
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
@@ -20,9 +24,24 @@ import { AuthService } from '../../services/api/auth.service';
 export class NavbarComponent {
   @Output() sidenavToggle = new EventEmitter<void>()
 
-  constructor(public auth: AuthService) { }
+  currentUser?: User
+
+  constructor(public auth: AuthService, private notificationService: NotificationService, private router: Router) {
+    this.currentUser = auth.getCurrentUser()
+  }
 
   toggle(): void {
     this.sidenavToggle.next()
+  }
+
+  logout() {
+    this.auth.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login'])
+      },
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
+      }
+    })
   }
 }
