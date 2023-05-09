@@ -1,0 +1,7 @@
+<div class="flex items-center justify-between pt-4 pl-4 pr-4">
+  <app-headline-two title="Zeiterfassung" />
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<app-time-tracker (successEvent)="handleSuccessEvent($event)"></app-time-tracker>

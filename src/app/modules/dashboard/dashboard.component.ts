@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 import { TimerWidgetComponent } from 'src/app/shared/components/widgets/timer-widget/timer-widget.component';
@@ -16,7 +16,7 @@ import { TaskWidgetComponent } from 'src/app/shared/components/widgets/task-widg
     TimerWidgetComponent,
   ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
   constructor() { }

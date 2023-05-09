@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimerTrackerComponent } from './timer-tracker.component';
+import { BaseFilterComponent } from './base-filter.component';
 
-describe('TimerTrackerComponent', () => {
-  let component: TimerTrackerComponent;
-  let fixture: ComponentFixture<TimerTrackerComponent>;
+describe('BaseFilterComponent', () => {
+  let component: BaseFilterComponent;
+  let fixture: ComponentFixture<BaseFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ TimerTrackerComponent ]
+      imports: [ BaseFilterComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TimerTrackerComponent);
+    fixture = TestBed.createComponent(BaseFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

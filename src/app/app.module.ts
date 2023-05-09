@@ -8,6 +8,7 @@ import { LayoutCenteredComponent } from './core/layouts/layout-centered/layout-c
 import { LayoutSidenavComponent } from './core/layouts/layout-sidenav/layout-sidenav.component';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatNativeDateModule,
     HttpClientModule,
     // TODO: - Check if this options are necessary!
     HttpClientXsrfModule.withOptions({

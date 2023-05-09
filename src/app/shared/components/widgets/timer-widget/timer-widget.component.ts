@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -14,10 +14,10 @@ import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { TimeTrackingDialogComponent } from '../../dialogs/time-tracking-dialog/time-tracking-dialog.component';
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
+import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-timer-widget',
@@ -33,12 +33,12 @@ import { TimeRecord } from 'src/app/core/models/time-record';
     MatDialogModule,
     HeadlineTwoComponent,
     ProgressBarComponent,
-    TimeTrackingDialogComponent,
     DurationPipe,
     WorkPercentPipe
   ],
   templateUrl: './timer-widget.component.html',
-  styleUrls: ['./timer-widget.component.scss']
+  styleUrls: ['./timer-widget.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimerWidgetComponent implements OnInit {
 
@@ -64,7 +64,7 @@ export class TimerWidgetComponent implements OnInit {
   }
 
   openTimeTrackingDialog() {
-    const dialogRef: MatDialogRef<TimeTrackingDialogComponent> = this.dialog.open(TimeTrackingDialogComponent, { width: '400px' })
+    const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, { width: '400px' })
 
     dialogRef.afterClosed().subscribe(value => value ? this.loadTimeRecords() : false)
   }

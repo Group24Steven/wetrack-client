@@ -1,0 +1,93 @@
+<form [formGroup]="assistantService.form" class="p-4">
+
+  <ng-container *ngIf="assistantService.currentStep === 1">
+    <mat-form-field class="w-full">
+      <mat-label>Buchen auf:</mat-label>
+      <mat-select formControlName="searchType">
+        <mat-option *ngFor="let type of assistantService.types" [value]="type.value">{{ type.viewValue }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex justify-between">
+      <div></div>
+      <button [disabled]="!assistantService.formSearchType.valid" mat-raised-button color="primary"
+        (click)="assistantService.moveToNextStep()">Weiter</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="assistantService.currentStep === 2">
+    <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Project">
+      <app-project-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+        class="w-full"></app-project-filter>
+    </div>
+
+    <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Customer">
+      <app-customer-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+        class="w-full"></app-customer-filter>
+    </div>
+
+    <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Ticket">
+      <app-ticket-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+        class="w-full"></app-ticket-filter>
+    </div>
+
+    <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Task">
+      <app-task-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+        class="w-full"></app-task-filter>
+    </div>
+
+    <div class="flex justify-between">
+      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button [disabled]="assistantService.formProjectTaskId.value === '' && assistantService.formTaskId.value === ''"
+        mat-raised-button color="primary" (click)="assistantService.moveToNextStep()">Weiter</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="assistantService.currentStep === 3">
+    <mat-form-field class="w-full">
+      <mat-label>Datum</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="startDate" [min]="yesterday" [max]="today">
+      <mat-datepicker-toggle matIconSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>today</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="flex">
+      <mat-form-field class="flex-1 mr-1">
+        <mat-label>Startzeit</mat-label>
+        <input type="time" matInput formControlName="startTime">
+        <span matTextSuffix>Uhr</span>
+      </mat-form-field>
+      <mat-form-field class="flex-1 ml-1">
+        <mat-label>Endzeit</mat-label>
+        <input type="time" matInput formControlName="endTime" [max]="currentTime">
+        <span matTextSuffix>Uhr</span>
+      </mat-form-field>
+    </div>
+    <div class="flex justify-between">
+      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button mat-raised-button color="primary"
+        [disabled]="!assistantService.formStartTime.valid || !assistantService.formEndTime.valid || !assistantService.formStartDate.valid"
+        (click)="assistantService.moveToNextStep()">Weiter</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="assistantService.currentStep === 4">
+    <mat-form-field class="w-full">
+      <mat-label>Titel</mat-label>
+      <input matInput formControlName="title" placeholder="Titel der Zeiterfassung">
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Beschreibung</mat-label>
+      <textarea matInput formControlName="description" placeholder="Beschreibung der Zeiterfassung"></textarea>
+    </mat-form-field>
+    <div class="flex justify-between">
+      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!assistantService.form.valid"
+        (click)="submitTimeRecord()">Submit</button>
+    </div>
+  </ng-container>
+</form>
+
+<app-progress-bar [loading$]="loading$"></app-progress-bar>
