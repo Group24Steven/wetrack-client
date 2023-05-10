@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -9,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
 import { BehaviorSubject, Subject, finalize, merge, takeUntil } from 'rxjs';
-import { TimeTrackingService } from '../../../../core/services/time-tracking.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
@@ -73,7 +72,9 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     let hours = now.getHours().toString().padStart(2, '0');
     let minutes = now.getMinutes().toString().padStart(2, '0');
 
-    this.currentTime = `${hours}:${minutes}`;
+    this.currentTime = `${hours}:${minutes}`
+
+    this.assistantService.formStartTime.setValue(this.currentTime)
     this.assistantService.formEndTime.setValue(this.currentTime)
     this.assistantService.formStartDate.setValue(this.today)
   }

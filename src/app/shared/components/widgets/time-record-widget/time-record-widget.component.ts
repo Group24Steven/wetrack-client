@@ -18,6 +18,9 @@ import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api
 import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
+import { TimerComponent } from '../../timer/timer.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
 
 @Component({
   selector: 'app-timer-widget',
@@ -28,19 +31,22 @@ import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/ti
     MatListModule,
     MatButtonModule,
     MatIconModule,
+    MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
     HeadlineTwoComponent,
     ProgressBarComponent,
     DurationPipe,
-    WorkPercentPipe
+    WorkPercentPipe,
+    TimerComponent,
+    ToggleButtonComponent,
   ],
-  templateUrl: './timer-widget.component.html',
-  styleUrls: ['./timer-widget.component.scss'],
+  templateUrl: './time-record-widget.component.html',
+  styleUrls: ['./time-record-widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimerWidgetComponent implements OnInit {
+export class TimeRecordWidgetComponent implements OnInit {
 
   paginator: RequestPaginator = {
     pageIndex: 0,
@@ -48,10 +54,12 @@ export class TimerWidgetComponent implements OnInit {
     total: 0,
   }
 
-  todaySeconds: number = 0
   today: Date
-
   timeRecords?: TimeRecord[]
+
+  activeView = 1
+  todaySeconds = 0
+
   loading$ = new BehaviorSubject<boolean>(false)
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, private dialog: MatDialog) {
@@ -65,7 +73,6 @@ export class TimerWidgetComponent implements OnInit {
 
   openTimeTrackingDialog() {
     const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, { width: '400px' })
-
     dialogRef.afterClosed().subscribe(value => value ? this.loadTimeRecords() : false)
   }
 
