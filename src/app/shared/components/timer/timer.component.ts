@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TimerService } from '../../../core/services/timer.service';
@@ -16,12 +16,17 @@ import { NotificationService } from '../../../core/services/notification.service
   styleUrls: ['./timer.component.scss'],
   imports: [CommonModule, MatIconModule, MatButtonModule, DurationWithSecondsPipe]
 })
-export class TimerComponent {
+export class TimerComponent implements OnInit {
 
   timer$: Observable<number>
   timerRunning$: Observable<boolean>
 
   constructor(public timerService: TimerService, private notifications: NotificationService) { 
+    this.timer$ = this.timerService.getTime()
+    this.timerRunning$ = this.timerService.timerRunning$
+  }
+
+  ngOnInit(): void {
     this.timer$ = this.timerService.getTime()
     this.timerRunning$ = this.timerService.timerRunning$
   }
