@@ -2,7 +2,7 @@
 
   <mat-card-header>
     <div class="flex justify-between items-center w-full">
-      <app-headline-two title="Meine Zeiterfassung"></app-headline-two>
+      <app-headline-two title="Zeiterfassung"></app-headline-two>
       <app-toggle-button firstButtonIcon="list_alt" secondButtonIcon="timer"
         (activeChangedEvent)="activeView = $event"></app-toggle-button>
     </div>
@@ -11,7 +11,7 @@
   <mat-card-content>
 
     <ng-container *ngIf="activeView === 1; else showTimer">
-      <div class="flex justify-between items-center mt-4 mb-4">
+      <div class="flex justify-between items-center mt-4 mb-4 h-24">
         <div class="flex-1 flex justify-center">
           <li class="list-none text-center">
             <ul><span class="text-3xl font-thin">{{todaySeconds | duration}}</span></ul>
@@ -20,9 +20,8 @@
         </div>
         <div class="flex-1 flex justify-center">
           <div class="spinner">
-            <div class="spinner__background"></div>
-            <mat-progress-spinner color="primary" mode="determinate"
-              [value]="todaySeconds | workPercent"></mat-progress-spinner>
+            <div class="spinner__background h-24 w-24"></div>
+            <mat-progress-spinner diameter="96" color="primary" mode="determinate" [value]="todaySeconds | workPercent"></mat-progress-spinner>
           </div>
         </div>
         <div class="flex-1 flex justify-center">

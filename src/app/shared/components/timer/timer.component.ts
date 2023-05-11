@@ -26,10 +26,6 @@ export class TimerComponent {
     this.timerRunning$ = this.timerService.timerRunning$
   }
 
-  ngOnInit(): void {
-    
-  }
-
   stop() {
     this.timerService.stop().subscribe({
       next: () => {

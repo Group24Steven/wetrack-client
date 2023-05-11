@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, startWith } from 'rxjs/operators';
 import { TimerCmdService } from './api/timer-cmd.service';
 import { Timer } from '../models/timer';
 
@@ -9,10 +9,10 @@ import { Timer } from '../models/timer';
 })
 export class TimerService {
 
-  private startTime: number | null = null
-  private stopTime: number | null = null
+  startTime: number | null = null
+  stopTime: number | null = null
 
-  private timerRunningSubject = new BehaviorSubject<boolean>(false)
+  timerRunningSubject = new BehaviorSubject<boolean>(false)
   timerRunning$ = this.timerRunningSubject.asObservable()
 
   constructor(private timerCmdService: TimerCmdService) {
@@ -20,19 +20,7 @@ export class TimerService {
   }
 
   getTime(): Observable<number> {
-    return interval(1000).pipe(map((startTime: any) => {
-      if (!this.startTime) {
-        return 0
-      }
-
-      if (this.startTime && this.stopTime) {
-        const elapsedTime = Math.round((this.stopTime! - this.startTime!) / 1000)
-        return elapsedTime
-      }
-
-      let elapsedTime = (Date.now() - this.startTime!) / 1000
-      return Math.round(elapsedTime)
-    }))
+    return interval(1000).pipe(startWith(() => this.handleElapsedTime()), map(() => this.handleElapsedTime()))
   }
 
   start(): Observable<Timer> {
@@ -63,7 +51,7 @@ export class TimerService {
     return this.timerCmdService.delete().pipe(
       map((response: any) => response.data),
       tap((data: any) => {
-        if (!data.deleted) return 
+        if (!data.deleted) return
         this.startTime = null
         this.stopTime = null
         this.timerRunningSubject.next(false)
@@ -104,6 +92,14 @@ export class TimerService {
     })
   }
 
+  private getLocalStorageTimer(): Timer | null {
+    const timer = localStorage.getItem('timer')
+    if (!timer) return null
+
+    const timerData = JSON.parse(timer)
+    return timerData
+  }
+
   private setLocalStorageTimer(timer: Timer) {
     localStorage.setItem('timer', JSON.stringify(timer))
   }
@@ -112,12 +108,18 @@ export class TimerService {
     localStorage.removeItem('timer')
   }
 
-  private getLocalStorageTimer(): Timer | null {
-    const timer = localStorage.getItem('timer')
-    if (!timer) return null
+  private calculateElapsedTime(startTime: number, comparableTime: number): number {
+    return Math.round((comparableTime - startTime) / 1000)
+  }
 
-    const timerData = JSON.parse(timer)
-    return timerData
+  private handleElapsedTime(): number {
+    if (!this.startTime) return 0
+
+    if (this.startTime && this.stopTime) {
+      return this.calculateElapsedTime(this.startTime, this.stopTime)
+    }
+
+    return this.calculateElapsedTime(this.startTime, Date.now())
   }
 }
 

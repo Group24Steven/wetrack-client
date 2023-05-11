@@ -1,19 +1,25 @@
 <div class="flex items-center mt-4 mb-4 h-24">
   <div class="flex-1 flex justify-center">
-    <button mat-icon-button color="accent" (click)="delete()">
+    <button mat-icon-button color="warn" (click)="delete()" [disabled]="!(timerRunning$ | async) && !timerService.stopTime">
       <i class="material-icons-outlined">timer_off</i>
     </button>
   </div>
-  <div class="flex-1 flex justify-center">
-    <span class="text-3xl font-thin">{{ timer$ | async | durationWithSeconds}}</span>
+  <div class="flex-1 flex">
+    <span class="text-5xl font-thin">{{ timer$ | async | durationWithSeconds}}</span>
   </div>
   <div class="flex-1 flex justify-center">
-    <button *ngIf="timerRunning$ | async; else startTemplate" mat-fab (click)="stop()">
-      <mat-icon>pause</mat-icon>
+    <button *ngIf="timerService.stopTime; else startTemplate" mat-mini-fab color="accent" (click)="stop()">
+      <mat-icon>playlist_add</mat-icon>
     </button>
 
     <ng-template #startTemplate>
-      <button mat-fab (click)="start()">
+      <button *ngIf="timerRunning$ | async; else saveTemplate" mat-mini-fab color="accent" (click)="stop()">
+        <mat-icon>pause</mat-icon>
+      </button>
+    </ng-template>
+
+    <ng-template #saveTemplate>
+      <button mat-mini-fab color="accent" (click)="start()">
         <mat-icon>play_arrow</mat-icon>
       </button>
     </ng-template>

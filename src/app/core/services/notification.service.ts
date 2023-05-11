@@ -8,7 +8,6 @@ export class NotificationService {
 
   constructor(public snackBar: MatSnackBar) { }
 
-
   showSuccess(message: string): void {
     this.snackBar.open(message);
   }
