@@ -53,8 +53,8 @@ export class AuthService {
   }
 
   public getCurrentUser(): User {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    const user = localStorage.getItem('currentUser')
+    return user ? JSON.parse(user) : null
   }
 
   public static getAuthToken(): string | null {

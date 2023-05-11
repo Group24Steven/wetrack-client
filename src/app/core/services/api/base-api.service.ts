@@ -14,11 +14,11 @@ export interface RequestPaginator {
 }
 
 export class BaseApiService<T> {
-  protected apiUrl: string = environment.apiUrl;
-  private url: string;
+  protected apiUrl: string = environment.apiUrl
+  private url: string
 
   constructor(protected http: HttpClient, protected endpoint: string) {
-    this.url = `${this.apiUrl}/${endpoint}`;
+    this.url = `${this.apiUrl}/${endpoint}`
   }
 
   index(filter?: RequestSearchParams, paginator?: RequestPaginator): Observable<T[]> {
@@ -39,19 +39,19 @@ export class BaseApiService<T> {
   }
 
   show(id: number): Observable<T> {
-    return this.http.get<T>(`${this.url}/${id}`);
+    return this.http.get<T>(`${this.url}/${id}`)
   }
 
   store(data: any): Observable<T> {
-    return this.http.post<T>(this.url, data, { headers: this.getHeaders() });
+    return this.http.post<T>(this.url, data, { headers: this.getHeaders() })
   }
 
   update(id: number, data: T): Observable<T> {
-    return this.http.put<T>(`${this.url}/${id}`, data, { headers: this.getHeaders() });
+    return this.http.put<T>(`${this.url}/${id}`, data, { headers: this.getHeaders() })
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.url}/${id}`, { headers: this.getHeaders() })
   }
 
   private getHeaders(): HttpHeaders {

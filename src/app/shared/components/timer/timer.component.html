@@ -1,13 +1,21 @@
-<div class="flex justify-between items-center mt-4 mb-4">
+<div class="flex items-center mt-4 mb-4 h-24">
   <div class="flex-1 flex justify-center">
-    <li class="list-none text-center">
-      <ul><span class="text-3xl font-thin">{{2200 | duration}}</span></ul>
-      <ul><span class="">{{ today | date}}</span></ul>
-    </li>
+    <button mat-icon-button color="accent" (click)="delete()">
+      <i class="material-icons-outlined">timer_off</i>
+    </button>
   </div>
   <div class="flex-1 flex justify-center">
-    <button mat-fab>
-      <mat-icon>play</mat-icon>
+    <span class="text-3xl font-thin">{{ timer$ | async | durationWithSeconds}}</span>
+  </div>
+  <div class="flex-1 flex justify-center">
+    <button *ngIf="timerRunning$ | async; else startTemplate" mat-fab (click)="stop()">
+      <mat-icon>pause</mat-icon>
     </button>
+
+    <ng-template #startTemplate>
+      <button mat-fab (click)="start()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    </ng-template>
   </div>
 </div>
