@@ -4,11 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-project-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, HeadlineTwoComponent, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatListModule, HeadlineTwoComponent, MatRippleModule, MatIconModule],
   templateUrl: './project-widget.component.html',
   styleUrls: ['./project-widget.component.scss']
 })

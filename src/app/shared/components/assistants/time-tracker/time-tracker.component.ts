@@ -69,6 +69,14 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     this.assistantService.formEndTime.setValue(timeInput)
   }
 
+  @Input() set searchType(value: TimeRecordType | null) {
+    this.assistantService.formSearchType.setValue(value)
+  }
+
+  @Input() set taskId(value: string | null) {
+    this.assistantService.formTaskId.setValue(value)
+  }
+
   @Output() successEvent: EventEmitter<boolean> = new EventEmitter()
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, public assistantService: TimeTrackerAssistantService,) {

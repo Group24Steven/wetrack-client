@@ -1,11 +1,11 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="mb-4">
     <app-headline-two title="Projekte"></app-headline-two>
   </mat-card-header>
   <mat-card-content>
     <mat-list>
-      <mat-list-item *ngFor="let project of projects">
-        <mat-icon matListItemIcon>workspaces</mat-icon>
+      <mat-list-item matRipple *ngFor="let project of projects">
+        <i matListItemIcon class="material-icons-outlined text-gray-500">workspaces</i>
         <div matListItemTitle>{{project.name}}</div>
         <div matListItemLine>{{project.updated}}</div>
       </mat-list-item>

@@ -13,6 +13,7 @@
     <ng-container *ngIf="activeView === 1; else showTimer">
       <app-timer (reloadEvent)="loadTimeRecords()"></app-timer>
     </ng-container>
+
     <ng-template #showTimer>
       <div class="flex justify-between items-center mt-4 mb-4 h-24">
         <div class="flex-1 flex justify-center">
@@ -24,7 +25,8 @@
         <div class="flex-1 flex justify-center">
           <div class="spinner">
             <div class="spinner__background h-24 w-24"></div>
-            <mat-progress-spinner diameter="96" color="primary" mode="determinate" [value]="todaySeconds | workPercent"></mat-progress-spinner>
+            <mat-progress-spinner diameter="96" color="primary" mode="determinate"
+              [value]="todaySeconds | workPercent"></mat-progress-spinner>
           </div>
         </div>
         <div class="flex-1 flex justify-center">
@@ -36,14 +38,11 @@
     </ng-template>
 
     <mat-list>
-      <mat-list-item *ngFor="let time of timeRecords; ifEmpty ">
+      <mat-list-item *ngFor="let time of timeRecords">
         <i matListItemIcon class="material-icons-outlined text-gray-500">timer</i>
-        <div matListItemTitle>{{time.task?.name}}</div>
-        <div matListItemLine *ngIf="time.description"><span
-            class="text-sm font-light text-gray-500">{{time.description}}</span>
-        </div>
-        <div matListItemMeta><span class="text-gray-500">{{time.durationSeconds | duration}}</span></div>
-        <mat-divider></mat-divider>
+        <div matListItemTitle>{{time.task!.subject | truncate}}</div>
+        <div matListItemLine><span>{{time.description | truncate}}</span></div>
+        <div matListItemMeta><span>{{time.durationSeconds | duration}}</span></div>
       </mat-list-item>
     </mat-list>
 
@@ -54,4 +53,5 @@
       (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
     <app-progress-bar [loading$]="loading$"></app-progress-bar>
   </mat-card-footer>
+
 </mat-card>

@@ -1,7 +1,9 @@
 <div class="layout__container" [class.is-mobile]="mobileQuery.matches">
-  <app-navbar (sidenavToggle)="snav.toggle()" class="z-10"></app-navbar>
+  <app-navbar class="z-10" [currentUser]="currentUser" (sidenavToggleEvent)="snav.toggle()"
+    (logoutEvent)="logout()"></app-navbar>
   <mat-sidenav-container class="sidenav__container">
-    <mat-sidenav class="sidenav__nav mat-elevation-z2" #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-sidenav class="sidenav__nav mat-elevation-z2" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
 
         <mat-list-item routerLink="/dashboard">
@@ -9,7 +11,7 @@
           <span>Dashboard</span>
         </mat-list-item>
 
-        <mat-list-item routerLink="/tenants">
+        <mat-list-item *ngIf="currentUser?.is_admin" routerLink="/tenants">
           <mat-icon matListItemIcon>group</mat-icon>
           <span>Mandanten</span>
         </mat-list-item>

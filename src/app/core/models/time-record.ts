@@ -1,19 +1,19 @@
+import { Task } from "./task";
+
 export class TimeRecord {
-  constructor(
-    public durationSeconds: number,
-    public description: string,
-    public taskId?: string,
-    public projectId?: string,
-    public ticketId?: string,
-    public projectTaskId?: string,
-    public task?: {
-      'id': string,
-      'name': string,
-      'description': string
-    },
-    startDate?: number,
-    createdDate?: number,
-    lastModifiedDate?: number,
-    public id?: string,
-  ) { }
+  id: string
+  durationSeconds: number
+  description: string
+  task: Task
+  startDate: Date
+  endDate: Date
+
+  constructor(data: any) {
+    this.id = data.id
+    this.durationSeconds = data.durationSeconds
+    this.description = data.description
+    this.startDate = new Date(data.startDate)
+    this.endDate = new Date(data.endDate)
+    this.task = data.task
+  }
 }

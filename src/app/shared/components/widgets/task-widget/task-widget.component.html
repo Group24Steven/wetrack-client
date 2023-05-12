@@ -1,15 +1,26 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header class="mb-4">
     <app-headline-two title="Aufgaben"></app-headline-two>
   </mat-card-header>
   <mat-card-content>
-
     <mat-list>
       <mat-list-item *ngFor="let task of tasks">
-        <mat-icon matListItemIcon>task</mat-icon>
-        <div matListItemTitle>{{task.name}}</div>
-        <div matListItemLine>{{task.updated}}</div>
+        <i matListItemIcon class="material-icons-outlined text-gray-500">task</i>
+        <div matListItemTitle>{{task!.subject}}</div>
+        <div matListItemLine *ngIf="task!.lastModifiedDate"><span
+            class="text-sm font-light text-gray-500">{{task.lastModifiedDate}}</span>
+        </div>
+        <div matListItemMeta>
+          <button mat-icon-button (click)="openTimeTrackingDialog(task.id)">
+            <i class="material-icons-outlined">playlist_add</i>
+          </button>
+        </div>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
+  <mat-card-footer>
+    <mat-paginator [length]="paginator.total" [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
+      (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
+    <app-progress-bar [loading$]="loading$"></app-progress-bar>
+  </mat-card-footer>
 </mat-card>

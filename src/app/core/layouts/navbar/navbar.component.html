@@ -15,7 +15,7 @@
           <span class="text-sm">{{currentUser?.email}}</span>
         </div>
       </div>
-      <button mat-menu-item (click)="logout()">Abmelden</button>
+      <button mat-menu-item (click)="logoutEvent.emit()">Abmelden</button>
       <button mat-menu-item>Hilfe</button>
     </mat-menu>
   </div>

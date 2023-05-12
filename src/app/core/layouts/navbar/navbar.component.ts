@@ -2,13 +2,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../services/api/auth.service';
 import { User } from '../../models/user';
 import { MatMenuModule } from '@angular/material/menu';
-import { NotificationService } from '../../services/notification.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -22,26 +19,12 @@ import { HttpErrorResponse } from '@angular/common/http';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  @Output() sidenavToggle = new EventEmitter<void>()
+  @Output() sidenavToggleEvent = new EventEmitter<void>()
+  @Output() logoutEvent = new EventEmitter<void>()
 
-  currentUser?: User
-
-  constructor(public auth: AuthService, private notificationService: NotificationService, private router: Router) {
-    this.currentUser = auth.getCurrentUser()
-  }
+  @Input() currentUser?: User | null
 
   toggle(): void {
-    this.sidenavToggle.next()
-  }
-
-  logout() {
-    this.auth.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/login'])
-      },
-      error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
-      }
-    })
+    this.sidenavToggleEvent.next()
   }
 }

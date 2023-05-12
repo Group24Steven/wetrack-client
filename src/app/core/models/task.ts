@@ -3,7 +3,7 @@ import { ProjectStatus } from '../enums/project-status';
 
 export class Task {
     constructor(
-        public id: number,
+        public id: string,
         public subject: string,
         public priority: ProjectPriority,
         public status: ProjectStatus,

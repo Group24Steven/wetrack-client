@@ -18,9 +18,11 @@ import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api
 import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
-import { TimerComponent } from '../../timer/timer.component';
+import { TimerComponent } from '../timer/timer.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-timer-widget',
@@ -35,10 +37,12 @@ import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-bu
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatDividerModule,
     HeadlineTwoComponent,
     ProgressBarComponent,
     DurationPipe,
     WorkPercentPipe,
+    TruncatePipe,
     TimerComponent,
     ToggleButtonComponent,
   ],
@@ -92,7 +96,7 @@ export class TimeRecordWidgetComponent implements OnInit {
 
     const params: RequestSearchParams = {
       'startDate-gt': this.today.getTime(),
-      'properties': 'id,durationSeconds,description,userId,projectId,projectTaskId,taskId,ticketId,startDate,createdDate,lastModifiedDate',
+      'properties': 'id,durationSeconds,description,projectId,projectTaskId,taskId,ticketId,startDate,lastModifiedDate',
       'includeReferencedEntities': 'projectId,projectTaskId,taskId,ticketId',
       'sort': '-startDate'
     }
