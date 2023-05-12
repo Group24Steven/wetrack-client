@@ -10,7 +10,7 @@ import { Timer } from '../models/timer';
 export class TimerService {
 
   startTime: number | null = null
-  stopTime: number | null = null
+  endTime: number | null = null
 
   timerRunningSubject = new BehaviorSubject<boolean>(false)
   timerRunning$ = this.timerRunningSubject.asObservable()
@@ -41,7 +41,7 @@ export class TimerService {
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
 
-        this.stopTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
+        this.endTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
         this.timerRunningSubject.next(timer!.isRunning)
       })
     )
@@ -53,7 +53,7 @@ export class TimerService {
       tap((data: any) => {
         if (!data.deleted) return
         this.startTime = null
-        this.stopTime = null
+        this.endTime = null
         this.timerRunningSubject.next(false)
         this.removeLocalStorageTimer()
       })
@@ -65,7 +65,7 @@ export class TimerService {
 
     if (storedTimer) {
       this.startTime = storedTimer!.createdAt
-      this.stopTime = storedTimer!.createdAt === storedTimer!.updatedAt ? null : storedTimer!.updatedAt
+      this.endTime = storedTimer!.createdAt === storedTimer!.updatedAt ? null : storedTimer!.updatedAt
       this.timerRunningSubject.next(storedTimer!.isRunning)
     } else {
       this.fetchTimer()
@@ -86,7 +86,7 @@ export class TimerService {
         this.setLocalStorageTimer(timer)
 
         this.startTime = timer!.createdAt
-        this.stopTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
+        this.endTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
         this.timerRunningSubject.next(timer!.isRunning)
       },
     })
@@ -115,8 +115,8 @@ export class TimerService {
   private handleElapsedTime(): number {
     if (!this.startTime) return 0
 
-    if (this.startTime && this.stopTime) {
-      return this.calculateElapsedTime(this.startTime, this.stopTime)
+    if (this.startTime && this.endTime) {
+      return this.calculateElapsedTime(this.startTime, this.endTime)
     }
 
     return this.calculateElapsedTime(this.startTime, Date.now())

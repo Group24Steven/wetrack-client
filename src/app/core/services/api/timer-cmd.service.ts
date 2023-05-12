@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ApiEndpoint } from '../../enums/api-endpoint';
 
@@ -33,14 +32,6 @@ export class TimerCmdService {
   }
 
   private postCmd(endpoint: string): Observable<any> {
-    return this.http.post(`${this.url}/${endpoint}`, {}, { headers: this.getHeaders() })
-  }
-
-  private getHeaders(): HttpHeaders {
-    const token = AuthService.getAuthToken()
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
+    return this.http.post(`${this.url}/${endpoint}`, {})
   }
 }

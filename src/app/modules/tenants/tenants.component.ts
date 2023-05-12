@@ -15,20 +15,23 @@ import { TenantDialogComponent } from './tenant-dialog/tenant-dialog.component'
 import { TenantService } from 'src/app/core/services/api/tenant.service'
 import { NotificationService } from '../../core/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http'
+import { MatRippleModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider'
 
 @Component({
   selector: 'app-tenants',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule],
   templateUrl: './tenants.component.html',
   styleUrls: ['./tenants.component.scss']
 })
+
 export class TenantsComponent implements OnInit {
 
   searchTerm = ''
   loading = false
 
-  displayedColumns: string[] = ['email', 'weclappToken', 'weclappUrl']
+  displayedColumns: string[] = ['id', 'email', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
 
   @ViewChild(MatPaginator) paginator: MatPaginator
@@ -39,12 +42,14 @@ export class TenantsComponent implements OnInit {
     this.loadUsers()
   }
 
-  openTenantForm(): void {
-    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, { width: '400px' })
+  openTenantForm(data?: number): void {
+    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, { width: '400px', data: {
+      id: data
+    }})
 
     dialogRef.afterClosed().subscribe((value: any) => {
       if (value === undefined || Object.keys(value).length < 1) return
-      this.createTenant(value)
+      // this.createTenant(value)
     })
   }
 
@@ -63,23 +68,6 @@ export class TenantsComponent implements OnInit {
         this.loading = false
       })
     ).subscribe({
-      error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
-      }
-    })
-  }
-
-  private createTenant(tenantData: Tenant): void {
-    this.loading = true;
-
-    this.tenantService.store(tenantData).pipe(
-      finalize(() => {
-        this.loading = false
-      })
-    ).subscribe({
-      next: () => {
-        this.loadUsers()
-      },
       error: (err: HttpErrorResponse) => {
         this.notificationService.showError(err.error.message)
       }

@@ -72,7 +72,13 @@ export class TimeRecordWidgetComponent implements OnInit {
   }
 
   openTimeTrackingDialog() {
-    const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, { width: '400px' })
+    const now = new Date() 
+    const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
+      width: '400px', data: {
+        startDateTime: now,
+        endDateTime: now
+      }
+    })
     dialogRef.afterClosed().subscribe(value => value ? this.loadTimeRecords() : false)
   }
 
@@ -81,7 +87,7 @@ export class TimeRecordWidgetComponent implements OnInit {
     this.loadTimeRecords()
   }
 
-  private loadTimeRecords() {
+  loadTimeRecords() {
     this.loading$.next(true)
 
     const params: RequestSearchParams = {

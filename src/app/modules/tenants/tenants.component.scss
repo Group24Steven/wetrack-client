@@ -1,3 +1,17 @@
-tr.table__row--hover:hover {
-  background: whitesmoke;
+/* Structure */
+.mat-mdc-row {
+  background-color: white !important;
+}
+
+.mat-mdc-header-row {
+  background-color: white !important;
+}
+
+.mat-column-id {
+  max-width: 64px;
+}
+
+/* Column Widths */
+.mat-column-email {
+  max-width: 256px;
 }

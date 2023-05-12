@@ -51,35 +51,27 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
 
   today: Date
   yesterday: Date
-  currentTime: string
 
   selectedSearchType: TimeRecordType
 
   loading$ = new BehaviorSubject<boolean>(false)
   unsubscribe$ = new Subject<void>()
 
-  @Input() set currentStep(value: number) {
-    this.assistantService.currentStep = value
+  @Input() set startTime(value: number) {
+    const date = new Date(value)
+    const timeInput = this.getTimeInput(date)
+    this.assistantService.formStartTime.setValue(timeInput)
+  }
+
+  @Input() set endTime(value: number) {
+    const date = new Date(value)
+    const timeInput = this.getTimeInput(date)
+    this.assistantService.formEndTime.setValue(timeInput)
   }
 
   @Output() successEvent: EventEmitter<boolean> = new EventEmitter()
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, public assistantService: TimeTrackerAssistantService,) {
-    const now = new Date()
-    this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0)
-    this.yesterday = new Date(new Date().setDate(now.getDate() - 1))
-
-    let hours = now.getHours().toString().padStart(2, '0');
-    let minutes = now.getMinutes().toString().padStart(2, '0');
-
-    this.currentTime = `${hours}:${minutes}`
-
-    this.assistantService.formStartTime.setValue(this.currentTime)
-    this.assistantService.formEndTime.setValue(this.currentTime)
-    this.assistantService.formStartDate.setValue(this.today)
-  }
-
-  ngOnInit() {
     this.assistantService.formSearchType.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value: any) => {
       this.selectedSearchType = value
     })
@@ -89,8 +81,16 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       this.assistantService.formStartTime.valueChanges,
       this.assistantService.formEndTime.valueChanges
     ).pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
+      console.log('calculate')
       this.assistantService.calculateDuration()
-    });
+    })
+  }
+
+  ngOnInit() {
+    const now = new Date()
+    this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0)
+    this.yesterday = new Date(new Date().setDate(now.getDate() - 1))
+    this.assistantService.formStartDate.setValue(this.today)
   }
 
   ngOnDestroy(): void {
@@ -127,5 +127,12 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
         this.notificationService.showError(error.error.message)
       }
     })
+  }
+
+  private getTimeInput(date: Date) {
+    let hours = date.getHours().toString().padStart(2, '0')
+    let minutes = date.getMinutes().toString().padStart(2, '0')
+
+    return `${hours}:${minutes}`
   }
 }

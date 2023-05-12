@@ -4,4 +4,4 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<app-time-tracker (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
+<app-time-tracker [startTime]="data.startDateTime" [endTime]="data.endDateTime" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>

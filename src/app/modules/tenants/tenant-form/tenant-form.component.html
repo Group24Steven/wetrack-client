@@ -11,7 +11,7 @@
       <span class="text-xs">Please enter a valid email</span>
     </mat-error>
     <mat-error *ngIf="emailControl?.hasError('required')">
-      <span class="text-xs">Email is <strong>required</strong></span>
+      <span class="text-xs">E-Mail ist ein<strong>Pflichtfeld</strong></span>
     </mat-error>
   </mat-form-field>
 
@@ -19,7 +19,7 @@
     <mat-label>Url</mat-label>
     <input matInput formControlName="weclappUrl" required>
     <mat-error *ngIf="emailControl?.hasError('required')">
-      <span class="text-xs">Url is <strong>required</strong></span>
+      <span class="text-xs">Url ist ein<strong>Pflichtfeld</strong></span>
     </mat-error>
   </mat-form-field>
 
@@ -27,9 +27,12 @@
     <mat-label>Token</mat-label>
     <input matInput formControlName="weclappToken" required>
     <mat-error *ngIf="emailControl?.hasError('required')">
-      <span class="text-xs">Token is <strong>required</strong></span>
+      <span class="text-xs">Token ist ein <strong>Pflichtfeld</strong></span>
     </mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="tenantForm.invalid">Submit</button>
+  <div class="flex justify-between">
+    <button mat-raised-button color="accent">Abbrechen</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="tenantForm.invalid">Speichern</button>
+  </div>
 </form>

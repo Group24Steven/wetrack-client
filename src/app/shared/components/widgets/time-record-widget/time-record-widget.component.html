@@ -3,7 +3,7 @@
   <mat-card-header>
     <div class="flex justify-between items-center w-full">
       <app-headline-two title="Zeiterfassung"></app-headline-two>
-      <app-toggle-button firstButtonIcon="list_alt" secondButtonIcon="timer"
+      <app-toggle-button firstButtonIcon="timer" secondButtonIcon="list_alt"
         (activeChangedEvent)="activeView = $event"></app-toggle-button>
     </div>
   </mat-card-header>
@@ -11,6 +11,9 @@
   <mat-card-content>
 
     <ng-container *ngIf="activeView === 1; else showTimer">
+      <app-timer (reloadEvent)="loadTimeRecords()"></app-timer>
+    </ng-container>
+    <ng-template #showTimer>
       <div class="flex justify-between items-center mt-4 mb-4 h-24">
         <div class="flex-1 flex justify-center">
           <li class="list-none text-center">
@@ -30,13 +33,10 @@
           </button>
         </div>
       </div>
-    </ng-container>
-    <ng-template #showTimer>
-      <app-timer></app-timer>
     </ng-template>
 
     <mat-list>
-      <mat-list-item *ngFor="let time of timeRecords">
+      <mat-list-item *ngFor="let time of timeRecords; ifEmpty ">
         <i matListItemIcon class="material-icons-outlined text-gray-500">timer</i>
         <div matListItemTitle>{{time.task?.name}}</div>
         <div matListItemLine *ngIf="time.description"><span

@@ -1,14 +1,14 @@
 <div class="flex items-center mt-4 mb-4 h-24">
   <div class="flex-1 flex justify-center">
-    <button mat-icon-button color="warn" (click)="delete()" [disabled]="!(timerRunning$ | async) && !timerService.stopTime">
-      <i class="material-icons-outlined">timer_off</i>
+    <button mat-icon-button color="warn" (click)="delete()" [disabled]="!(timerRunning$ | async) && !timerService.endTime">
+      <i class="material-icons-outlined">delete_forever</i>
     </button>
   </div>
   <div class="flex-1 flex">
     <span class="text-5xl font-thin">{{ timer$ | async | durationWithSeconds}}</span>
   </div>
   <div class="flex-1 flex justify-center">
-    <button *ngIf="timerService.stopTime; else startTemplate" mat-mini-fab color="accent" (click)="stop()">
+    <button *ngIf="timerService.endTime; else startTemplate" mat-mini-fab color="accent" (click)="openTimeTrackingDialog()">
       <mat-icon>playlist_add</mat-icon>
     </button>
 

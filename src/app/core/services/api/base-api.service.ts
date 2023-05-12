@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { AuthService } from './auth.service';
 
 export interface RequestSearchParams {
   [key: string]: any;
@@ -35,7 +34,7 @@ export class BaseApiService<T> {
       }
     }
 
-    return this.http.get<T[]>(this.url, { headers: this.getHeaders(), params: params })
+    return this.http.get<T[]>(this.url, { params: params })
   }
 
   show(id: number): Observable<T> {
@@ -43,22 +42,14 @@ export class BaseApiService<T> {
   }
 
   store(data: any): Observable<T> {
-    return this.http.post<T>(this.url, data, { headers: this.getHeaders() })
+    return this.http.post<T>(this.url, data)
   }
 
   update(id: number, data: T): Observable<T> {
-    return this.http.put<T>(`${this.url}/${id}`, data, { headers: this.getHeaders() })
+    return this.http.put<T>(`${this.url}/${id}`, data)
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`, { headers: this.getHeaders() })
-  }
-
-  private getHeaders(): HttpHeaders {
-    const token = AuthService.getAuthToken()
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
+    return this.http.delete(`${this.url}/${id}`)
   }
 }

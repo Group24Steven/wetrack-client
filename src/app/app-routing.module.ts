@@ -25,14 +25,6 @@ const routes: Routes = [
     loadComponent: () => import('./modules/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
   {
-    path: 'timer',
-    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
-    data: {
-      layout: AppLayoutType.Sidenav
-    },
-    loadComponent: () => import('./modules/timer/timer.component').then((m) => m.TimerComponent),
-  },
-  {
     path: 'tenants',
     canActivate: [authGuardFn({ redirectTo: ['/login'] })],
     data: {

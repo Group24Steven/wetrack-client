@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TimerService } from '../../../core/services/timer.service';
@@ -7,7 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { DurationWithSecondsPipe } from '../../pipes/duration-with-seconds.pipe';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../../core/services/notification.service';
-
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TimeTrackerDialogComponent } from '../dialogs/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-timer',
@@ -21,7 +22,10 @@ export class TimerComponent implements OnInit {
   timer$: Observable<number>
   timerRunning$: Observable<boolean>
 
-  constructor(public timerService: TimerService, private notifications: NotificationService) { 
+  @Output() reloadEvent = new EventEmitter<boolean>()
+
+  constructor(public timerService: TimerService, private notifications: NotificationService, private dialog: MatDialog) {
+
     this.timer$ = this.timerService.getTime()
     this.timerRunning$ = this.timerService.timerRunning$
   }
@@ -34,7 +38,7 @@ export class TimerComponent implements OnInit {
   stop() {
     this.timerService.stop().subscribe({
       next: () => {
-        this.notifications.showSuccess('response.success.timer-stoped')
+        this.openTimeTrackingDialog()
       },
       error: (error: HttpErrorResponse) => {
         this.notifications.showError(error.error.message)
@@ -61,6 +65,20 @@ export class TimerComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         this.notifications.showError(error.error.message)
       }
+    })
+  }
+
+  openTimeTrackingDialog() {
+    const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
+      width: '400px', data: {
+        startDateTime: new Date(this.timerService.startTime!),
+        endDateTime: new Date(this.timerService.endTime!)
+      }
+    })
+    dialogRef.afterClosed().subscribe(value => {
+      if (!value) return 
+      this.delete()
+      this.reloadEvent.emit(true) 
     })
   }
 }
