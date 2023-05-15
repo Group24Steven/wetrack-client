@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
 import { Tenant } from 'src/app/core/models/tenant'
-import { catchError, finalize, of, tap } from 'rxjs'
+import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
@@ -17,11 +17,12 @@ import { NotificationService } from '../../core/services/notification.service';
 import { HttpErrorResponse } from '@angular/common/http'
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider'
+import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 
 @Component({
   selector: 'app-tenants',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent],
   templateUrl: './tenants.component.html',
   styleUrls: ['./tenants.component.scss']
 })
@@ -29,7 +30,7 @@ import { MatDividerModule } from '@angular/material/divider'
 export class TenantsComponent implements OnInit {
 
   searchTerm = ''
-  loading = false
+  loading$ = new BehaviorSubject<boolean>(false)
 
   displayedColumns: string[] = ['id', 'email', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
@@ -43,9 +44,11 @@ export class TenantsComponent implements OnInit {
   }
 
   openTenantForm(data?: number): void {
-    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, { width: '400px', data: {
-      id: data
-    }})
+    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, {
+      width: '400px', data: {
+        id: data
+      }
+    })
 
     dialogRef.afterClosed().subscribe((value: any) => {
       if (value === undefined || Object.keys(value).length < 1) return
@@ -54,7 +57,7 @@ export class TenantsComponent implements OnInit {
   }
 
   private loadUsers(): void {
-    this.loading = true;
+    this.loading$.next(true)
 
     this.tenantService.index().pipe(
       tap((tenants: Tenant[]) => {
@@ -65,7 +68,7 @@ export class TenantsComponent implements OnInit {
         return of([]) // Return an empty array on error
       }),
       finalize(() => {
-        this.loading = false
+        this.loading$.next(false)
       })
     ).subscribe({
       error: (err: HttpErrorResponse) => {
