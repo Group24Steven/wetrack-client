@@ -80,6 +80,8 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   @Output() successEvent: EventEmitter<boolean> = new EventEmitter()
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, public assistantService: TimeTrackerAssistantService,) {
+    assistantService.currentStep = 1
+
     this.assistantService.formSearchType.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value: any) => {
       this.selectedSearchType = value
     })
