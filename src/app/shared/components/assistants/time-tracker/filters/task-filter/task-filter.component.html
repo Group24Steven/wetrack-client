@@ -4,7 +4,7 @@
     (blur)="onTouched()" (input)="resetSelection()">
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
-      {{ option.id}} | {{option.subject}}
+      {{ option.id}} - {{option.subject}}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
