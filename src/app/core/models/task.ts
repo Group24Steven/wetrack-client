@@ -8,5 +8,6 @@ export class Task {
         public priority: ProjectPriority,
         public status: ProjectStatus,
         public lastModifiedDate: number,
+        public customerId?: string
     ) { }
 }

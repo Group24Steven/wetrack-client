@@ -17,7 +17,7 @@ export class BaseFilterComponent implements ControlValueAccessor {
 
   blockSearch = false
 
-  searchControl = new FormControl()
+  formControl = new FormControl()
 
   onChange: (value: any) => void = () => { }
   onTouched: () => void = () => { }
@@ -27,11 +27,11 @@ export class BaseFilterComponent implements ControlValueAccessor {
   @Output() loadingEnd = new EventEmitter<void>()
 
   writeValue(value: any): void {
-    this.searchControl.setValue(value)
+    this.formControl.setValue(value)
   }
 
   registerOnChange(fn: any): void {
-    this.searchControl.valueChanges.subscribe(fn)
+    this.formControl.valueChanges.subscribe(fn)
   }
 
   registerOnTouched(fn: any): void {
@@ -42,11 +42,6 @@ export class BaseFilterComponent implements ControlValueAccessor {
     this.blockSearch = true
     this.searchResult.emit()
   }
-
-  displayFn(option: any): string {
-    return option && option.subject ? option.subject : '';
-  }
-
 
   resetSelection() {
     this.blockSearch = false

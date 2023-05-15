@@ -1,6 +1,6 @@
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Suche</mat-label>
-  <input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto" (ngModelChange)="onChange($event)"
+  <input type="text" matInput [formControl]="formControl" [matAutocomplete]="auto" (ngModelChange)="onChange($event)"
     (blur)="onTouched()" (input)="resetSelection()">
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">

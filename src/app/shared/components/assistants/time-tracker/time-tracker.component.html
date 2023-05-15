@@ -22,12 +22,12 @@
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Customer">
-      <app-customer-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
-        class="w-full"></app-customer-filter>
+      <app-customer-filter formControlName="taskId" (laodingStart)="loading$.next(true)"
+        (loadingEnd)="loading$.next(false)" class="w-full"></app-customer-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Ticket">
-      <app-ticket-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+      <app-ticket-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
         class="w-full"></app-ticket-filter>
     </div>
 
@@ -37,7 +37,7 @@
     </div>
 
     <div class="flex justify-between">
-      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
       <button [disabled]="assistantService.formProjectTaskId.value === '' && assistantService.formTaskId.value === ''"
         mat-raised-button color="primary" (click)="assistantService.moveToNextStep()">Weiter</button>
     </div>
@@ -66,7 +66,7 @@
       </mat-form-field>
     </div>
     <div class="flex justify-between">
-      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
       <button mat-raised-button color="primary"
         [disabled]="!assistantService.formStartTime.valid || !assistantService.formEndTime.valid || !assistantService.formStartDate.valid"
         (click)="assistantService.moveToNextStep()">Weiter</button>
@@ -83,7 +83,7 @@
       <textarea matInput formControlName="description" placeholder="Beschreibung der Zeiterfassung"></textarea>
     </mat-form-field>
     <div class="flex justify-between">
-      <button mat-raised-button (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
       <button mat-raised-button color="primary" type="submit" [disabled]="!assistantService.form.valid"
         (click)="submitTimeRecord()">Submit</button>
     </div>

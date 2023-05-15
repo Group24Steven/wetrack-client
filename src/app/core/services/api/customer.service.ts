@@ -10,6 +10,6 @@ import { BaseApiService } from './base-api.service';
 export class CustomerService extends BaseApiService<ProjectTask>{
 
   constructor(private httpClient: HttpClient) {
-    super(httpClient, ApiEndpoint.ProjectTasks)
+    super(httpClient, ApiEndpoint.Customers)
    }
 }

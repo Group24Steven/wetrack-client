@@ -91,7 +91,6 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       this.assistantService.formStartTime.valueChanges,
       this.assistantService.formEndTime.valueChanges
     ).pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-      console.log('calculate')
       this.assistantService.calculateDuration()
     })
   }

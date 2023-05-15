@@ -6,5 +6,6 @@ export enum ApiEndpoint {
     Tasks = 'tasks',
     Timers = 'timers',
     Tickets = 'tickets',
-    TimeRecords = 'time-records'
+    TimeRecords = 'time-records',
+    Customers = 'customers',
 }

@@ -31,7 +31,7 @@ export class TaskFilterComponent extends BaseFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.searchControl.valueChanges.pipe(startWith(''), debounceTime(300),
+    this.filteredOptions = this.formControl.valueChanges.pipe(startWith(''), debounceTime(300),
       switchMap(value => this.blockSearch ? of([]) : this.load(value)),
     )
   }
