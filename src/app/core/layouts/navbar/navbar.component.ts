@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
   standalone: true,
   imports: [
     CommonModule, RouterModule,
-    MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule,
+    MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, 
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
@@ -21,6 +21,7 @@ import { MatMenuModule } from '@angular/material/menu';
 export class NavbarComponent {
   @Output() sidenavToggleEvent = new EventEmitter<void>()
   @Output() logoutEvent = new EventEmitter<void>()
+  @Output() switchTenantEvent = new EventEmitter<void>()
 
   @Input() currentUser?: User | null
 

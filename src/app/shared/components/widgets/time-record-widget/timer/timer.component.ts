@@ -42,7 +42,7 @@ export class TimerComponent implements OnInit {
         this.openTimeTrackingDialog()
       },
       error: (error: HttpErrorResponse) => {
-        this.notifications.showError(error.error.message)
+        this.notifications.showError(error.message)
       }
     })
   }
@@ -53,7 +53,7 @@ export class TimerComponent implements OnInit {
         this.notifications.showSuccess('response.success.timer-started')
       },
       error: (error: HttpErrorResponse) => {
-        this.notifications.showError(error.error.message)
+        this.notifications.showError(error.message)
       }
     })
   }
@@ -64,7 +64,7 @@ export class TimerComponent implements OnInit {
         this.notifications.showSuccess('response.success.timer-deleted')
       },
       error: (error: HttpErrorResponse) => {
-        this.notifications.showError(error.error.message)
+        this.notifications.showError(error.message)
       }
     })
   }

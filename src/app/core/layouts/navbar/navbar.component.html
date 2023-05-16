@@ -10,13 +10,23 @@
     </div>
     <mat-menu #menu="matMenu">
       <div mat-menu-item disabled="true">
-        <div class="flex flex-col text-center">
+        <div class="flex flex-col">
           <span>{{currentUser?.name}}</span>
           <span class="text-sm">{{currentUser?.email}}</span>
         </div>
       </div>
-      <button mat-menu-item (click)="logoutEvent.emit()">Abmelden</button>
-      <button mat-menu-item>Hilfe</button>
+      <button mat-menu-item (click)="switchTenantEvent.emit()">
+        <mat-icon>supervisor_account</mat-icon>
+        <span>{{currentUser?.activeTenant?.name ?? '-'}}</span>
+      </button>
+      <button mat-menu-item (click)="logoutEvent.emit()">
+        <mat-icon>logout</mat-icon>
+        <span>Abmelden</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>question_mark</mat-icon>
+        <span>Hilfe</span>
+      </button>
     </mat-menu>
   </div>
 </mat-toolbar>

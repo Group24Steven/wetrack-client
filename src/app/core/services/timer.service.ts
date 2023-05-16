@@ -23,26 +23,26 @@ export class TimerService {
     return interval(1000).pipe(startWith(() => this.handleElapsedTime()), map(() => this.handleElapsedTime()))
   }
 
-  start(): Observable<Timer> {  
-    return this.timerCmdService.start().pipe(
+  start(): Observable<Timer> {
+    this.startTime = Date.now()
+    this.timerRunningSubject.next(true)
+
+    return this.timerCmdService.start(this.startTime).pipe(
       map((response: any) => new Timer(response.data)),
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
-
-        this.startTime = timer.startTime
-        this.timerRunningSubject.next(true)
       })
     )
   }
 
   stop(): Observable<Timer> {
-    return this.timerCmdService.stop().pipe(
+    this.endTime = Date.now()
+    this.timerRunningSubject.next(false)
+
+    return this.timerCmdService.stop(this.endTime).pipe(
       map((response: any) => new Timer(response.data)),
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
-
-        this.endTime = timer.endTime
-        this.timerRunningSubject.next(false)
       })
     )
   }

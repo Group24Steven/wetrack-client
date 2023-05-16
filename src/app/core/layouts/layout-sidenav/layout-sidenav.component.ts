@@ -14,13 +14,15 @@ import { AuthService } from '../../services/api/auth.service';
 import { User } from '../../models/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SwitchTenantDialogComponent } from 'src/app/shared/components/dialogs/switch-tenant-dialog/switch-tenant-dialog.component';
 
 @Component({
   selector: 'app-layout-sidenav',
   standalone: true,
   imports: [
     CommonModule, RouterModule,
-    MatSidenavModule, MatMenuModule, MatListModule, MatIconModule, MatCheckboxModule, LayoutModule, MatToolbarModule, MatButtonModule,
+    MatSidenavModule, MatMenuModule, MatListModule, MatIconModule, MatCheckboxModule, LayoutModule, MatToolbarModule, MatButtonModule, MatDialogModule,
     NavbarComponent
   ],
   templateUrl: './layout-sidenav.component.html',
@@ -30,13 +32,12 @@ import { NotificationService } from '../../services/notification.service';
 
 export class LayoutSidenavComponent implements OnInit {
   mobileQuery: MediaQueryList
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`)
 
   currentUser: User | null = null
 
   private _mobileQueryListener: () => void
 
-  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router) {
+  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)')
     this._mobileQueryListener = () => changeDetectorRef.detectChanges()
     this.mobileQuery.addListener(this._mobileQueryListener)
@@ -45,7 +46,6 @@ export class LayoutSidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.auth.getCurrentUser()
-    console.log(this.currentUser)
   }
 
   ngOnDestroy(): void {
@@ -60,6 +60,19 @@ export class LayoutSidenavComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
       }
+    })
+  }
+
+  openSwitchTenantDialog() {
+    const dialogRef = this.matDialog.open(SwitchTenantDialogComponent, {
+      width: '400px',
+      data: {
+        activeTenant: this.currentUser?.activeTenant
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((value) => {
+
     })
   }
 }

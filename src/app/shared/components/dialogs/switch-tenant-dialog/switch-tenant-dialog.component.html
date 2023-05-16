@@ -1,0 +1,23 @@
+<div class="p-4">
+  <div class="flex items-center justify-between mb-4">
+    <app-headline-two title="Mandanten wechseln" />
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <form [formGroup]="form" class="flex flex-col w-full">
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Auswahl Tenant</mat-label>
+      <mat-select formControlName="tenantId">
+        <mat-option *ngFor="let option of tenants" [value]="option.id">
+          {{option.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex justify-between">
+      <div></div>
+      <button mat-raised-button type="submit" color="primary">Speichern</button>
+    </div>
+  </form>
+</div>
+<app-progress-bar [loading$]="loading$"></app-progress-bar>

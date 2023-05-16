@@ -19,15 +19,15 @@ export class TimerCmdService {
     return this.postCmd('get')
   }
 
-  start(): Observable<any> {
+  start(javascriptTs: number): Observable<any> {
     return this.postCmd('start', {
-      start_time: Math.floor(Date.now() / 1000),
+      start_time: Math.floor(javascriptTs / 1000),
     })
   }
 
-  stop(): Observable<any> {
+  stop(javascriptTs: number): Observable<any> {
     return this.postCmd('stop', {
-      end_time: Math.floor(Date.now() / 1000),
+      end_time: Math.floor(javascriptTs / 1000),
     })
   }
 
