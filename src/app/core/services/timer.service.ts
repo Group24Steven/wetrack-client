@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, of } from 'rxjs';
-import { map, tap, startWith } from 'rxjs/operators';
+import { map, tap, startWith, catchError } from 'rxjs/operators';
 import { TimerCmdService } from './api/timer-cmd.service';
 import { Timer } from '../models/timer';
 
@@ -16,6 +16,7 @@ export class TimerService {
   timerRunning$ = this.timerRunningSubject.asObservable()
 
   constructor(private timerCmdService: TimerCmdService) {
+    this.resetTimerService()
     this.initializeTimer()
   }
 
@@ -23,14 +24,14 @@ export class TimerService {
     return interval(1000).pipe(startWith(() => this.handleElapsedTime()), map(() => this.handleElapsedTime()))
   }
 
-  start(): Observable<Timer> {
+  start(): Observable<Timer> {  
     return this.timerCmdService.start().pipe(
       map((response: any) => new Timer(response.data)),
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
 
-        this.startTime = timer!.createdAt
-        this.timerRunningSubject.next(timer!.isRunning)
+        this.startTime = timer.startTime
+        this.timerRunningSubject.next(true)
       })
     )
   }
@@ -41,8 +42,8 @@ export class TimerService {
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
 
-        this.endTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
-        this.timerRunningSubject.next(timer!.isRunning)
+        this.endTime = timer.endTime
+        this.timerRunningSubject.next(false)
       })
     )
   }
@@ -50,12 +51,13 @@ export class TimerService {
   delete(): Observable<boolean> {
     return this.timerCmdService.delete().pipe(
       map((response: any) => response.data),
+      catchError((error: any) => {
+        this.resetTimerService()
+        return of(true)
+      }),
       tap((data: any) => {
         if (!data.deleted) return
-        this.startTime = null
-        this.endTime = null
-        this.timerRunningSubject.next(false)
-        this.removeLocalStorageTimer()
+        this.resetTimerService()
       })
     )
   }
@@ -64,20 +66,21 @@ export class TimerService {
     const storedTimer = this.getLocalStorageTimer()
 
     if (storedTimer) {
-      this.startTime = storedTimer!.createdAt
-      this.endTime = storedTimer!.createdAt === storedTimer!.updatedAt ? null : storedTimer!.updatedAt
-      this.timerRunningSubject.next(storedTimer!.isRunning)
+      this.startTime = storedTimer.startTime
+      this.endTime = storedTimer.endTime
+      console.log('initializedTimer: ' + storedTimer, !storedTimer.endTime)
+      this.timerRunningSubject.next(!!storedTimer.endTime)
     } else {
       this.fetchTimer()
     }
   }
 
   private fetchTimer() {
-    this.timerCmdService.getTimer().pipe(
+    this.timerCmdService.get().pipe(
       map((response: any) => response.data)
     ).subscribe({
       next: (timerData: any) => {
-        if (timerData.id === null) {
+        if (!!timerData.id) {
           this.removeLocalStorageTimer()
           return
         }
@@ -85,9 +88,9 @@ export class TimerService {
         const timer = new Timer(timerData)
         this.setLocalStorageTimer(timer)
 
-        this.startTime = timer!.createdAt
-        this.endTime = timer!.createdAt === timer!.updatedAt ? null : timer!.updatedAt
-        this.timerRunningSubject.next(timer!.isRunning)
+        this.startTime = timer!.startTime
+        this.endTime = timer!.endTime
+        this.timerRunningSubject.next(!!timer.endTime)
       },
     })
   }
@@ -106,6 +109,13 @@ export class TimerService {
 
   private removeLocalStorageTimer() {
     localStorage.removeItem('timer')
+  }
+
+  private resetTimerService() {
+    this.startTime = null
+    this.endTime = null
+    this.timerRunningSubject.next(false)
+    this.removeLocalStorageTimer()
   }
 
   private calculateElapsedTime(startTime: number, comparableTime: number): number {

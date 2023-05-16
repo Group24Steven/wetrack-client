@@ -12,7 +12,6 @@ import { TaskService } from 'src/app/core/services/api/task.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
-import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
@@ -54,7 +53,10 @@ export class TaskWidgetComponent implements OnInit {
     const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
 
     this.taskService.index(params, this.paginator).pipe(
-      catchError(() => of([])),
+      catchError((error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
+        return of([])
+      }),
       finalize(() => this.loading$.next(false))
     ).subscribe({
       next: (response: any) => {
@@ -64,17 +66,14 @@ export class TaskWidgetComponent implements OnInit {
         this.tasks = data.data
         this.paginator.total = data.total
       },
-      error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
-      }
     })
   }
 
   openTimeTrackingDialog(taskId: string) {
     const now = Date.now()
-    
+
     const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
-      width: '400px', 
+      width: '400px',
       data: {
         searchType: TimeRecordType.Task,
         taskId: taskId,
@@ -83,8 +82,8 @@ export class TaskWidgetComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(value => {
-
+      if (!value) return 
+      // TODO: reload the view
     })
   }
-
 }

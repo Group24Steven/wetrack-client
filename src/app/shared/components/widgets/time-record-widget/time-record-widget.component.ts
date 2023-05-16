@@ -18,7 +18,7 @@ import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api
 import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
-import { TimerComponent } from '../timer/timer.component';
+import { TimerComponent } from './timer/timer.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
 import { MatDividerModule } from '@angular/material/divider';
@@ -76,7 +76,7 @@ export class TimeRecordWidgetComponent implements OnInit {
   }
 
   openTimeTrackingDialog() {
-    const now = new Date() 
+    const now = new Date()
     const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
       width: '400px', data: {
         startDateTime: now,
@@ -102,7 +102,10 @@ export class TimeRecordWidgetComponent implements OnInit {
     }
 
     this.timeRecordService.index(params, this.paginator).pipe(
-      catchError(() => of([])),
+      catchError((error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
+        return of([])
+      }),
       finalize(() => this.loading$.next(false))
     ).subscribe({
       next: (response: any) => {
@@ -112,9 +115,6 @@ export class TimeRecordWidgetComponent implements OnInit {
         this.timeRecords = data.data
         this.paginator.total = data.total
         this.todaySeconds = data.adds.totalDuration
-      },
-      error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
       }
     })
   }

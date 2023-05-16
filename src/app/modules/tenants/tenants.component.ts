@@ -65,7 +65,7 @@ export class TenantsComponent implements OnInit {
         this.dataSource.paginator = this.paginator
       }),
       catchError((error) => {
-        return of([]) // Return an empty array on error
+        return of([])
       }),
       finalize(() => {
         this.loading$.next(false)
