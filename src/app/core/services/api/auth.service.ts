@@ -44,12 +44,14 @@ export class AuthService {
     localStorage.setItem('auth_token', token)
   }
 
-  private setCurrentUser(user: User): void {
+  public setCurrentUser(user: User): void {
+    console.log('setCurrentUser', user)
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
   public getCurrentUser(): User {
     const user = localStorage.getItem('currentUser')
+    console.log('getCurrentUser', user)
     return user ? JSON.parse(user) : null
   }
 

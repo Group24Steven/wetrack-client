@@ -45,7 +45,7 @@ export class LayoutSidenavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.auth.getCurrentUser()
+    this.loadUser()
   }
 
   ngOnDestroy(): void {
@@ -71,8 +71,13 @@ export class LayoutSidenavComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe((value) => {
-
+    dialogRef.afterClosed().subscribe((value) => { 
+      if (!value) return  
+      this.loadUser()
     })
+  }
+
+  loadUser() {
+    this.currentUser = this.auth.getCurrentUser()
   }
 }

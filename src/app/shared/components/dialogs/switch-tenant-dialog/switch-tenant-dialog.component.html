@@ -5,7 +5,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <form [formGroup]="form" class="flex flex-col w-full">
+  <form [formGroup]="form" (ngSubmit)="updateUser()" class="flex flex-col w-full">
     <mat-form-field class="w-full" appearance="fill">
       <mat-label>Auswahl Tenant</mat-label>
       <mat-select formControlName="tenantId">
@@ -16,7 +16,7 @@
     </mat-form-field>
     <div class="flex justify-between">
       <div></div>
-      <button mat-raised-button type="submit" color="primary">Speichern</button>
+      <button mat-raised-button [disabled]="!form.valid" type="submit" color="primary">Speichern</button>
     </div>
   </form>
 </div>
