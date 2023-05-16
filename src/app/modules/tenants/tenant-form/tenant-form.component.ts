@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -23,6 +23,7 @@ import { Tenant } from 'src/app/core/models/tenant'
   ],
   templateUrl: './tenant-form.component.html',
   styleUrls: ['./tenant-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TenantFormComponent {
   _tenantId: number | null = null
@@ -87,6 +88,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.successEvent.emit()
       },
       error: (err: HttpErrorResponse) => {
         this.notificationService.showError(err.error.message)
@@ -103,6 +105,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.successEvent.emit()
       },
       error: (err: HttpErrorResponse) => {
         this.notificationService.showError(err.error.message)

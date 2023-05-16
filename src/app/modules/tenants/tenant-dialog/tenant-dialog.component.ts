@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TenantFormComponent } from '../tenant-form/tenant-form.component';
@@ -13,7 +13,8 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
   standalone: true,
   imports: [CommonModule, MatDialogModule, TenantFormComponent, MatIconModule, MatButtonModule, HeadlineTwoComponent, ProgressBarComponent],
   templateUrl: './tenant-dialog.component.html',
-  styleUrls: ['./tenant-dialog.component.scss']
+  styleUrls: ['./tenant-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TenantDialogComponent {
   tenantId: null | number = null
@@ -24,5 +25,6 @@ export class TenantDialogComponent {
   }
 
   closeDialogWithSuccess(): void {
+    this.dialogRef.close(true)
   }
 }

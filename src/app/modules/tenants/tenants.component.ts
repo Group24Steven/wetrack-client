@@ -40,7 +40,7 @@ export class TenantsComponent implements OnInit {
   constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.loadUsers()
+    this.load()
   }
 
   openTenantForm(data?: number): void {
@@ -51,12 +51,12 @@ export class TenantsComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe((value: any) => {
-      if (value === undefined || Object.keys(value).length < 1) return
-      // this.createTenant(value)
+      if (!value) return
+      this.load()
     })
   }
 
-  private loadUsers(): void {
+  private load(): void {
     this.loading$.next(true)
 
     this.tenantService.index().pipe(
@@ -64,16 +64,13 @@ export class TenantsComponent implements OnInit {
         this.dataSource.data = tenants
         this.dataSource.paginator = this.paginator
       }),
-      catchError((error) => {
+      catchError((err: HttpErrorResponse) => {
+        this.notificationService.showError(err.error.message)
         return of([])
       }),
       finalize(() => {
         this.loading$.next(false)
       })
-    ).subscribe({
-      error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
-      }
-    })
+    ).subscribe()
   }
 }

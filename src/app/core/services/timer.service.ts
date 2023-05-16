@@ -16,7 +16,7 @@ export class TimerService {
   timerRunning$ = this.timerRunningSubject.asObservable()
 
   constructor(private timerCmdService: TimerCmdService) {
-    this.resetTimerService()
+    this.removeLocalStorageTimer()
     this.initializeTimer()
   }
 
@@ -68,8 +68,7 @@ export class TimerService {
     if (storedTimer) {
       this.startTime = storedTimer.startTime
       this.endTime = storedTimer.endTime
-      console.log('initializedTimer: ' + storedTimer, !storedTimer.endTime)
-      this.timerRunningSubject.next(!!storedTimer.endTime)
+      this.timerRunningSubject.next(!storedTimer.endTime)
     } else {
       this.fetchTimer()
     }
@@ -80,7 +79,7 @@ export class TimerService {
       map((response: any) => response.data)
     ).subscribe({
       next: (timerData: any) => {
-        if (!!timerData.id) {
+        if (!timerData.id) {
           this.removeLocalStorageTimer()
           return
         }
@@ -90,7 +89,7 @@ export class TimerService {
 
         this.startTime = timer!.startTime
         this.endTime = timer!.endTime
-        this.timerRunningSubject.next(!!timer.endTime)
+        this.timerRunningSubject.next(!timer.endTime)
       },
     })
   }
