@@ -43,6 +43,10 @@ body {
   font-size: 100% !important;
 }
 
+.mat-mdc-card {
+  overflow: auto;
+}
+
 .form {
   min-width: 10rem;
   max-width: 30rem;

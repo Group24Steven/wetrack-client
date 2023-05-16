@@ -17,11 +17,12 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
 import { TimerService } from 'src/app/core/services/timer.service';
 import { TimeRecordType } from '../../../../core/enums/time-record-type';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-task-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, HeadlineTwoComponent, ProgressBarComponent],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent],
   templateUrl: './task-widget.component.html',
   styleUrls: ['./task-widget.component.scss']
 })

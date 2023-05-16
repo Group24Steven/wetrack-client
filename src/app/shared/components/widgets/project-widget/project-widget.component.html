@@ -4,8 +4,8 @@
   </mat-card-header>
   <mat-card-content>
     <mat-list>
-      <mat-list-item matRipple *ngFor="let project of projects">
-        <i matListItemIcon class="material-icons-outlined text-gray-500">workspaces</i>
+      <mat-list-item matRipple *ngFor="let project of projects" class="hover:bg-stone-50">
+        <i matListItemIcon class="material-icons-outlined text-stone-500">workspaces</i>
         <div matListItemTitle>{{project.name}}</div>
         <div matListItemLine>{{project.updated}}</div>
       </mat-list-item>

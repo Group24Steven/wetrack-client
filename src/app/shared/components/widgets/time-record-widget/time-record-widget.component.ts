@@ -23,6 +23,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-timer-widget',
@@ -38,6 +39,7 @@ import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
     MatPaginatorModule,
     MatDialogModule,
     MatDividerModule,
+    MatRippleModule,
     HeadlineTwoComponent,
     ProgressBarComponent,
     DurationPipe,

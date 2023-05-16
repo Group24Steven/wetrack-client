@@ -7,6 +7,10 @@
   background-color: white !important;
 }
 
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: #fafaf9;
+}
+
 .mat-column-id {
   max-width: 64px;
 }
