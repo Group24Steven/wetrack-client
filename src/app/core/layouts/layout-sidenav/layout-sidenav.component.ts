@@ -45,6 +45,7 @@ export class LayoutSidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.auth.getCurrentUser()
+    console.log(this.currentUser)
   }
 
   ngOnDestroy(): void {

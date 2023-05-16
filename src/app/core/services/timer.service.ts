@@ -16,7 +16,6 @@ export class TimerService {
   timerRunning$ = this.timerRunningSubject.asObservable()
 
   constructor(private timerCmdService: TimerCmdService) {
-    this.removeLocalStorageTimer()
     this.initializeTimer()
   }
 

@@ -21,7 +21,8 @@ export class AuthService {
     return this.httpClient.post<LoginResponse>(environment.apiUrl + '/login', { 'email': email, 'password': password }).pipe(
       tap((response) => {
         this.setAuthToken(response.auth_token)
-        this.setCurrentUser(response.user)
+        const user = new User(response.user)
+        this.setCurrentUser(user)
       })
     )
   }

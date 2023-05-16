@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TimerService } from '../../../../../core/services/timer.service';
@@ -15,7 +15,8 @@ import { TimeTrackerDialogComponent } from '../../../dialogs/time-tracker-dialog
   standalone: true,
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
-  imports: [CommonModule, MatIconModule, MatButtonModule, DurationWithSecondsPipe]
+  imports: [CommonModule, MatIconModule, MatButtonModule, DurationWithSecondsPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit {
 

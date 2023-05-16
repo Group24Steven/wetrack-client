@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TimerTrackerComponent } from '../../assistants/time-tracker/time-tracker.component';
@@ -11,7 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, TimerTrackerComponent, HeadlineTwoComponent],
   templateUrl: './time-tracker-dialog.component.html',
-  styleUrls: ['./time-tracker-dialog.component.scss']
+  styleUrls: ['./time-tracker-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimeTrackerDialogComponent {
 
