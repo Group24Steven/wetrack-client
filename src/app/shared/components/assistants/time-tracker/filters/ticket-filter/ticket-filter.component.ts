@@ -73,7 +73,7 @@ export class TicketFilterComponent extends BaseFilterComponent {
       map((response: any) => List<Ticket>(response.data ? response.data.data : [])),
       finalize(() => this.loadingEnd.emit()),
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
         return of(List<Ticket>())
       })
     )

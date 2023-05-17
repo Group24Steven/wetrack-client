@@ -58,7 +58,7 @@ export class LayoutSidenavComponent implements OnInit {
         this.router.navigate(['/login'])
       },
       error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
       }
     })
   }

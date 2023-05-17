@@ -5,7 +5,7 @@
     </button>
   </div>
   <div class="flex-1 flex">
-    <span class="text-5xl font-thin">{{ timer$ | async | durationWithSeconds}}</span>
+    <span class="text-5xl">{{ timer$ | async | durationWithSeconds}}</span>
   </div>
   <div class="flex-1 flex justify-center">
     <button *ngIf="timerService.endTime; else startTemplate" mat-mini-fab color="accent" (click)="openTimeTrackingDialog()">

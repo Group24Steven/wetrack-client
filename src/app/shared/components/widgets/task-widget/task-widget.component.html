@@ -2,22 +2,29 @@
   <mat-card-header class="mb-4">
     <app-headline-two title="Aufgaben"></app-headline-two>
   </mat-card-header>
-  <mat-card-content>
-    <mat-list>
-      <mat-list-item matRipple *ngFor="let task of tasks" class="hover:bg-stone-50" (click)="openTimeTrackingDialog(task.id)">
-        <i matListItemIcon class="material-icons-outlined text-stone-500">task</i>
-        <div matListItemTitle>{{task!.subject}}</div>
-        <div matListItemLine *ngIf="task!.lastModifiedDate"><span
-            class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
-        </div>
-        <div matListItemMeta>
-          <button mat-icon-button>
-            <i class="material-icons-outlined">playlist_add</i>
-          </button>
-        </div>
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
+  <mat-list>
+    <mat-list-item matRipple *ngFor="let task of tasks" class="hover:bg-stone-50"
+      (click)="openTimeTrackingDialog(task.id)">
+      <i matListItemIcon class="material-icons-outlined text-stone-500">task</i>
+      <div matListItemTitle>{{task!.subject}}</div>
+      <div matListItemLine *ngIf="task!.lastModifiedDate"><span
+          class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
+      </div>
+      <div matListItemMeta>
+        <button mat-icon-button>
+          <i class="material-icons-outlined">playlist_add</i>
+        </button>
+      </div>
+    </mat-list-item>
+    <mat-list-item matRipple *ngIf="!tasks || tasks.length === 0" class="hover:bg-stone-50" (click)="loadTasks()">
+      <div matListItemTitle>Keine Einträge gefunden</div>
+      <div matListItemMeta>
+        <button mat-icon-button>
+          <i class="material-icons-outlined">refresh</i>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
   <mat-card-footer>
     <mat-paginator [length]="paginator.total" [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
       (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>

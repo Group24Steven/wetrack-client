@@ -19,7 +19,6 @@ import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
 import { TimerComponent } from './timer/timer.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
@@ -34,7 +33,6 @@ import { MatRippleModule } from '@angular/material/core';
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatDialogModule,
@@ -94,6 +92,8 @@ export class TimeRecordWidgetComponent implements OnInit {
   }
 
   loadTimeRecords() {
+    if (this.loading$.value) return
+
     this.loading$.next(true)
 
     const params: RequestSearchParams = {
@@ -105,7 +105,7 @@ export class TimeRecordWidgetComponent implements OnInit {
 
     this.timeRecordService.index(params, this.paginator).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
         return of([])
       }),
       finalize(() => this.loading$.next(false))

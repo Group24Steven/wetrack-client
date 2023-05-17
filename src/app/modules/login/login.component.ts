@@ -68,7 +68,7 @@ export class LoginComponent implements AfterViewInit {
         this.router.navigate(['/dashboard'])
       },
       error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
+        this.notificationService.showError(err.message)
       }
     })
   }

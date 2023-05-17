@@ -91,7 +91,7 @@ export class TenantFormComponent {
         this.successEvent.emit()
       },
       error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
+        this.notificationService.showError(err.message)
       }
     })
   }
@@ -108,7 +108,7 @@ export class TenantFormComponent {
         this.successEvent.emit()
       },
       error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
+        this.notificationService.showError(err.message)
       }
     })
   }
@@ -125,7 +125,7 @@ export class TenantFormComponent {
         this.tenantForm.patchValue(data.data)
       },
       error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
+        this.notificationService.showError(err.message)
       }
     })
   }

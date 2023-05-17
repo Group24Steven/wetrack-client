@@ -35,12 +35,16 @@ body {
 
 body {
   margin: 0;
-  font-family: Inter, "Helvetica Neue", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 // weird icon button bug 
 .mdc-icon-button {
   font-size: 100% !important;
+}
+
+.mdc-list-item__start {
+  color: #78716c !important;
 }
 
 .mat-mdc-card {

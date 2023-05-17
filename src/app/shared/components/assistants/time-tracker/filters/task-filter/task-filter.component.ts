@@ -46,7 +46,7 @@ export class TaskFilterComponent extends BaseFilterComponent implements OnInit {
       map((response: any) => response.data ? response.data.data : []),
       finalize(() => this.loadingEnd.emit()),
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
         return of([])
       })
     )

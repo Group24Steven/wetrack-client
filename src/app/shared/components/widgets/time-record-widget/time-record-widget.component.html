@@ -18,8 +18,7 @@
       <div class="flex justify-between items-center mt-4 mb-4 h-24">
         <div class="flex-1 flex justify-center">
           <li class="list-none text-center">
-            <ul><span class="text-3xl font-thin">{{todaySeconds | duration}}</span></ul>
-            <ul><span class="">{{today | date}}</span></ul>
+            <ul><span class="text-4xl">{{todaySeconds | duration}}</span></ul>
           </li>
         </div>
         <div class="flex-1 flex justify-center">
@@ -36,16 +35,27 @@
         </div>
       </div>
     </ng-template>
-
-    <mat-list>
-      <mat-list-item matRipple *ngFor="let time of timeRecords" class="hover:bg-stone-50">
-        <i matListItemIcon class="material-icons-outlined text-stone-500">timer</i>
-        <div matListItemTitle>{{time.task!.subject | truncate}}</div>
-        <div matListItemLine><span>{{time.description | truncate}}</span></div>
-        <div matListItemMeta><span>{{time.durationSeconds | duration}}</span></div>
-      </mat-list-item>
-    </mat-list>
+    <div></div>
   </mat-card-content>
+
+  <mat-list>
+    <div mat-subheader>{{today | date}}</div>
+    <mat-list-item matRipple *ngFor="let time of timeRecords" class="hover:bg-stone-50">
+      <i matListItemIcon class="material-icons-outlined text-stone-500">timer</i>
+      <div matListItemTitle>{{time.task!.subject | truncate}}</div>
+      <div matListItemLine><span>{{time.description | truncate}}</span></div>
+      <div matListItemMeta><span>{{time.durationSeconds | duration}}</span></div>
+    </mat-list-item>
+    <mat-list-item matRipple *ngIf="!timeRecords || timeRecords.length === 0" class="hover:bg-stone-50" (click)="loadTimeRecords()">
+      <div matListItemTitle>Keine Einträge gefunden</div>
+      <div matListItemMeta>
+        <button mat-icon-button>
+          <i class="material-icons-outlined">refresh</i>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+
 
   <mat-card-footer>
     <mat-paginator [length]="paginator.total" [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"

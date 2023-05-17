@@ -75,7 +75,7 @@ export class SwitchTenantDialogComponent {
         this.dialogRef.close(true)
       },
       error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
       }
     })
   }
@@ -90,7 +90,7 @@ export class SwitchTenantDialogComponent {
         this.formTenantId.setValue(this._activeTenant.id)
       },
       error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
       }
     })
   }

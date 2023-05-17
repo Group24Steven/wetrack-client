@@ -37,7 +37,7 @@ export class TaskWidgetComponent implements OnInit {
 
   loading$ = new BehaviorSubject<boolean>(false)
 
-  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog, private timerService: TimerService) { }
+  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadTasks()
@@ -49,13 +49,14 @@ export class TaskWidgetComponent implements OnInit {
   }
 
   loadTasks() {
+    if (this.loading$.value) return 
     this.loading$.next(true)
 
     const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
 
     this.taskService.index(params, this.paginator).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.error.message)
+        this.notificationService.showError(error.message)
         return of([])
       }),
       finalize(() => this.loading$.next(false))

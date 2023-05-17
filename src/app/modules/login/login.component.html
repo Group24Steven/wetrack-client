@@ -1,44 +1,46 @@
-<mat-card>
-  <div class="flex justify-center pt-4">
-    <img class="w-64 h-64 " src="assets/logo/logo_text.svg" alt="Your Logo" />
-  </div>
+<div class="flex justify-center items-center h-full p-4 bg-emerald-200">
+  <mat-card>
+    <div class="flex justify-center pt-4">
+      <img class="w-64 h-64 " src="assets/logo/logo_text.svg" alt="Your Logo" />
+    </div>
 
-  <mat-card-header>
-    <app-headline-two class="pb-4 px-4" title="Anmelden"></app-headline-two>
-  </mat-card-header>
+    <mat-card-header>
+      <app-headline-two class="pb-4" title="Anmelden"></app-headline-two>
+    </mat-card-header>
 
-  <mat-card-content>
-    <form class="form pb-8 px-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <form class="form pb-8" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <mat-form-field class="w-full">
-        <mat-label>E-Mail</mat-label>
-        <input matInput type="text" formControlName="email">
-        <mat-error *ngIf="emailControl?.hasError('required')">
-          <span class="text-xs">Email ist ein<strong>Pflichtfeld</strong></span>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>E-Mail</mat-label>
+          <input matInput type="text" formControlName="email">
+          <mat-error *ngIf="emailControl?.hasError('required')">
+            <span class="text-xs">Email ist ein <strong>Pflichtfeld</strong></span>
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="w-full">
-        <mat-label>Passwort</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        <mat-error *ngIf="passwordControl?.hasError('required')">
-          <span class="text-xs">Passwort ist ein<strong>Pflichtfeld</strong></span>
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Passwort</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="passwordControl?.hasError('required')">
+            <span class="text-xs">Passwort ist ein <strong>Pflichtfeld</strong></span>
+          </mat-error>
+        </mat-form-field>
 
-      <div class="flex justify-between mb-2">
-        <a mat-button color="primary">Passwort vergessen?</a>
-        <button mat-raised-button #submitButton color="primary" type="submit"
-          [disabled]="!loginForm.valid">Einloggen</button>
-      </div>
+        <div class="flex justify-between mb-2">
+          <a mat-button color="primary">Passwort vergessen?</a>
+          <button mat-raised-button #submitButton color="primary" type="submit"
+            [disabled]="!loginForm.valid">Einloggen</button>
+        </div>
 
-    </form>
-  </mat-card-content>
-  <mat-card-footer>
-    <app-progress-bar [loading$]="loading$"></app-progress-bar>
-  </mat-card-footer>
-</mat-card>
+      </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <app-progress-bar [loading$]="loading$"></app-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</div>
