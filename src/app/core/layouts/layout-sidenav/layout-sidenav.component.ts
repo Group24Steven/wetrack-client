@@ -74,6 +74,7 @@ export class LayoutSidenavComponent implements OnInit {
     dialogRef.afterClosed().subscribe((value) => { 
       if (!value) return  
       this.loadUser()
+      window.location.reload()
     })
   }
 
