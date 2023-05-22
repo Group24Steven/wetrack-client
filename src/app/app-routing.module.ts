@@ -33,6 +33,14 @@ const routes: Routes = [
     loadComponent: () => import('./modules/tenants/tenants.component').then((m) => m.TenantsComponent),
   },
   {
+    path: 'users',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/users/users.component').then((m) => m.UsersComponent),
+  },
+  {
     path: '**',
     title: '404',
     data: {
