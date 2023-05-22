@@ -24,7 +24,7 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
   standalone: true,
   imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent],
   templateUrl: './tenants.component.html',
-  styleUrls: ['./tenants.component.scss']
+  styleUrls: ['./tenants.component.scss'],
 })
 
 export class TenantsComponent implements OnInit {

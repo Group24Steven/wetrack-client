@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core'
+import { Component, Output, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -7,25 +7,25 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { TenantService } from '../../../core/services/api/tenant.service';
 import { HttpErrorResponse } from '@angular/common/http'
 import { NotificationService } from '../../../core/services/notification.service';
 import { finalize } from 'rxjs'
-import { Tenant } from 'src/app/core/models/tenant'
+import { UserService } from 'src/app/core/services/api/user.service'
+import { User } from 'src/app/core/models/user'
 
 @Component({
-  selector: 'app-tenant-form',
+  selector: 'app-user-form',
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule,
     MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule,
     ProgressBarComponent
   ],
-  templateUrl: './tenant-form.component.html',
-  styleUrls: ['./tenant-form.component.scss'],
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TenantFormComponent {
+export class UserFormComponent {
   _id: number | null = null
 
   form: FormGroup
@@ -48,24 +48,18 @@ export class TenantFormComponent {
   }
 
   get emailControl() {
+    return this.form.get('name')
+  }
+
+  get nameControl() {
     return this.form.get('email')
   }
 
-  get weclappTokenControl() {
-    return this.form.get('weclappToken')
-  }
-
-  get weclappUrlControl() {
-    return this.form.get('weclappUrl')
-  }
-
-  constructor(private formBuilder: FormBuilder, private tenantService: TenantService, private notificationService: NotificationService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private notificationService: NotificationService) {
     this.form = this.formBuilder.group({
       id: [''],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      weclappToken: ['', Validators.required],
-      weclappUrl: ['', Validators.required],
     })
   }
 
@@ -79,10 +73,10 @@ export class TenantFormComponent {
   }
 
 
-  private create(data: Tenant): void {
+  private create(data: User): void {
     this.startLoadingEvent.emit()
 
-    this.tenantService.store(data).pipe(
+    this.userService.store(data).pipe(
       finalize(() => {
         this.stopLoadingEvent.emit()
       })
@@ -96,10 +90,10 @@ export class TenantFormComponent {
     })
   }
 
-  private update(data: Tenant): void {
+  private update(data: User): void {
     this.startLoadingEvent.emit()
 
-    this.tenantService.update(data.id, data).pipe(
+    this.userService.update(data.id, data).pipe(
       finalize(() => {
         this.stopLoadingEvent.emit()
       })
@@ -116,16 +110,16 @@ export class TenantFormComponent {
   private getData(id: number): void {
     this.startLoadingEvent.emit()
 
-    this.tenantService.show(id).pipe(
+    this.userService.show(id).pipe(
       finalize(() => {
         this.stopLoadingEvent.emit()
       })
     ).subscribe({
       next: (data: any) => {
-        console.log(data)
         this.form.patchValue(data.data)
       },
       error: (error: HttpErrorResponse) => {
+        console.log(error)
         this.notificationService.showError(error.error.message)
       }
     })

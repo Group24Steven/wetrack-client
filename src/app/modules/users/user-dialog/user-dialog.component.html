@@ -6,6 +6,6 @@
   </button>
 </div>
 <div class="p-4">
-  <app-tenant-form [id]="id" (successEvent)="closeDialogWithSuccess()" (startLoadingEvent)="loading$.next(true)" (stopLoadingEvent)="loading$.next(false)"></app-tenant-form>
+  <app-user-form [id]="id" (successEvent)="closeDialogWithSuccess()" (startLoadingEvent)="loading$.next(true)" (stopLoadingEvent)="loading$.next(false)"></app-user-form>
 </div>
 <app-progress-bar [loading$]="loading$"></app-progress-bar>

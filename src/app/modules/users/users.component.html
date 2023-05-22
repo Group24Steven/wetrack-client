@@ -10,25 +10,25 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-table [dataSource]="dataSource" matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
+      <mat-table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc">
 
         <ng-container matColumnDef="id">
           <mat-header-cell mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element?.id}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="name">
           <mat-header-cell mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element?.name}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="email">
           <mat-header-cell mat-header-cell *matHeaderCellDef>E-Mail</mat-header-cell>
-          <mat-cell mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+          <mat-cell mat-cell *matCellDef="let element"> {{element?.email}} </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row matRipple *matRowDef="let row; columns: displayedColumns;" (click)="openForm(row.id)"></mat-row>
+        <mat-row matRipple *matRowDef="let row; columns: displayedColumns;" (click)="openForm(row?.id)"></mat-row>
       </mat-table>
 
     </mat-card-content>

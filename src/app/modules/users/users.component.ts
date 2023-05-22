@@ -18,6 +18,7 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 import { User } from 'src/app/core/models/user'
 import { UserService } from 'src/app/core/services/api/user.service'
 import { RequestPaginator } from 'src/app/core/services/api/base-api.service'
+import { UserDialogComponent } from './user-dialog/user-dialog.component'
 
 @Component({
   selector: 'app-users',
@@ -50,8 +51,8 @@ export class UsersComponent implements OnInit {
   }
 
   openForm(data?: number): void {
-    /** 
-    const dialogRef: MatDialogRef<TenantDialogComponent> = this.dialog.open(TenantDialogComponent, {
+
+    const dialogRef: MatDialogRef<UserDialogComponent> = this.dialog.open(UserDialogComponent, {
       width: '400px', data: {
         id: data
       }
@@ -60,7 +61,7 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((value: any) => {
       if (!value) return
       this.load()
-    })*/
+    })
   }
 
   onPageChange(event: any) {
@@ -77,7 +78,7 @@ export class UsersComponent implements OnInit {
       }),
       map((response: any) => {
         return response.data.data
-      }), 
+      }),
       catchError((error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
         return of([])
@@ -86,8 +87,8 @@ export class UsersComponent implements OnInit {
         this.loading$.next(false)
       })
     ).subscribe({
-      next: (users: User[]) => {
-        this.dataSource.data = users 
+      next: (data: any[]) => {
+        this.dataSource.data = data
       }
     })
   }
