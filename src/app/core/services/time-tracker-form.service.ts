@@ -26,7 +26,6 @@ export class TimeTrackerAssistantService {
       startDate: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
-      title: ['', Validators.required],
       description: ['', Validators.required],
       taskId: [''],
       projectTaskId: [''],
@@ -70,10 +69,6 @@ export class TimeTrackerAssistantService {
   }
   get formDurationSeconds() {
     return this.form.get('durationSeconds')!
-  }
-
-  get formTitle() {
-    return this.form.get('title')!
   }
 
   get formDescription() {

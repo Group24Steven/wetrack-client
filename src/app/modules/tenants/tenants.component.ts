@@ -32,7 +32,7 @@ export class TenantsComponent implements OnInit {
   searchTerm = ''
   loading$ = new BehaviorSubject<boolean>(false)
 
-  displayedColumns: string[] = ['id', 'email', 'weclappUrl']
+  displayedColumns: string[] = ['id', 'name', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
 
   @ViewChild(MatPaginator) paginator: MatPaginator

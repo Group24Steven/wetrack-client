@@ -51,6 +51,10 @@ export class TenantFormComponent {
     return this.form.get('email')
   }
 
+  get nameControl() {
+    return this.form.get('email')
+  }
+
   get weclappTokenControl() {
     return this.form.get('weclappToken')
   }
@@ -88,6 +92,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.created')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -105,6 +110,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.updated')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -140,6 +146,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.deleted')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {

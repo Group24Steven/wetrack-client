@@ -1,10 +1,7 @@
 <form [formGroup]="form" class="flex flex-col w-full">
-  <mat-form-field>
+  <mat-form-field *ngIf="_id">
     <mat-label>Name</mat-label>
-    <input matInput formControlName="name" required="">
-    <mat-error *ngIf="emailControl?.hasError('name') && !emailControl?.hasError('required')">
-      <span class="text-xs">Please enter a valid email</span>
-    </mat-error>
+    <input matInput formControlName="name">
   </mat-form-field>
 
   <mat-form-field>

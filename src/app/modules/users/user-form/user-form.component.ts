@@ -58,7 +58,7 @@ export class UserFormComponent {
   constructor(private formBuilder: FormBuilder, private userService: UserService, private notificationService: NotificationService) {
     this.form = this.formBuilder.group({
       id: [''],
-      name: ['', Validators.required],
+      name: [''],
       email: ['', [Validators.required, Validators.email]],
     })
   }
@@ -82,6 +82,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.created')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -99,6 +100,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.updated')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -135,6 +137,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
+        this.notificationService.showSuccess('response.success.tenant.deleted')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {

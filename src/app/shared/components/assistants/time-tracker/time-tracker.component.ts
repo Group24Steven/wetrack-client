@@ -111,7 +111,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     this.loading$.next(true)
 
     const data: any = {
-      title: this.assistantService.formTitle.value,
+      title: this.assistantService.formDescription.value,
       description: this.assistantService.formDescription.value,
       durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,

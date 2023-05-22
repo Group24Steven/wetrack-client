@@ -34,7 +34,7 @@
     </mat-card-content>
     <mat-card-footer>
       <mat-paginator [length]="paginator.total" [pageSize]="paginator.pageSize" [pageIndex]="paginator.pageIndex"
-      (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
+      (page)="onPageChange($event)" hidePageSize="true" showFirstLastButtons="true"></mat-paginator>
       <app-progress-bar [loading$]="loading$"></app-progress-bar>
     </mat-card-footer>
   </mat-card>
