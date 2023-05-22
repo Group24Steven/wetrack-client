@@ -64,8 +64,8 @@ export class TenantsComponent implements OnInit {
         this.dataSource.data = tenants
         this.dataSource.paginator = this.paginator
       }),
-      catchError((err: HttpErrorResponse) => {
-        this.notificationService.showError(err.error.message)
+      catchError((error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
         return of([])
       }),
       finalize(() => {

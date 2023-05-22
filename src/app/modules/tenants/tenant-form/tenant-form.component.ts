@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { TenantService } from '../../../core/services/api/tenant.service';
 import { HttpErrorResponse } from '@angular/common/http'
 import { NotificationService } from '../../../core/services/notification.service';
-import { finalize } from 'rxjs'
+import { catchError, finalize, of } from 'rxjs'
 import { Tenant } from 'src/app/core/models/tenant'
 
 @Component({
@@ -90,8 +90,8 @@ export class TenantFormComponent {
       next: () => {
         this.successEvent.emit()
       },
-      error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.message)
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
       }
     })
   }
@@ -107,8 +107,8 @@ export class TenantFormComponent {
       next: () => {
         this.successEvent.emit()
       },
-      error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.message)
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
       }
     })
   }
@@ -124,8 +124,9 @@ export class TenantFormComponent {
       next: (data: any) => {
         this.tenantForm.patchValue(data.data)
       },
-      error: (err: HttpErrorResponse) => {
-        this.notificationService.showError(err.message)
+      error: (error: HttpErrorResponse) => {
+        console.log(error)
+        this.notificationService.showError(error.error.message)
       }
     })
   }

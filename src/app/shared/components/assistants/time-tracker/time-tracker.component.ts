@@ -133,7 +133,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
-        this.notificationService.showError(error.message)
+        this.notificationService.showError(error.error.message)
       }
     })
   }

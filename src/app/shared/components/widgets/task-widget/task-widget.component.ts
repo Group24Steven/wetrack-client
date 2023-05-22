@@ -56,7 +56,7 @@ export class TaskWidgetComponent implements OnInit {
 
     this.taskService.index(params, this.paginator).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.message)
+        this.notificationService.showError(error.error.message)
         return of([])
       }),
       finalize(() => this.loading$.next(false))

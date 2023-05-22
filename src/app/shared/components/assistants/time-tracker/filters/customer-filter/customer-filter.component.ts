@@ -74,7 +74,7 @@ export class CustomerFilterComponent extends BaseFilterComponent {
       map((response: any) => List<Customer>(response.data ? response.data.data : [])),
       finalize(() => this.loadingEnd.emit()),
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.message)
+        this.notificationService.showError(error.error.message)
         return of(List<Customer>())
       })
     )

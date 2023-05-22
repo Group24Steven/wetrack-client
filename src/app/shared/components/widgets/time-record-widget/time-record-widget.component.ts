@@ -105,7 +105,7 @@ export class TimeRecordWidgetComponent implements OnInit {
 
     this.timeRecordService.index(params, this.paginator).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.notificationService.showError(error.message)
+        this.notificationService.showError(error.error.message)
         return of([])
       }),
       finalize(() => this.loading$.next(false))
