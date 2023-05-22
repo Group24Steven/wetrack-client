@@ -119,7 +119,25 @@ export class UserFormComponent {
         this.form.patchValue(data.data)
       },
       error: (error: HttpErrorResponse) => {
-        console.log(error)
+        this.notificationService.showError(error.error.message)
+      }
+    })
+  }
+
+  public delete(): void {
+    if (!this._id) return 
+    
+    this.startLoadingEvent.emit()
+
+    this.userService.delete(this._id).pipe(
+      finalize(() => {
+        this.stopLoadingEvent.emit()
+      })
+    ).subscribe({
+      next: () => {
+        this.successEvent.emit()
+      },
+      error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
       }
     })
