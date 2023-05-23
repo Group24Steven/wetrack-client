@@ -1,8 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
-import { BehaviorSubject, catchError, finalize, map, of, tap } from 'rxjs'
+import { BehaviorSubject, Subscription, catchError, finalize, map, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
@@ -19,6 +19,7 @@ import { User } from 'src/app/core/models/user'
 import { UserService } from 'src/app/core/services/api/user.service'
 import { RequestPaginator } from 'src/app/core/services/api/base-api.service'
 import { UserDialogComponent } from './user-dialog/user-dialog.component'
+import { AppEventService } from 'src/app/core/services/app-event.service'
 
 @Component({
   selector: 'app-users',
@@ -28,7 +29,7 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component'
   styleUrls: ['./users.component.scss']
 })
 
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   searchTerm = ''
   loading$ = new BehaviorSubject<boolean>(false)
@@ -42,12 +43,18 @@ export class UsersComponent implements OnInit {
     total: 0,
   }
 
+  updateSubscription?: Subscription
   @ViewChild(MatPaginator) matPaginator: MatPaginator
 
-  constructor(private userService: UserService, private dialog: MatDialog, private notificationService: NotificationService) { }
+  constructor(private userService: UserService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) { }
 
   ngOnInit(): void {
-    this.load()
+    this.loadData()
+    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadData())
+  }
+
+  ngOnDestroy(): void {
+    this.updateSubscription?.unsubscribe()
   }
 
   openForm(data?: number): void {
@@ -60,16 +67,16 @@ export class UsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((value: any) => {
       if (!value) return
-      this.load()
+      this.loadData()
     })
   }
 
   onPageChange(event: any) {
     this.paginator.pageIndex = event.pageIndex
-    this.load()
+    this.loadData()
   }
 
-  private load(): void {
+  private loadData(): void {
     this.loading$.next(true);
 
     this.userService.index({}, this.paginator).pipe(

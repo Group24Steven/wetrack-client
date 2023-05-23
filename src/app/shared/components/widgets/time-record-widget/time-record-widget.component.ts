@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 import { TimeRecordService } from 'src/app/core/services/api/time-record.service';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
-import { BehaviorSubject, catchError, finalize, of } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DurationPipe } from 'src/app/shared/pipes/duration.pipe';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -23,34 +23,17 @@ import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-bu
 import { MatDividerModule } from '@angular/material/divider';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { MatRippleModule } from '@angular/material/core';
+import { AppEventService } from '../../../../core/services/app-event.service';
 
 @Component({
   selector: 'app-timer-widget',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatListModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatRippleModule,
-    HeadlineTwoComponent,
-    ProgressBarComponent,
-    DurationPipe,
-    WorkPercentPipe,
-    TruncatePipe,
-    TimerComponent,
-    ToggleButtonComponent,
-  ],
+  imports: [CommonModule, MatCardModule, MatListModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule, MatDividerModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, DurationPipe, WorkPercentPipe, TruncatePipe, TimerComponent, ToggleButtonComponent,],
   templateUrl: './time-record-widget.component.html',
   styleUrls: ['./time-record-widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimeRecordWidgetComponent implements OnInit {
+export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
 
   paginator: RequestPaginator = {
     pageIndex: 0,
@@ -65,14 +48,20 @@ export class TimeRecordWidgetComponent implements OnInit {
   todaySeconds = 0
 
   loading$ = new BehaviorSubject<boolean>(false)
+  updateSubscription?: Subscription
 
-  constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, private dialog: MatDialog) {
+  constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) {
     const now = new Date()
     this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 1)
   }
 
   ngOnInit(): void {
     this.loadTimeRecords()
+    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTimeRecords())
+  }
+
+  ngOnDestroy(): void {
+    this.updateSubscription?.unsubscribe()
   }
 
   openTimeTrackingDialog() {

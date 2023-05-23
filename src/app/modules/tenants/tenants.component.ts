@@ -18,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
+import { AppEventService } from '../../core/services/app-event.service';
 
 @Component({
   selector: 'app-tenants',
@@ -37,7 +38,7 @@ export class TenantsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService) { }
+  constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) { }
 
   ngOnInit(): void {
     this.load()
@@ -52,6 +53,7 @@ export class TenantsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((value: any) => {
       if (!value) return
+      this.eventService.notifyUserUpdated()
       this.load()
     })
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -16,6 +16,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SwitchTenantDialogComponent } from 'src/app/shared/components/dialogs/switch-tenant-dialog/switch-tenant-dialog.component';
+import { AppEventService } from '../../services/app-event.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout-sidenav',
@@ -30,26 +32,35 @@ import { SwitchTenantDialogComponent } from 'src/app/shared/components/dialogs/s
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LayoutSidenavComponent implements OnInit {
+export class LayoutSidenavComponent implements OnInit, OnDestroy {
   mobileQuery: MediaQueryList
 
   currentUser: User | null = null
 
   private _mobileQueryListener: () => void
+  updateSubscription?: Subscription
 
-  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog) {
+  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog, private eventService: AppEventService,) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)')
     this._mobileQueryListener = () => changeDetectorRef.detectChanges()
     this.mobileQuery.addListener(this._mobileQueryListener)
-
   }
 
   ngOnInit(): void {
-    this.loadUser()
+    this.currentUser = this.auth.getCurrentUser()
+
+    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => {
+      this.auth.getUser().subscribe({
+        next: (user: User) => {
+          this.currentUser = user
+        }
+      })
+    })
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener)
+    this.updateSubscription?.unsubscribe()
   }
 
   logout() {
@@ -71,14 +82,9 @@ export class LayoutSidenavComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe((value) => { 
-      if (!value) return  
-      this.loadUser()
-      window.location.reload()
+    dialogRef.afterClosed().subscribe((value) => {
+      if (!value) return
+      this.eventService.notifyUserUpdated()
     })
-  }
-
-  loadUser() {
-    this.currentUser = this.auth.getCurrentUser()
   }
 }

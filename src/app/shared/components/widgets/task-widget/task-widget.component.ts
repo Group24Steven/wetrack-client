@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -6,7 +6,7 @@ import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-tw
 import { MatIconModule } from '@angular/material/icon';
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { Task } from 'src/app/core/models/task';
-import { BehaviorSubject, catchError, finalize, of } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TaskService } from 'src/app/core/services/api/task.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -15,9 +15,9 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
-import { TimerService } from 'src/app/core/services/timer.service';
 import { TimeRecordType } from '../../../../core/enums/time-record-type';
 import { MatRippleModule } from '@angular/material/core';
+import { AppEventService } from 'src/app/core/services/app-event.service';
 
 @Component({
   selector: 'app-task-widget',
@@ -26,7 +26,7 @@ import { MatRippleModule } from '@angular/material/core';
   templateUrl: './task-widget.component.html',
   styleUrls: ['./task-widget.component.scss']
 })
-export class TaskWidgetComponent implements OnInit {
+export class TaskWidgetComponent implements OnInit, OnDestroy {
   paginator: RequestPaginator = {
     pageIndex: 0,
     pageSize: 5,
@@ -36,11 +36,17 @@ export class TaskWidgetComponent implements OnInit {
   tasks?: Task[]
 
   loading$ = new BehaviorSubject<boolean>(false)
+  updateSubscription?: Subscription
 
-  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog) { }
+  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) { }
 
   ngOnInit(): void {
     this.loadTasks()
+    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTasks())
+  }
+
+  ngOnDestroy(): void {
+    this.updateSubscription?.unsubscribe()
   }
 
   onPageChange(event: any) {

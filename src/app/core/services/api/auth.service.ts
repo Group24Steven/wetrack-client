@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/user';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface LoginResponse {
   auth_token: string;
@@ -32,6 +33,17 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem('auth_token')
         localStorage.removeItem('user')
+      })
+    )
+  }
+
+  getUser(): Observable<User> {
+    return this.httpClient.get(environment.apiUrl + '/get-user').pipe(
+      map((response: any) => {
+        return new User(response.data)
+      }),
+      tap((user: User) => {
+        this.setCurrentUser(user)
       })
     )
   }
