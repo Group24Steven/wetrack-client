@@ -17,6 +17,13 @@ const routes: Routes = [
     loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'password-reset/:token',
+    data: {
+      layout: AppLayoutType.Center
+    },
+    loadComponent: () => import('./modules/password-reset/password-reset.component').then((m) => m.PasswordResetComponent),
+  },
+  {
     path: 'dashboard',
     canActivate: [authGuardFn({ redirectTo: ['/login'] })],
     data: {

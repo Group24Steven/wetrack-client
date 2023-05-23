@@ -1,0 +1,28 @@
+<form class="form" [formGroup]="form">
+
+  <mat-form-field class="w-full mb-2">
+    <mat-label>E-Mail</mat-label>
+    <input matInput type="text" formControlName="email">
+    <mat-error *ngIf="emailControl?.hasError('required')">
+      <span class="text-xs">Email ist ein <strong>Pflichtfeld</strong></span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="w-full mb-2">
+    <mat-label>Passwort</mat-label>
+    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error *ngIf="passwordControl?.hasError('required')">
+      <span class="text-xs">Passwort ist ein <strong>Pflichtfeld</strong></span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="flex justify-between">
+    <button mat-button color="primary" (click)="showResetPasswordEvent.emit()">Passwort vergessen?</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">Einloggen</button>
+  </div>  
+
+</form>

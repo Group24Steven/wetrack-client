@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/user';
-import { MatTableDataSource } from '@angular/material/table';
 
 interface LoginResponse {
   auth_token: string;
@@ -19,7 +18,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(environment.apiUrl + '/login', { 'email': email, 'password': password }).pipe(
+    return this.httpClient.post<LoginResponse>(environment.apiUrl + '/login', { email: email, password: password }).pipe(
       tap((response) => {
         this.setAuthToken(response.auth_token)
         const user = new User(response.user)
@@ -37,8 +36,21 @@ export class AuthService {
     )
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.httpClient.post(environment.apiUrl + '/password/forgot', { email: email })
+  }
+
+  resetPassword(email: string, password: string, token: string,): Observable<any> {
+    return this.httpClient.post(environment.apiUrl + '/password/reset', {
+      email: email,
+      password: password,
+      password_confirmation: password,
+      token: token,
+    })
+  }
+
   getUser(): Observable<User> {
-    return this.httpClient.get(environment.apiUrl + '/get-user').pipe(
+    return this.httpClient.get(environment.apiUrl + '/user').pipe(
       map((response: any) => {
         return new User(response.data)
       }),
@@ -48,12 +60,12 @@ export class AuthService {
     )
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token')
-  }
-
   private setAuthToken(token: string): void {
     localStorage.setItem('auth_token', token)
+  }
+
+  public isAuthenticated(): boolean {
+    return !!localStorage.getItem('auth_token')
   }
 
   public setCurrentUser(user: User): void {

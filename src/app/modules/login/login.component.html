@@ -1,44 +1,22 @@
 <div class="flex justify-center items-center h-full p-4 bg-teal-600">
 
-  <div class="rounded bg-white mat-elevation-z8">
-    <div class="md:py-12 md:px-20 px-4 py-8">
+  <div class="rounded bg-white mat-elevation-z8 sm:w-[620px] w-full">
+
+    <div class="sm:py-12 sm:px-20 px-4 py-8">
       <div class="flex justify-center mb-4">
         <img class="w-48 h-48 " src="assets/logo/logo_text.svg" />
       </div>
-  
+
       <div class="mb-4">
-        <app-headline-two title="Anmelden"></app-headline-two>
+        <app-headline-two *ngIf="!ressetingPassword" title="Anmelden"></app-headline-two>
+        <app-headline-two *ngIf="ressetingPassword" title="Passwort zurücksetzen"></app-headline-two>
       </div>
-  
-      <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  
-        <mat-form-field class="w-full mb-2">
-          <mat-label>E-Mail</mat-label>
-          <input matInput type="text" formControlName="email">
-          <mat-error *ngIf="emailControl?.hasError('required')">
-            <span class="text-xs">Email ist ein <strong>Pflichtfeld</strong></span>
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field class="w-full mb-2">
-          <mat-label>Passwort</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error *ngIf="passwordControl?.hasError('required')">
-            <span class="text-xs">Passwort ist ein <strong>Pflichtfeld</strong></span>
-          </mat-error>
-        </mat-form-field>
-  
-        <div class="flex justify-between">
-          <a mat-button color="primary">Passwort vergessen?</a>
-          <button mat-raised-button #submitButton color="primary" type="submit"
-            [disabled]="!loginForm.valid">Einloggen</button>
-        </div>
-  
-      </form>
+
+      <app-login-form *ngIf="!ressetingPassword" (successEvent)="handleLoginEvent()"
+        (loadingEvent)="handleLoadingEvent($event)"
+        (showResetPasswordEvent)="ressetingPassword = true"></app-login-form>
+      <app-password-forgot-form *ngIf="ressetingPassword" (showLoginEvent)="ressetingPassword = false"
+        (loadingEvent)="handleLoadingEvent($event)"></app-password-forgot-form>
     </div>
 
     <app-progress-bar [loading$]="loading$"></app-progress-bar>
