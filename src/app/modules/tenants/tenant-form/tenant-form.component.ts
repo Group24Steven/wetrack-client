@@ -93,7 +93,7 @@ export class TenantFormComponent {
     ).subscribe({
       next: () => {
         this.notificationService.showSuccess('response.success.tenant.created')
-        this.successEvent.emit()
+        this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
@@ -111,7 +111,7 @@ export class TenantFormComponent {
     ).subscribe({
       next: () => {
         this.notificationService.showSuccess('response.success.tenant.updated')
-        this.successEvent.emit()
+        this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
@@ -147,7 +147,7 @@ export class TenantFormComponent {
     ).subscribe({
       next: () => {
         this.notificationService.showSuccess('response.success.tenant.deleted')
-        this.successEvent.emit()
+        this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)

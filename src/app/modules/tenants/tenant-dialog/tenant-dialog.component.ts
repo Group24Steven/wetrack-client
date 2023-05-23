@@ -24,7 +24,7 @@ export class TenantDialogComponent {
     this.id = data.id
   }
 
-  closeDialogWithSuccess(): void {
-    this.dialogRef.close(true)
+  closeDialogWithSuccess(event: boolean): void {
+    this.dialogRef.close(event)
   }
 }
