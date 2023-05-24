@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '../../models/user';
 import { MatMenuModule } from '@angular/material/menu';
+import { WetrackHeadlineComponent } from '../../../shared/ui/wetrack-headline/wetrack-headline.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
     CommonModule, RouterModule,
-    MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, 
+    MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, WetrackHeadlineComponent
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
