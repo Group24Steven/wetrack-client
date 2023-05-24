@@ -1,4 +1,3 @@
 export const environment = {
-    apiUrl: 'http://localhost/api'
-  };
-  
+  apiUrl: 'https://wetrack.me/api'
+};
