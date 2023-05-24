@@ -19,10 +19,8 @@ export class AuthService {
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>(environment.apiUrl + '/login', { email: email, password: password }).pipe(
-      tap((response) => {
-        this.setAuthToken(response.auth_token)
-        const user = new User(response.user)
-        this.setCurrentUser(user)
+      tap((response: any) => {
+        this.handleLoginResponse(response)
       })
     )
   }
@@ -46,7 +44,11 @@ export class AuthService {
       password: password,
       password_confirmation: password,
       token: token,
-    })
+    }).pipe(
+      tap((response: any) => {
+        this.handleLoginResponse(response)
+      })
+    )
   }
 
   getUser(): Observable<User> {
@@ -79,5 +81,14 @@ export class AuthService {
 
   public static getAuthToken(): string | null {
     return localStorage.getItem('auth_token')
+  }
+
+  private handleLoginResponse(response: any): void {
+    if (!response.data) return
+    const data = response.data
+
+    this.setAuthToken(data.auth_token)
+    const user = new User(data.user)
+    this.setCurrentUser(user)
   }
 }
