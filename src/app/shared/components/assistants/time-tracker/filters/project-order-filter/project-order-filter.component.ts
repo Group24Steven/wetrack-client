@@ -69,7 +69,7 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
         return of(this.selectedOrder ? List<OrderItem>(this.selectedOrder.orderItems) : List<OrderItem>())
       })
     )
-    
+
     this.tasks = this.orderItemFormControl.valueChanges.pipe(
       tap((itemId: string) => {
         // Find the item with the provided id. We need to get items from the selected order.
@@ -83,26 +83,45 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
     )
   }
 
-   // An overridden method that writes value to a form control
+  // An overridden method that writes value to a form control
   // This method will resolve when the value is written to the control or when the operation is cancelled due to lack of necessary conditions
   override async writeValue(value: any): Promise<void> {
+
     // If value is not provided or projectOrders list is not initialized, exit the function
     if (!value || !this.projectOrders) return
 
     // Wait until the projectOrders are loaded
     await this.projectOrdersLoaded
+    
+    // Initialize found entities as undefined
+    let foundProjectOrder: any
+    let foundOrderItem: any
+    let foundTask: any
 
     // Go through each order in the list of projectOrders
     for (let projectOrder of this.projectOrders.toArray()) {
-      // Try to find a task in orderItems that matches the provided id
-      const task = projectOrder.orderItems?.find(task => task.id === value)
-      // If no task found, continue to the next projectOrder
-      if (!task) continue
-      // If a task is found, set the id of the projectOrder as the value of the orderFormControl
-      // and set the id of the task as the value of the formControl
-      this.orderFormControl.setValue(projectOrder.id)
-      this.formControl.setValue(task.id)
+      // Try to find an orderItem in the projectOrder that contains a task with the provided id
+      const orderItem = projectOrder.orderItems?.find(item => {
+        const task = item.tasks.find(task => task.id === value)
+        if (!task) return false
+
+        foundTask = task
+        return true
+      })
+
+      // If no orderItem found, continue to the next projectOrder
+      if (!orderItem) continue
+      // If an orderItem is found, set the found entities and break the loop
+      foundProjectOrder = projectOrder
+      foundOrderItem = orderItem
       break
+    }
+
+    // If all entities found, set the form controls
+    if (foundProjectOrder && foundOrderItem && foundTask) {
+      this.orderFormControl.setValue(foundProjectOrder.id)
+      this.orderItemFormControl.setValue(foundOrderItem.id)
+      this.formControl.setValue(foundTask.id)
     }
   }
 
@@ -110,7 +129,7 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
   load(): Observable<List<ProjectOrder>> {
     // Start loading animation
     this.loadingStart.emit()
-    
+
     // Define request parameters
     const params: RequestSearchParams = {
       properties: 'id,commission,orderNumber,orderItems.id,orderItems.title,orderItems.articleNumber,orderItems.description,orderItems.tasks',
