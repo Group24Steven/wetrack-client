@@ -1,6 +1,6 @@
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Auswahl HelpDesk-Ticket</mat-label>
-  <mat-select [formControl]="prefilterFormControl" (blur)="onTouched()" (input)="resetSelection()">
+  <mat-select [formControl]="prefilterFormControl">
     <mat-option *ngFor="let option of tickets" [value]="option.id">
       {{option.id}} - {{option.subject}}
     </mat-option>

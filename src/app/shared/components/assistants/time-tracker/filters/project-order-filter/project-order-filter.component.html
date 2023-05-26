@@ -1,6 +1,6 @@
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Auswahl Projektaufträge</mat-label>
-  <mat-select [formControl]="orderFormControl" (blur)="onTouched()" (input)="resetSelection()">
+  <mat-select [formControl]="orderFormControl">
     <mat-option *ngFor="let option of projectOrders" [value]="option.id">
       {{option.id}} - {{option.commission}}
     </mat-option>
@@ -9,7 +9,7 @@
 
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Auswahl Projekt Positionen</mat-label>
-  <mat-select [formControl]="orderItemFormControl" (blur)="onTouched()" (input)="resetSelection()">
+  <mat-select [formControl]="orderItemFormControl">
     <mat-option *ngFor="let option of orderItems | async" [value]="option.id">
       {{option.id}} - {{option.title ?? option.articleNumber }}
     </mat-option>

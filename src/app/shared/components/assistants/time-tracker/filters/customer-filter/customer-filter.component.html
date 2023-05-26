@@ -1,6 +1,6 @@
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Auswahl Kunden</mat-label>
-  <mat-select [formControl]="prefilterFormControl" (blur)="onTouched()" (input)="resetSelection()">
+  <mat-select [formControl]="prefilterFormControl">
     <mat-option *ngFor="let option of customers" [value]="option.id">
       {{option.id}} - {{option.company}}
     </mat-option>
@@ -9,8 +9,7 @@
 
 <mat-form-field class="w-full" appearance="fill">
   <mat-label>Auswahl Aufgabe</mat-label>
-  <mat-select [formControl]="formControl" (blur)="onTouched()" (input)="resetSelection()"
-    (selectionChange)="selected($event)">
+  <mat-select [formControl]="formControl" (blur)="onTouched()" (input)="resetSelection()" (selectionChange)="selected($event)">
     <mat-option *ngFor="let option of tasks | async" [value]="option.id">
       {{option.id}} - {{option.subject}}
     </mat-option>

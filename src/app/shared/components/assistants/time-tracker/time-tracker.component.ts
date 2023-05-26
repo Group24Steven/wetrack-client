@@ -115,12 +115,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       description: this.assistantService.formDescription.value,
       durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,
-    }
-
-    if (this.assistantService.formSearchType.value === TimeRecordType.Project) {
-      data.projectTaskId = this.assistantService.formProjectTaskId.value
-    } else {
-      data.taskId = this.assistantService.formTaskId.value
+      taskId: this.assistantService.formTaskId.value
     }
 
     this.timeRecordService.store(data).pipe(

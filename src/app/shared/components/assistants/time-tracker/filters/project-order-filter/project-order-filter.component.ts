@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseFilterComponent } from '../base-filter/base-filter.component';
 import { List } from 'immutable';
 import { Task } from 'src/app/core/models/task';
 import { Observable, Subject, catchError, finalize, map, of, switchMap, tap } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { ProjectOrderService } from 'src/app/core/services/api/project-order.service';
@@ -22,7 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [CommonModule, MatAutocompleteModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatOptionModule, ReactiveFormsModule],
   templateUrl: './project-order-filter.component.html',
   styleUrls: ['./project-order-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => ProjectOrderFilterComponent), multi: true }],
 })
 export class ProjectOrderFilterComponent extends BaseFilterComponent {
   orderFormControl = new FormControl()

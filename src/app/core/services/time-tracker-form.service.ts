@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TimeRecordType } from '../enums/time-record-type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { ProjectOrder } from '../models/project-order';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TimeTrackerAssistantService {
 
   types: any[] = [
     { value: TimeRecordType.Task, viewValue: 'Aufgabe' },
-    { value: TimeRecordType.Project, viewValue: 'Projektaufträge' },
+    { value: TimeRecordType.ProjectOrder, viewValue: 'Projektaufträge' },
     { value: TimeRecordType.Customer, viewValue: 'Kunde' },
     { value: TimeRecordType.Ticket, viewValue: 'Ticket' },
   ]

@@ -1,6 +1,6 @@
 export enum TimeRecordType {
     Customer = 'CUSTOMER',
-    Project = 'PROJECT_ORDER',
+    ProjectOrder = 'PROJECT_ORDER',
     Ticket = 'TICKET',
     Task = 'TASK',
 }
