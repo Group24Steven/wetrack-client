@@ -15,9 +15,9 @@ export class TimeTrackerAssistantService {
 
   types: any[] = [
     { value: TimeRecordType.Task, viewValue: 'Aufgabe' },
+    { value: TimeRecordType.Project, viewValue: 'Projektaufträge' },
     { value: TimeRecordType.Customer, viewValue: 'Kunde' },
     { value: TimeRecordType.Ticket, viewValue: 'Ticket' },
-    { value: TimeRecordType.Project, viewValue: 'Projekt' },
   ]
 
   constructor(private fb: FormBuilder,) {

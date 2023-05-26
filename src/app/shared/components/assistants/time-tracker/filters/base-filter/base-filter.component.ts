@@ -23,7 +23,7 @@ export class BaseFilterComponent implements ControlValueAccessor {
   onTouched: () => void = () => { }
 
   @Output() searchResult: EventEmitter<any> = new EventEmitter()
-  @Output() laodingStart = new EventEmitter<void>()
+  @Output() loadingStart = new EventEmitter<void>()
   @Output() loadingEnd = new EventEmitter<void>()
 
   writeValue(value: any): void {

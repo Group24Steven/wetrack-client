@@ -66,7 +66,7 @@ export class TicketFilterComponent extends BaseFilterComponent {
   }
 
   load(): Observable<List<Ticket>> {
-    this.laodingStart.emit()
+    this.loadingStart.emit()
     const params: RequestSearchParams = { properties: 'id,subject,ticketId', pageSize: 25, includeReferencedEntities: 'ticketId', }
 
     return this.ticketService.index(params).pipe(

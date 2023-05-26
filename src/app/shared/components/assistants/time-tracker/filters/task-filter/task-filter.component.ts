@@ -37,7 +37,7 @@ export class TaskFilterComponent extends BaseFilterComponent implements OnInit {
   }
 
   load(searchText?: string): Observable<any> {
-    this.laodingStart.emit()
+    this.loadingStart.emit()
 
     const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
     if (searchText) params['subject-ilike'] = `%${searchText}%`

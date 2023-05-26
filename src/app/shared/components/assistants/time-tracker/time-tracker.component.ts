@@ -14,7 +14,7 @@ import { NotificationService } from '../../../../core/services/notification.serv
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
 import { TimeTrackerAssistantService } from 'src/app/core/services/time-tracker-form.service';
 import { CustomerFilterComponent } from './filters/customer-filter/customer-filter.component';
-import { ProjectFilterComponent } from './filters/project-filter/project-filter.component';
+import { ProjectOrderFilterComponent } from './filters/project-order-filter/project-order-filter.component';
 import { TaskFilterComponent } from './filters/task-filter/task-filter.component';
 import { TicketFilterComponent } from './filters/ticket-filter/ticket-filter.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -35,7 +35,7 @@ import { TimeRecordService } from '../../../../core/services/api/time-record.ser
     MatSelectModule,
     MatDialogModule,
     MatDatepickerModule,
-    ProjectFilterComponent,
+    ProjectOrderFilterComponent,
     TicketFilterComponent,
     CustomerFilterComponent,
     TaskFilterComponent,

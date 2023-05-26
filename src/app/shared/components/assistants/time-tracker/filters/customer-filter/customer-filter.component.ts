@@ -67,7 +67,7 @@ export class CustomerFilterComponent extends BaseFilterComponent {
   }
 
   load(): Observable<List<Customer>> {
-    this.laodingStart.emit()
+    this.loadingStart.emit()
     const params: RequestSearchParams = { properties: 'id,subject,customerId', pageSize: 25, includeReferencedEntities: 'customerId', }
 
     return this.customerService.index(params).pipe(

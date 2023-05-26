@@ -17,8 +17,8 @@
 
   <ng-container *ngIf="assistantService.currentStep === 2">
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Project">
-      <app-project-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
-        class="w-full"></app-project-filter>
+      <app-project-order-filter (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+        class="w-full"></app-project-order-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Customer">
