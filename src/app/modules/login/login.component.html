@@ -1,10 +1,14 @@
-<div class="flex justify-center items-center h-full p-4 bg-teal-600">
+<div class="flex justify-center items-center h-full bg-gradient-to-r from-teal-500 from-45% to-sky-500 flex-col p-4">
 
   <div class="rounded bg-white mat-elevation-z8 sm:w-[620px] w-full">
 
     <div class="sm:py-12 sm:px-20 px-4 py-8">
-      <div class="flex justify-center mb-4">
-        <img class="w-48 h-48 " src="assets/logo/logo_text.svg" />
+      <div class="flex justify-center mb-8 flex-col">
+        <img class="w-32 h-32 m-auto" src="assets/logo/logo.svg"/>
+        <div class="m-auto text-center">
+          <app-wetrack-headline [size]="5" class="m-auto"></app-wetrack-headline>
+          <span class="text-gray-300">powered by group24</span>
+        </div>
       </div>
 
       <div class="mb-4">
@@ -21,5 +25,4 @@
 
     <app-progress-bar [loading$]="loading$"></app-progress-bar>
   </div>
-
 </div>

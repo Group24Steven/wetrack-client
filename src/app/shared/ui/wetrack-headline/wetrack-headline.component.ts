@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,5 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./wetrack-headline.component.scss']
 })
 export class WetrackHeadlineComponent {
-
+  @Input() size: number = 3
+  @Input() isNavbar: boolean = false
 }
