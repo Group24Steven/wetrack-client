@@ -38,7 +38,7 @@
 
     <div class="flex justify-between">
       <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
-      <button [disabled]="assistantService.formProjectTaskId.value === '' && assistantService.formTaskId.value === ''"
+      <button [disabled]="!assistantService.formTaskId.valid"
         mat-raised-button color="primary" (click)="assistantService.moveToNextStep()">Weiter</button>
     </div>
   </ng-container>

@@ -27,8 +27,7 @@ export class TimeTrackerAssistantService {
       endTime: ['', Validators.required],
       description: ['', Validators.required],
       userId: [''],
-      taskId: [''],
-      projectTaskId: [''],
+      taskId: ['', Validators.required],
     })
   }
 

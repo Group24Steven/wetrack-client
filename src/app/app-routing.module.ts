@@ -15,6 +15,7 @@ const routes: Routes = [
       layout: AppLayoutType.Center
     },
     loadComponent: () => import('./modules/login/login.component').then((m) => m.LoginComponent),
+    title: 'wetrack - Login',
   },
   {
     path: 'password-reset/:token',
@@ -22,6 +23,7 @@ const routes: Routes = [
       layout: AppLayoutType.Center
     },
     loadComponent: () => import('./modules/password-reset/password-reset.component').then((m) => m.PasswordResetComponent),
+    title: 'wetrack - Reset Password',
   },
   {
     path: 'dashboard',
@@ -30,6 +32,7 @@ const routes: Routes = [
       layout: AppLayoutType.Sidenav
     },
     loadComponent: () => import('./modules/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+    title: 'wetrack - Dashboard',
   },
   {
     path: 'tenants',
@@ -38,6 +41,7 @@ const routes: Routes = [
       layout: AppLayoutType.Sidenav
     },
     loadComponent: () => import('./modules/tenants/tenants.component').then((m) => m.TenantsComponent),
+    title: 'wetrack - Mandanten',
   },
   {
     path: 'users',
@@ -46,10 +50,11 @@ const routes: Routes = [
       layout: AppLayoutType.Sidenav
     },
     loadComponent: () => import('./modules/users/users.component').then((m) => m.UsersComponent),
+    title: 'wetrack - Benutzer',
   },
   {
     path: '**',
-    title: '404',
+    title: 'wetrack - 404',
     data: {
       layout: AppLayoutType.Center
     },
