@@ -15,9 +15,9 @@ import { User } from '../../models/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { SwitchTenantDialogComponent } from 'src/app/shared/components/dialogs/switch-tenant-dialog/switch-tenant-dialog.component';
 import { AppEventService } from '../../services/app-event.service';
 import { Subscription } from 'rxjs';
+import { SwitchTenantDialogComponent } from 'src/app/shared/components/tenants/switch-tenant-dialog/switch-tenant-dialog.component';
 
 @Component({
   selector: 'app-layout-sidenav',

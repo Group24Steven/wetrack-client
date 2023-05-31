@@ -10,7 +10,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
 import { BehaviorSubject, Subject, finalize, merge, takeUntil } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NotificationService } from '../../../../core/services/notification.service';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
 import { TimeTrackerAssistantService } from 'src/app/core/services/time-tracker-form.service';
 import { CustomerFilterComponent } from './filters/customer-filter/customer-filter.component';
@@ -19,7 +18,8 @@ import { TaskFilterComponent } from './filters/task-filter/task-filter.component
 import { TicketFilterComponent } from './filters/ticket-filter/ticket-filter.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { TimeRecordService } from '../../../../core/services/api/time-record.service';
+import { TimeRecordService } from 'src/app/core/services/api/time-record.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-time-tracker',

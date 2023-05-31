@@ -7,8 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TimerService } from 'src/app/core/services/timer.service';
-import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
 import { DurationWithSecondsPipe } from 'src/app/shared/pipes/duration-with-seconds.pipe';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-timer',

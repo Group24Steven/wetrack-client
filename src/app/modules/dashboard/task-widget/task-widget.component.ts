@@ -16,8 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatRippleModule } from '@angular/material/core';
 import { AppEventService } from 'src/app/core/services/app-event.service';
-import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-task-widget',

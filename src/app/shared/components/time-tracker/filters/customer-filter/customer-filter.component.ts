@@ -6,7 +6,6 @@ import { MatOptionModule } from '@angular/material/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms'
 import { CustomerService } from 'src/app/core/services/api/customer.service'
-import { NotificationService } from '../../../../../../core/services/notification.service'
 import { Customer } from 'src/app/core/models/customer'
 import { HttpErrorResponse } from '@angular/common/http'
 import { Observable, of, map, finalize, catchError, switchMap, Subject } from 'rxjs'
@@ -15,6 +14,7 @@ import { List } from 'immutable'
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { Task } from 'src/app/core/models/task'
+import { NotificationService } from 'src/app/core/services/notification.service'
 
 @Component({
   selector: 'app-customer-filter',

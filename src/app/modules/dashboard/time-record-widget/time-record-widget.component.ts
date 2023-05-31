@@ -23,7 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { MatRippleModule } from '@angular/material/core';
 import { AppEventService } from 'src/app/core/services/app-event.service';
-import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-timer-widget',
