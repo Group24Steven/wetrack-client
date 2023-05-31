@@ -14,10 +14,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
-import { TimeRecordType } from '../../../../core/enums/time-record-type';
 import { MatRippleModule } from '@angular/material/core';
 import { AppEventService } from 'src/app/core/services/app-event.service';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
+import { TimeRecordType } from 'src/app/core/enums/time-record-type';
 
 @Component({
   selector: 'app-task-widget',

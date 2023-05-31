@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { TimerService } from '../../../../../core/services/timer.service';
 import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { DurationWithSecondsPipe } from '../../../../pipes/duration-with-seconds.pipe';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NotificationService } from '../../../../../core/services/notification.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TimeTrackerDialogComponent } from '../../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
+import { NotificationService } from 'src/app/core/services/notification.service';
+import { TimerService } from 'src/app/core/services/timer.service';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
+import { DurationWithSecondsPipe } from 'src/app/shared/pipes/duration-with-seconds.pipe';
 
 @Component({
   selector: 'app-timer',

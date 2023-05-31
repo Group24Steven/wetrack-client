@@ -17,13 +17,13 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { WorkPercentPipe } from 'src/app/shared/pipes/work-percent.pipe';
 import { TimeRecord } from 'src/app/core/models/time-record';
-import { TimeTrackerDialogComponent } from '../../dialogs/time-tracker-dialog/time-tracker-dialog.component';
 import { TimerComponent } from './timer/timer.component';
 import { ToggleButtonComponent } from 'src/app/shared/ui/toggle-button/toggle-button.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { MatRippleModule } from '@angular/material/core';
-import { AppEventService } from '../../../../core/services/app-event.service';
+import { AppEventService } from 'src/app/core/services/app-event.service';
+import { TimeTrackerDialogComponent } from 'src/app/shared/components/dialogs/time-tracker-dialog/time-tracker-dialog.component';
 
 @Component({
   selector: 'app-timer-widget',
