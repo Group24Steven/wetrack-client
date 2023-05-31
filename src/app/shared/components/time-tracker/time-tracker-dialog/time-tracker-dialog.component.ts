@@ -15,8 +15,11 @@ import { TimerTrackerComponent } from '../time-tracker.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimeTrackerDialogComponent {
+  id: null | string = null
 
-  constructor(public dialogRef: MatDialogRef<TimeTrackerDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(public dialogRef: MatDialogRef<TimeTrackerDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.id = data.id
+  }
 
   handleSuccessEvent(success: boolean): void {
     if (!success) return

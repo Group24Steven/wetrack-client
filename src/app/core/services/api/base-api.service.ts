@@ -37,7 +37,7 @@ export class BaseApiService<T> {
     return this.http.get<T[]>(this.url, { params: params })
   }
 
-  show(id: number): Observable<T> {
+  show(id: number | string): Observable<T> {
     return this.http.get<T>(`${this.url}/${id}`)
   }
 
@@ -45,11 +45,11 @@ export class BaseApiService<T> {
     return this.http.post<T>(this.url, data)
   }
 
-  update(id: number, data: T): Observable<T> {
+  update(id: number | string, data: T): Observable<T> {
     return this.http.put<T>(`${this.url}/${id}`, data)
   }
 
-  delete(id: number): Observable<any> {
+  delete(id: number | string): Observable<any> {
     return this.http.delete(`${this.url}/${id}`)
   }
 }

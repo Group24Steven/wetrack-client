@@ -64,14 +64,15 @@ export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
     this.updateSubscription?.unsubscribe()
   }
 
-  openTimeTrackingDialog() {
+  openTimeTrackingDialog(id: null | string = null) {
     const now = new Date()
+    const data = id ? { id: id } : { startDateTime: now, endDateTime: now }
+
     const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
-      width: '400px', data: {
-        startDateTime: now,
-        endDateTime: now
-      }
+      width: '400px',
+      data: data
     })
+
     dialogRef.afterClosed().subscribe(value => value ? this.loadTimeRecords() : false)
   }
 

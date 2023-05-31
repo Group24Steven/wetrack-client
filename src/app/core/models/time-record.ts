@@ -4,16 +4,34 @@ export class TimeRecord {
   id: string
   durationSeconds: number
   description: string
+  taskId: string
+  userId: string
   task: Task
   startDate: Date
-  endDate: Date
+  startTime: string
+  endTime: string
 
   constructor(data: any) {
     this.id = data.id
     this.durationSeconds = data.durationSeconds
     this.description = data.description
-    this.startDate = new Date(data.startDate)
-    this.endDate = new Date(data.endDate)
-    this.task = data.task
+
+    const startDateUnixStamp = data.startDate
+    this.startDate = new Date(startDateUnixStamp)
+    this.startTime = TimeRecord.getTimeInput(this.startDate)
+
+    const endDate = new Date(startDateUnixStamp + (this.durationSeconds * 1000))
+    this.endTime = TimeRecord.getTimeInput(endDate)
+
+    this.taskId = data.taskId
+    this.userId = data.userId
+
+    this.task = data.task ?? null
+  }
+
+  public static getTimeInput(date: Date): string {
+    let hours = date.getHours().toString().padStart(2, '0')
+    let minutes = date.getMinutes().toString().padStart(2, '0')
+    return `${hours}:${minutes}`
   }
 }

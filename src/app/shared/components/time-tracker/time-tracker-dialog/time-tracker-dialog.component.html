@@ -1,7 +1,10 @@
 <div class="flex items-center justify-between pt-4 pl-4 pr-4">
-  <app-headline-two title="Zeiterfassung" />
+  <app-headline-two [title]="id ? 'Arbeitszeit bearbeiten' : 'Arbeitszeit hinzufügen'" />
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<app-time-tracker [startTime]="data.startDateTime" [endTime]="data.endDateTime" [searchType]="data.searchType" [taskId]="data.taskId" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
+
+<app-time-tracker *ngIf="id" [id]="id" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
+<app-time-tracker *ngIf="data.taskId" [startTime]="data.startDateTime" [endTime]="data.endDateTime" [searchType]="data.searchType" [taskId]="data.taskId"></app-time-tracker>
+<app-time-tracker *ngIf="!data.taskId && !id" [startTime]="data.startDateTime" [endTime]="data.endDateTime"></app-time-tracker>

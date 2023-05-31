@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
-import { BehaviorSubject, Subject, finalize, merge, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, finalize, map, merge, takeUntil } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
 import { TimeTrackerAssistantService } from 'src/app/core/services/time-tracker-form.service';
@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { TimeRecordService } from 'src/app/core/services/api/time-record.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { TimeRecord } from '../../../core/models/time-record';
 
 @Component({
   selector: 'app-time-tracker',
@@ -48,6 +49,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class TimerTrackerComponent implements OnInit, OnDestroy {
   TimeRecordType = TimeRecordType
+  _id: string | null = null
 
   today: Date
   yesterday: Date
@@ -59,28 +61,42 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
 
   @Input() set startTime(value: number) {
     const date = new Date(value)
-    const timeInput = this.getTimeInput(date)
+    const timeInput = TimeRecord.getTimeInput(date)
     this.assistantService.formStartTime.setValue(timeInput)
   }
 
   @Input() set endTime(value: number) {
     const date = new Date(value)
-    const timeInput = this.getTimeInput(date)
+    const timeInput = TimeRecord.getTimeInput(date)
     this.assistantService.formEndTime.setValue(timeInput)
   }
 
   @Input() set searchType(value: TimeRecordType | null) {
+    console.log('searchType', value)
+    if (!value) return
     this.assistantService.formSearchType.setValue(value)
   }
 
   @Input() set taskId(value: string | null) {
+    console.log('taskId', value)
+    if (!value) return
     this.assistantService.formTaskId.setValue(value)
+  }
+
+  @Input() set id(value: string | null) {
+    console.log('setId', value)
+    if (!value) {
+      this.assistantService.form.reset()
+      return
+    }
+    this._id = value
+    this.getData(value)
   }
 
   @Output() successEvent: EventEmitter<boolean> = new EventEmitter()
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, public assistantService: TimeTrackerAssistantService,) {
-    assistantService.currentStep = 1
+    this.assistantService.reset()
 
     this.assistantService.formSearchType.valueChanges.pipe(takeUntil(this.unsubscribe$)).subscribe((value: any) => {
       this.selectedSearchType = value
@@ -96,6 +112,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  
     const now = new Date()
     this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0)
     this.yesterday = new Date(new Date().setDate(now.getDate() - 1))
@@ -108,6 +125,14 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   }
 
   submitTimeRecord(): void {
+    if (!this._id) {
+      this.create()
+      return
+    }
+    this.update(this._id)
+  }
+
+  private create(): void {
     this.loading$.next(true)
 
     const data: any = {
@@ -125,6 +150,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: () => {
         this.assistantService.reset()
+        this.notificationService.showSuccess('response.success.time-record.created')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
@@ -133,10 +159,51 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     })
   }
 
-  private getTimeInput(date: Date) {
-    let hours = date.getHours().toString().padStart(2, '0')
-    let minutes = date.getMinutes().toString().padStart(2, '0')
+  private update(id: string): void {
+    this.loading$.next(true)
 
-    return `${hours}:${minutes}`
+    const data: any = {
+      title: this.assistantService.formDescription.value,
+      description: this.assistantService.formDescription.value,
+      durationSeconds: this.assistantService.durationSeconds,
+      startDate: this.assistantService.startTime,
+      taskId: this.assistantService.formTaskId.value,
+      userId: this.assistantService.form.get('userId')!.value,
+    }
+
+    this.timeRecordService.update(id, data).pipe(
+      finalize(() => {
+        this.loading$.next(false)
+      })
+    ).subscribe({
+      next: () => {
+        this.notificationService.showSuccess('response.success.time-record.updated')
+        this.successEvent.emit(true)
+      },
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
+      }
+    })
+  }
+
+  private getData(id: string): void {
+    this.loading$.next(true)
+
+    this.timeRecordService.show(id).pipe(
+      map((response: any) => {
+        return new TimeRecord(response.data)
+      }),
+      finalize(() => {
+        this.loading$.next(false)
+      })
+    ).subscribe({
+      next: (data: TimeRecord) => {
+        this.assistantService.currentStep = 3
+        this.assistantService.form.patchValue(data)
+      },
+      error: (error: HttpErrorResponse) => {
+        this.notificationService.showError(error.error.message)
+      }
+    })
   }
 }

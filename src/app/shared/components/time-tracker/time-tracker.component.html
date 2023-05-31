@@ -1,6 +1,6 @@
 <form [formGroup]="assistantService.form" class="p-4">
 
-  <ng-container *ngIf="assistantService.currentStep === 1">
+  <ng-container *ngIf="assistantService.currentStep === 1 && !_id">
     <mat-form-field class="w-full">
       <mat-label>Buchen auf:</mat-label>
       <mat-select formControlName="searchType">
@@ -15,7 +15,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="assistantService.currentStep === 2">
+  <ng-container *ngIf="assistantService.currentStep === 2 && !_id">
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.ProjectOrder">
       <app-project-order-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
         class="w-full"></app-project-order-filter>
@@ -66,7 +66,8 @@
       </mat-form-field>
     </div>
     <div class="flex justify-between">
-      <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <button *ngIf="!_id" mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <div *ngIf="_id"></div>
       <button mat-raised-button color="primary"
         [disabled]="!assistantService.formStartTime.valid || !assistantService.formEndTime.valid || !assistantService.formStartDate.valid"
         (click)="assistantService.moveToNextStep()">Weiter</button>
@@ -80,8 +81,8 @@
     </mat-form-field>
     <div class="flex justify-between">
       <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!assistantService.form.valid"
-        (click)="submitTimeRecord()">Submit</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!assistantService.formDescription.valid"
+        (click)="submitTimeRecord()">Speichern</button>
     </div>
   </ng-container>
 </form>
