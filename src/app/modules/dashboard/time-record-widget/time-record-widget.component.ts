@@ -73,7 +73,10 @@ export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
       data: data
     })
 
-    dialogRef.afterClosed().subscribe(value => value ? this.loadTimeRecords() : false)
+    dialogRef.afterClosed().subscribe(value => {
+      if (!value) return 
+      this.loadTimeRecords()
+    })
   }
 
   onPageChange(event: any) {

@@ -1,0 +1,36 @@
+<mat-form-field appearance="fill">
+  <mat-label>Choose a week</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onDateChange($event)" />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<div class="touch-none select-none flex flex-row calendar" *ngIf="weekDays.length">
+  <div class="block">
+    <div class="text-center">
+      <div class="calendar-header-cell"></div>
+      <div class="calendar-time-cell-wrapper">
+        <div class="calendar-time-cell" *ngFor="let hour of hours">
+          <span *ngIf="hour < 23">{{ hour + 1}}:00</span>
+          <span *ngIf="hour === 23"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-auto text-center" *ngFor="let day of weekDays">
+    <div class="w-full">
+      <div class="calendar-header-cell">
+        <span>{{ day | weekdayDate}}</span>
+      </div> 
+      <div class="relative hover:bg-stone-50  ">
+        <div class="calendar-entry-cell first:border-t-none" *ngFor="let hour of hours"></div>
+        <div class="daily-time-entries">
+          <div class="calendar-entries-wrapper">
+            <!-- Save entries here! -->
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>

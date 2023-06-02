@@ -149,7 +149,6 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: () => {
-        this.assistantService.reset()
         this.notificationService.showSuccess('response.success.time-record.created')
         this.successEvent.emit(true)
       },

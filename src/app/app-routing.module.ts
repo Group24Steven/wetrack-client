@@ -35,6 +35,15 @@ const routes: Routes = [
     title: 'wetrack - Dashboard',
   },
   {
+    path: 'calendar',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/calendar/calendar.component').then((m) => m.CalendarComponent),
+    title: 'wetrack - Kalender',
+  },
+  {
     path: 'tenants',
     canActivate: [authGuardFn({ redirectTo: ['/login'] })],
     data: {

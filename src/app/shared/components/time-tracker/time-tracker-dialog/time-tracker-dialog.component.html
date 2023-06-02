@@ -6,5 +6,5 @@
 </div>
 
 <app-time-tracker *ngIf="id" [id]="id" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
-<app-time-tracker *ngIf="data.taskId" [startTime]="data.startDateTime" [endTime]="data.endDateTime" [searchType]="data.searchType" [taskId]="data.taskId"></app-time-tracker>
-<app-time-tracker *ngIf="!data.taskId && !id" [startTime]="data.startDateTime" [endTime]="data.endDateTime"></app-time-tracker>
+<app-time-tracker *ngIf="data.taskId" [startTime]="data.startDateTime" [endTime]="data.endDateTime" [searchType]="data.searchType" [taskId]="data.taskId" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
+<app-time-tracker *ngIf="!data.taskId && !id" [startTime]="data.startDateTime" [endTime]="data.endDateTime" (successEvent)="handleSuccessEvent($event)"></app-time-tracker>
