@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
 import { Tenant } from 'src/app/core/models/tenant'
-import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs'
+import { BehaviorSubject, Subscription, catchError, finalize, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
@@ -36,12 +36,14 @@ export class TenantsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'weclappUrl']
   dataSource = new MatTableDataSource<Tenant>()
 
+  updateSubscription?: Subscription
   @ViewChild(MatPaginator) paginator: MatPaginator
 
   constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) { }
 
   ngOnInit(): void {
     this.load()
+    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.load())
   }
 
   openTenantForm(data?: number): void {
