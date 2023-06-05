@@ -11,15 +11,15 @@ export class InitialsPipe implements PipeTransform {
 
     if (words.length == 1) {
       return words[0][0].toUpperCase();
-    } else {
-      let initials = '';
-      for (let word of words) {
-        if (word.length > 0) {
-          initials += word[0].toUpperCase();
-        }
-      }
-      return initials;
     }
+
+    let initials = '';
+    for (let word of words) {
+      if (word.length > 0) {
+        initials += word[0].toUpperCase();
+      }
+    }
+    return initials;
   }
 
 }
