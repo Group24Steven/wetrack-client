@@ -49,7 +49,9 @@ export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
   todaySeconds = 0
 
   loading$ = new BehaviorSubject<boolean>(false)
-  updateSubscription?: Subscription
+  
+  updateUserSubscription?: Subscription
+  updateTimeRecSubscription?: Subscription
 
   constructor(private timeRecordService: TimeRecordService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) {
     const now = new Date()
@@ -58,11 +60,13 @@ export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadTimeRecords()
-    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTimeRecords())
+    this.updateUserSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTimeRecords())
+    this.updateTimeRecSubscription = this.eventService.timeRecordsUpdated$.subscribe(() => this.loadTimeRecords())  
   }
 
   ngOnDestroy(): void {
-    this.updateSubscription?.unsubscribe()
+    this.updateUserSubscription?.unsubscribe()
+    this.updateTimeRecSubscription?.unsubscribe()
   }
 
   openTimeTrackingDialog(id: null | string = null) {

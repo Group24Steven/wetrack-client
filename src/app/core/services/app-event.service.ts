@@ -11,6 +11,9 @@ export class AppEventService {
   private _userUpdated = new Subject<void>()
   userUpdated$ = this._userUpdated.asObservable()
 
+  private _timeRecordsUpdated = new Subject<void>()
+  timeRecordsUpdated$ = this._timeRecordsUpdated.asObservable()
+
   // Weitere Ereignisse können hier hinzugefügt werden
   notifyTenantChanged() {
     this._tenantChanged.next()
@@ -18,6 +21,10 @@ export class AppEventService {
 
   notifyUserUpdated() {
     this._userUpdated.next()
+  }
+
+  notifyTimeRecordsUpdated() {
+    this._timeRecordsUpdated.next()
   }
 
   constructor() { }

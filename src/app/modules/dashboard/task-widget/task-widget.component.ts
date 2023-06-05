@@ -93,6 +93,7 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
     })
     dialogRef.afterClosed().subscribe(value => {
       if (!value) return 
+      this.eventService.notifyTimeRecordsUpdated()
       // TODO: reload the view
     })
   }
