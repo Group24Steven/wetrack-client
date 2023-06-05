@@ -1,6 +1,6 @@
 <div class="flex items-center mt-4 mb-4 h-24">
   <div class="flex-1 flex justify-center">
-    <button mat-icon-button color="warn" (click)="delete()" [disabled]="!(timerRunning$ | async) && !timerService.endTime">
+    <button mat-icon-button matTooltip="Timer zurücksetzen" color="warn" (click)="delete()" [disabled]="!(timerRunning$ | async) && !timerService.endTime">
       <i class="material-icons-outlined">delete_forever</i>
     </button>
   </div>
@@ -8,18 +8,18 @@
     <span class="text-5xl">{{ timer$ | async | durationWithSeconds}}</span>
   </div>
   <div class="flex-1 flex justify-center">
-    <button *ngIf="timerService.endTime; else startTemplate" mat-mini-fab color="accent" (click)="openTimeTrackingDialog()">
+    <button matTooltip="Arbeitszeit erfassen" *ngIf="timerService.endTime; else startTemplate" mat-mini-fab color="accent" (click)="openTimeTrackingDialog()">
       <mat-icon>playlist_add</mat-icon>
     </button>
 
     <ng-template #startTemplate>
-      <button *ngIf="timerRunning$ | async; else saveTemplate" mat-mini-fab color="accent" (click)="stop()">
+      <button matTooltip="Timer stoppen" *ngIf="timerRunning$ | async; else saveTemplate" mat-mini-fab color="accent" (click)="stop()">
         <mat-icon>pause</mat-icon>
       </button>
     </ng-template>
 
     <ng-template #saveTemplate>
-      <button mat-mini-fab color="accent" (click)="start()">
+      <button matTooltip="Timer starten" mat-mini-fab color="accent" (click)="start()">
         <mat-icon>play_arrow</mat-icon>
       </button>
     </ng-template>

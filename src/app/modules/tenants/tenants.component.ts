@@ -19,11 +19,12 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { AppEventService } from '../../core/services/app-event.service';
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @Component({
   selector: 'app-tenants',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent, MatTooltipModule],
   templateUrl: './tenants.component.html',
   styleUrls: ['./tenants.component.scss'],
 })

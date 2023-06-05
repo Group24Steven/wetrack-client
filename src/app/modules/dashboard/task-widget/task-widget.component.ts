@@ -19,11 +19,12 @@ import { AppEventService } from 'src/app/core/services/app-event.service';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
 import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-task-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, TruncatePipe],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, TruncatePipe, MatTooltipModule],
   templateUrl: './task-widget.component.html',
   styleUrls: ['./task-widget.component.scss']
 })

@@ -20,11 +20,12 @@ import { UserService } from 'src/app/core/services/api/user.service'
 import { RequestPaginator } from 'src/app/core/services/api/base-api.service'
 import { UserDialogComponent } from './user-dialog/user-dialog.component'
 import { AppEventService } from 'src/app/core/services/app-event.service'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatButtonModule, MatRippleModule, MatIconModule, MatFormFieldModule, MatInputModule, MatCardModule, HeadlineComponent, MatDialogModule, ProgressBarComponent, MatTooltipModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })

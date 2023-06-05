@@ -11,7 +11,7 @@
           class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
       </div>
       <div matListItemMeta>
-        <button mat-icon-button>
+        <button mat-icon-button matTooltip="Arbeitszeit erfassen">
           <i class="material-icons-outlined">playlist_add</i>
         </button>
       </div>
@@ -19,7 +19,7 @@
     <mat-list-item matRipple *ngIf="!tasks || tasks.length === 0" class="hover:bg-stone-50" (click)="loadTasks()">
       <div matListItemTitle>Keine Einträge gefunden</div>
       <div matListItemMeta>
-        <button mat-icon-button>
+        <button mat-icon-button matTooltip="Einträge aktualisieren">
           <i class="material-icons-outlined">refresh</i>
         </button>
       </div>

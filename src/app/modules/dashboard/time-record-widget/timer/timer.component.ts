@@ -9,13 +9,14 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TimerService } from 'src/app/core/services/timer.service';
 import { DurationWithSecondsPipe } from 'src/app/shared/pipes/duration-with-seconds.pipe';
 import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss'],
-  imports: [CommonModule, MatIconModule, MatButtonModule, DurationWithSecondsPipe],
+  imports: [CommonModule, MatIconModule, MatButtonModule, DurationWithSecondsPipe, MatTooltipModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements OnInit {

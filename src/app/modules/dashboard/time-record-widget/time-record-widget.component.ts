@@ -24,11 +24,12 @@ import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { MatRippleModule } from '@angular/material/core';
 import { AppEventService } from 'src/app/core/services/app-event.service';
 import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-timer-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule, MatDividerModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, DurationPipe, WorkPercentPipe, TruncatePipe, TimerComponent, ToggleButtonComponent,],
+  imports: [CommonModule, MatCardModule, MatListModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatPaginatorModule, MatTooltipModule, MatDialogModule, MatDividerModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, DurationPipe, WorkPercentPipe, TruncatePipe, TimerComponent, ToggleButtonComponent,],
   templateUrl: './time-record-widget.component.html',
   styleUrls: ['./time-record-widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -74,7 +75,7 @@ export class TimeRecordWidgetComponent implements OnInit, OnDestroy {
     })
 
     dialogRef.afterClosed().subscribe(value => {
-      if (!value) return 
+      if (!value) return
       this.loadTimeRecords()
     })
   }

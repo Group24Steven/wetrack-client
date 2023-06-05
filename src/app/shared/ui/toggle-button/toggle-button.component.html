@@ -1,4 +1,4 @@
 <div class="flex items-center">
-  <button mat-icon-button (click)="selectButton(1)"><i [ngClass]="activeButton === 1 ? 'text-teal-700' : 'text-stone-500'"class="material-icons-outlined">{{firstButtonIcon}}</i></button>
-  <button mat-icon-button (click)="selectButton(2)"><i [ngClass]="activeButton === 2 ? 'text-teal-700' : 'text-stone-500'" class="material-icons-outlined">{{secondButtonIcon}}</i></button>
+  <button mat-icon-button [matTooltip]="fristButtonTooltip" (click)="selectButton(1)"><i [ngClass]="activeButton === 1 ? 'text-teal-700' : 'text-stone-500'"class="material-icons-outlined">{{firstButtonIcon}}</i></button>
+  <button mat-icon-button [matTooltip]="secondButtonTooltip" (click)="selectButton(2)"><i [ngClass]="activeButton === 2 ? 'text-teal-700' : 'text-stone-500'" class="material-icons-outlined">{{secondButtonIcon}}</i></button>
 </div>
