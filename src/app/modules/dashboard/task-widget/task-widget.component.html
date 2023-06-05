@@ -6,7 +6,7 @@
     <mat-list-item matRipple *ngFor="let task of tasks" class="hover:bg-stone-50"
       (click)="openTimeTrackingDialog(task.id)">
       <i matListItemIcon class="material-icons-outlined text-stone-500">task</i>
-      <div matListItemTitle>{{task!.subject}}</div>
+      <div matListItemTitle>{{task!.subject | truncate}}</div>
       <div matListItemLine *ngIf="task!.lastModifiedDate"><span
           class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
       </div>
