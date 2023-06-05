@@ -28,8 +28,7 @@ export class AuthService {
   logout(): Observable<any> {
     return this.httpClient.post(environment.apiUrl + '/logout', {}).pipe(
       tap(() => {
-        localStorage.removeItem('auth_token')
-        localStorage.removeItem('user')
+        localStorage.clear()
       })
     )
   }
