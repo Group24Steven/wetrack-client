@@ -6,7 +6,7 @@
   </div>
   <div class="pr-4">
     <div class="ml-4 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-white rounded-full">
-      <button mat-icon-button [matMenuTriggerFor]="menu"><span class="text-teal-700">MD</span></button>
+      <button mat-icon-button [matMenuTriggerFor]="menu"><span class="text-teal-700">{{ currentUser!.name | initials }}</span></button>
     </div>
     <mat-menu #menu="matMenu">
       <div mat-menu-item disabled="true">
