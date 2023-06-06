@@ -72,19 +72,16 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   }
 
   @Input() set searchType(value: TimeRecordType | null) {
-    console.log('searchType', value)
     if (!value) return
     this.assistantService.formSearchType.setValue(value)
   }
 
   @Input() set taskId(value: string | null) {
-    console.log('taskId', value)
     if (!value) return
     this.assistantService.formTaskId.setValue(value)
   }
 
   @Input() set id(value: string | null) {
-    console.log('setId', value)
     if (!value) {
       this.assistantService.form.reset()
       return

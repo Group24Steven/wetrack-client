@@ -47,7 +47,6 @@ export class PasswordForgotFormComponent {
       finalize(() => this.loadingEvent.emit(false))
     ).subscribe({
       next: (response: any) => {
-        console.log(response)
       },
       error: (error: HttpErrorResponse) => {
         this.notification.showError(error.error.message)
