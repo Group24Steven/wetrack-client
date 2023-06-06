@@ -43,6 +43,10 @@ export class TimerService {
       map((response: any) => new Timer(response.data)),
       tap((timer: Timer) => {
         this.setLocalStorageTimer(timer)
+
+        this.startTime = timer!.startTime
+        this.endTime = timer!.endTime
+        this.timerRunningSubject.next(!timer.endTime)
       })
     )
   }
@@ -68,9 +72,9 @@ export class TimerService {
       this.startTime = storedTimer.startTime
       this.endTime = storedTimer.endTime
       this.timerRunningSubject.next(!storedTimer.endTime)
-    } else {
-      this.fetchTimer()
-    }
+    } 
+
+    this.fetchTimer()
   }
 
   private fetchTimer() {
