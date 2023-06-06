@@ -71,7 +71,7 @@ export class SwitchTenantDialogComponent {
       finalize(() => this.loading$.next(false))
     ).subscribe({
       next: (user: User) => {
-        this.notificationService.showSuccess('response.success.set-active-tenant')
+        this.notificationService.showSuccess('Der Mandant wurder erfolgreich gewechselt.')
         this.dialogRef.close(true)
       },
       error: (error: HttpErrorResponse) => {

@@ -82,7 +82,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.created')
+        this.notificationService.showSuccess('Der Benutzer wurde erfolgreich angelegt.')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -100,7 +100,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.updated')
+        this.notificationService.showSuccess('Der Benutzer wurder erfolgreich bearbeitet.')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {
@@ -137,7 +137,7 @@ export class UserFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.deleted')
+        this.notificationService.showSuccess('Der Benutzer wurde erfolgreich gelöscht.')
         this.successEvent.emit()
       },
       error: (error: HttpErrorResponse) => {

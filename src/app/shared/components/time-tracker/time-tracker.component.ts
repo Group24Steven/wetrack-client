@@ -146,7 +146,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.time-record.created')
+        this.notificationService.showSuccess('Arbeitszeit wurder erfolgreich erfasst.')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
@@ -173,7 +173,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.time-record.updated')
+        this.notificationService.showSuccess('Arbeitszeit wurder erfolgreich bearbeitet.')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {

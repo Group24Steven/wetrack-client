@@ -51,7 +51,7 @@ export class TimerComponent implements OnInit {
   start() {
     this.timerService.start().subscribe({
       next: () => {
-        this.notifications.showSuccess('response.success.timer.started')
+        this.notifications.showSuccess('Ihr Timer läuft jetzt. Beginnen Sie mit Ihrer Arbeit.')
       },
       error: (error: HttpErrorResponse) => {
         this.notifications.showError(error.error.message)
@@ -62,7 +62,7 @@ export class TimerComponent implements OnInit {
   delete() {
     this.timerService.delete().subscribe({
       next: () => {
-        this.notifications.showSuccess('response.success.timer.deleted')
+        this.notifications.showSuccess('Ihr Timer wurde erfolgreich gelöscht.')
       },
       error: (error: HttpErrorResponse) => {
         this.notifications.showError(error.error.message)

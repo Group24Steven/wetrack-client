@@ -92,7 +92,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.created')
+        this.notificationService.showSuccess('Der Mandant wurde erfolgreich angelegt. Ihre Mitarbeiter können jetzt loslegen.')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
@@ -110,7 +110,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.updated')
+        this.notificationService.showSuccess('Der Mandant wurde erfolgreich aktualisiert.')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
@@ -146,7 +146,7 @@ export class TenantFormComponent {
       })
     ).subscribe({
       next: () => {
-        this.notificationService.showSuccess('response.success.tenant.deleted')
+        this.notificationService.showSuccess('Der Mandant wurde erfolgreich gelöscht.')
         this.successEvent.emit(true)
       },
       error: (error: HttpErrorResponse) => {
