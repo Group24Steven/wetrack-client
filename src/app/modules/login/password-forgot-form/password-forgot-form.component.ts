@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -47,6 +47,7 @@ export class PasswordForgotFormComponent {
       finalize(() => this.loadingEvent.emit(false))
     ).subscribe({
       next: (response: any) => {
+        this.notification.showSuccess(response.data.message)
       },
       error: (error: HttpErrorResponse) => {
         this.notification.showError(error.error.message)
