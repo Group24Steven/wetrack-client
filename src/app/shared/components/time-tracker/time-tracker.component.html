@@ -1,6 +1,6 @@
 <form [formGroup]="assistantService.form" class="p-4">
 
-  <ng-container *ngIf="assistantService.currentStep === 1 && !_id">
+  <ng-container *ngIf="assistantService.currentStep === 1 && !id()">
     <mat-form-field class="w-full">
       <mat-label>Buchen auf:</mat-label>
       <mat-select formControlName="searchType">
@@ -15,10 +15,10 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="assistantService.currentStep === 2 && !_id">
+  <ng-container *ngIf="assistantService.currentStep === 2 && !id()">
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.ProjectOrder">
       <app-project-order-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
-        class="w-full"></app-project-order-filter>
+        class="w-full" [projectOrderId]="projectId()"></app-project-order-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Customer">
@@ -66,8 +66,8 @@
       </mat-form-field>
     </div>
     <div class="flex justify-between">
-      <button *ngIf="!_id" mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
-      <div *ngIf="_id"></div>
+      <button *ngIf="!id()" mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
+      <div *ngIf="id()"></div>
       <button mat-raised-button color="primary"
         [disabled]="!assistantService.formStartTime.valid || !assistantService.formEndTime.valid || !assistantService.formStartDate.valid"
         (click)="assistantService.moveToNextStep()">Weiter</button>

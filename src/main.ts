@@ -2,7 +2,6 @@
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-
 import { AppComponent } from './app/app.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +12,10 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { LOCALE_ID, importProvidersFrom } from '@angular/core';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 
+registerLocaleData(localeDe);
 
 bootstrapApplication(AppComponent, {
     providers: [

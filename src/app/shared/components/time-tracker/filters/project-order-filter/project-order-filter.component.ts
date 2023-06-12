@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseFilterComponent } from '../base-filter/base-filter.component';
 import { List } from 'immutable';
@@ -45,15 +45,20 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
   selectedOrder: ProjectOrder | null = null
   selectedItem: OrderItem | null = null
 
+  @Input() projectOrderId: string | null = null
+
   constructor(private apiService: ProjectOrderService, private notificationService: NotificationService) {
     super()
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Load the ProjectOrders when the component initializes.
     this.projectOrdersLoaded = new Promise(resolve => {
       this.load().subscribe(projectOrders => {
         this.projectOrders = projectOrders
+
+        if (this.projectOrderId) this.orderFormControl.setValue(this.projectOrderId)
+        
         resolve()
       })
     })
@@ -83,6 +88,10 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
     )
   }
 
+  async setOrder(orderId: string) {
+    await this.projectOrdersLoaded
+  }
+
   // An overridden method that writes value to a form control
   // This method will resolve when the value is written to the control or when the operation is cancelled due to lack of necessary conditions
   override async writeValue(value: any): Promise<void> {
@@ -92,7 +101,7 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
 
     // Wait until the projectOrders are loaded
     await this.projectOrdersLoaded
-    
+
     // Initialize found entities as undefined
     let foundProjectOrder: any
     let foundOrderItem: any

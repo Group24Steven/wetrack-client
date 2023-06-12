@@ -3,8 +3,8 @@
   <mat-card-header>
     <div class="flex justify-between items-center w-full">
       <app-headline-two title="Zeiterfassung"></app-headline-two>
-      <app-toggle-button firstButtonIcon="timer" secondButtonIcon="list_alt" fristButtonTooltip="Timer anzeigen" secondButtonTooltip="Tagesübersicht anzeigen"
-        (activeChangedEvent)="activeView = $event"></app-toggle-button>
+      <app-toggle-button firstButtonIcon="timer" secondButtonIcon="list_alt" fristButtonTooltip="Timer anzeigen"
+        secondButtonTooltip="Tagesübersicht anzeigen" (activeChangedEvent)="activeView = $event"></app-toggle-button>
     </div>
   </mat-card-header>
 
@@ -40,13 +40,22 @@
 
   <mat-list>
     <div mat-subheader>{{today | date}}</div>
-    <mat-list-item matRipple *ngFor="let time of timeRecords" class="hover:bg-stone-50" (click)="openTimeTrackingDialog(time.id)">
-      <i matListItemIcon class="material-icons-outlined text-stone-500">timer</i>
-      <div matListItemTitle>{{time.task!.subject | truncate}}</div>
-      <div matListItemLine><span>{{time.description | truncate}}</span></div>
-      <div matListItemMeta><span>{{time.durationSeconds | duration}}</span></div>
+    <mat-list-item matRipple *ngFor="let time of timeRecords" class="hover:bg-stone-50"
+      (click)="openTimeTrackingDialog(time.id)">
+      <i matListItemIcon class="material-icons-outlined text-stone-500">
+        timer
+      </i>
+
+      <div matListItemTitle class="truncate w-[200px] md:w-full">{{time.task!.subject}}</div>
+
+      <div matListItemLine class="truncate w-[200px] md:w-full">
+        {{time.description}}
+      </div>
+
+      <div matListItemMeta>{{time.durationSeconds | duration}}</div>
     </mat-list-item>
-    <mat-list-item matRipple *ngIf="!timeRecords || timeRecords.length === 0" class="hover:bg-stone-50" (click)="loadTimeRecords()">
+    <mat-list-item matRipple *ngIf="!timeRecords || timeRecords.length === 0" class="hover:bg-stone-50"
+      (click)="loadTimeRecords()">
       <div matListItemTitle>Keine Einträge gefunden</div>
       <div matListItemMeta>
         <button mat-icon-button matTooltip="Einträge aktualisieren">

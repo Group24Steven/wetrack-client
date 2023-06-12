@@ -6,15 +6,21 @@
     <mat-list-item matRipple *ngFor="let task of tasks" class="hover:bg-stone-50"
       (click)="openTimeTrackingDialog(task.id)">
       <i matListItemIcon class="material-icons-outlined text-stone-500">task</i>
-      <div matListItemTitle>{{task!.subject | truncate}}</div>
-      <div matListItemLine *ngIf="task!.lastModifiedDate"><span
-          class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
+
+      <div matListItemTitle class="truncate w-[200px] md:w-full">
+        {{task.subject}}
       </div>
+
+      <div matListItemLine class="truncate w-[200px] md:w-full" *ngIf="task!.lastModifiedDate">
+        <span class="text-sm font-light text-stone-500">{{task.lastModifiedDate}}</span>
+      </div>
+
       <div matListItemMeta>
         <button mat-icon-button matTooltip="Arbeitszeit erfassen">
           <i class="material-icons-outlined">playlist_add</i>
         </button>
       </div>
+
     </mat-list-item>
     <mat-list-item matRipple *ngIf="!tasks || tasks.length === 0" class="hover:bg-stone-50" (click)="loadTasks()">
       <div matListItemTitle>Keine Einträge gefunden</div>

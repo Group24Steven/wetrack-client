@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TimeRecordService } from 'src/app/core/services/api/time-record.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TimeRecord } from '../../../core/models/time-record';
+import { TimeRecordConfig } from 'src/app/core/interfaces/time-record-config';
 
 @Component({
   selector: 'app-time-tracker',
@@ -49,7 +50,9 @@ import { TimeRecord } from '../../../core/models/time-record';
 })
 export class TimerTrackerComponent implements OnInit, OnDestroy {
   TimeRecordType = TimeRecordType
-  _id: string | null = null
+
+  id: WritableSignal<string | null> = signal(null)
+  projectId: WritableSignal<string | null> = signal(null)
 
   today: Date
   yesterday: Date
@@ -59,35 +62,34 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   loading$ = new BehaviorSubject<boolean>(false)
   unsubscribe$ = new Subject<void>()
 
-  @Input() set startTime(value: number) {
+  @Input({ required: true }) set config(value: TimeRecordConfig) {
+    if (value.id) {
+      this.id.set(value.id)
+      this.getData(value.id)
+      return
+    }
+
+    this.assistantService.form.reset()
+
+    this.startTime = value.startDateTime
+    this.endTime = value.endDateTime
+
+    if (value.searchType) this.assistantService.formSearchType.setValue(value.searchType)
+    if (value.taskId) this.assistantService.formTaskId.setValue(value.taskId)
+
+    this.projectId.set(value.projectId)
+  }
+
+  set startTime(value: number) {
     const date = new Date(value)
     const timeInput = TimeRecord.getTimeInput(date)
     this.assistantService.formStartTime.setValue(timeInput)
   }
 
-  @Input() set endTime(value: number) {
+  set endTime(value: number) {
     const date = new Date(value)
     const timeInput = TimeRecord.getTimeInput(date)
     this.assistantService.formEndTime.setValue(timeInput)
-  }
-
-  @Input() set searchType(value: TimeRecordType | null) {
-    if (!value) return
-    this.assistantService.formSearchType.setValue(value)
-  }
-
-  @Input() set taskId(value: string | null) {
-    if (!value) return
-    this.assistantService.formTaskId.setValue(value)
-  }
-
-  @Input() set id(value: string | null) {
-    if (!value) {
-      this.assistantService.form.reset()
-      return
-    }
-    this._id = value
-    this.getData(value)
   }
 
   @Output() successEvent: EventEmitter<boolean> = new EventEmitter()
@@ -109,7 +111,6 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  
     const now = new Date()
     this.today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0)
     this.yesterday = new Date(new Date().setDate(now.getDate() - 1))
@@ -122,11 +123,11 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   }
 
   submitTimeRecord(): void {
-    if (!this._id) {
+    if (this.id() === null) {
       this.create()
-      return
+    } else {
+      this.update(this.id() as string)
     }
-    this.update(this._id)
   }
 
   private create(): void {

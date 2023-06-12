@@ -1,14 +1,25 @@
 <mat-card>
   <mat-card-header class="mb-4">
-    <app-headline-two title="Projekte"></app-headline-two>
+    <app-headline-two title="Projektaufträge"></app-headline-two>
   </mat-card-header>
   <mat-list>
-    <mat-list-item matRipple *ngFor="let project of projects" class="hover:bg-stone-50">
+
+    <mat-list-item matRipple *ngFor="let project of projects()" class="hover:bg-stone-50" (click)="openTimeTrackingDialog(project.id)">
       <i matListItemIcon class="material-icons-outlined text-stone-500">workspaces</i>
-      <div matListItemTitle>{{project.name}}</div>
-      <div matListItemLine>{{project.updated}}</div>
+
+      <div matListItemTitle class="truncate w-[200px] md:w-full">
+        {{project.orderNumber}} - {{project.commission}}
+      </div>
+
+      <div matListItemMeta>
+        <button mat-icon-button matTooltip="Arbeitszeit erfassen">
+          <i class="material-icons-outlined">playlist_add</i>
+        </button>
+
+      </div>
     </mat-list-item>
-    <mat-list-item *ngIf="!projects || projects.length === 0" class="hover:bg-stone-50">
+
+    <mat-list-item *ngIf="!projects() || projects().length === 0" class="hover:bg-stone-50" (click)="loadTasks()">
       <div matListItemTitle>Keine Einträge gefunden</div>
       <div matListItemMeta>
         <button mat-icon-button>
@@ -16,5 +27,11 @@
         </button>
       </div>
     </mat-list-item>
+
   </mat-list>
+  <mat-card-footer>
+    <mat-paginator [length]="paginator().total" [pageSize]="paginator().pageSize" [pageIndex]="paginator().pageIndex"
+      (page)="onPageChange($event)" hidePageSize="true"></mat-paginator>
+    <app-progress-bar [loading$]="loading$"></app-progress-bar>
+  </mat-card-footer>
 </mat-card>
