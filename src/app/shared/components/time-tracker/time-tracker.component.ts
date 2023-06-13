@@ -22,6 +22,7 @@ import { TimeRecordService } from 'src/app/core/services/api/time-record.service
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { TimeRecord } from '../../../core/models/time-record';
 import { TimeRecordConfig } from 'src/app/core/interfaces/time-record-config';
+import { Task } from 'src/app/core/models/task';
 
 @Component({
   selector: 'app-time-tracker',
@@ -75,7 +76,7 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     this.endTime = value.endDateTime
 
     if (value.searchType) this.assistantService.formSearchType.setValue(value.searchType)
-    if (value.taskId) this.assistantService.formTaskId.setValue(value.taskId)
+    if (value.task) this.assistantService.formTask.setValue(value.task)
 
     this.projectId.set(value.projectId)
   }
@@ -133,12 +134,13 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   private create(): void {
     this.loading$.next(true)
 
+    const task: Task = this.assistantService.formTask.value
     const data: any = {
       title: this.assistantService.formDescription.value,
       description: this.assistantService.formDescription.value,
       durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,
-      taskId: this.assistantService.formTaskId.value
+      taskId: task.id
     }
 
     this.timeRecordService.store(data).pipe(
@@ -159,12 +161,14 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
   private update(id: string): void {
     this.loading$.next(true)
 
+    const task: Task = this.assistantService.formTask.value
+
     const data: any = {
       title: this.assistantService.formDescription.value,
       description: this.assistantService.formDescription.value,
       durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,
-      taskId: this.assistantService.formTaskId.value,
+      taskId: task.id,
       userId: this.assistantService.form.get('userId')!.value,
     }
 

@@ -20,7 +20,7 @@
   <mat-label>Auswahl Aufgabe</mat-label>
   <mat-select [formControl]="formControl" (blur)="onTouched()" (input)="resetSelection()"
     (selectionChange)="selected($event)">
-    <mat-option *ngFor="let option of tasks | async" [value]="option.id">
+    <mat-option *ngFor="let option of tasks | async" [value]="option">
       {{option.id}} - {{option.subject}}
     </mat-option>
   </mat-select>

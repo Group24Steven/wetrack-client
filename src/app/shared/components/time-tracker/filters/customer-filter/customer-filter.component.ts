@@ -58,10 +58,10 @@ export class CustomerFilterComponent extends BaseFilterComponent {
     await this.customersLoaded
 
     for (let customer of this.customers.toArray()) {
-      const task = customer.tasks?.find(task => task.id === value)
+      const task = customer.tasks?.find(task => task.id === value.id)
       if (!task) continue
       this.prefilterFormControl.setValue(customer.id)
-      this.formControl.setValue(task.id)
+      this.formControl.setValue(task)
       break
     }
   }

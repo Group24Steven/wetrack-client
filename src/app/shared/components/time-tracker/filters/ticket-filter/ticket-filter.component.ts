@@ -57,10 +57,10 @@ export class TicketFilterComponent extends BaseFilterComponent {
     await this.customersLoaded
 
     for (const ticket of this.tickets.toArray()) {
-      const task = ticket.tasks?.find(task => task.id === value)
+      const task = ticket.tasks?.find(task => task.id === value.id)
       if (!task) continue
       this.prefilterFormControl.setValue(ticket.id)
-      this.formControl.setValue(task.id)
+      this.formControl.setValue(task)
       break
     }
   }

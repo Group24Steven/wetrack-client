@@ -17,28 +17,28 @@
 
   <ng-container *ngIf="assistantService.currentStep === 2 && !id()">
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.ProjectOrder">
-      <app-project-order-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+      <app-project-order-filter formControlName="task" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
         class="w-full" [projectOrderId]="projectId()"></app-project-order-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Customer">
-      <app-customer-filter formControlName="taskId" (laodingStart)="loading$.next(true)"
+      <app-customer-filter formControlName="task" (laodingStart)="loading$.next(true)"
         (loadingEnd)="loading$.next(false)" class="w-full"></app-customer-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Ticket">
-      <app-ticket-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+      <app-ticket-filter formControlName="task" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
         class="w-full"></app-ticket-filter>
     </div>
 
     <div *ngIf="assistantService.formSearchType.value === TimeRecordType.Task">
-      <app-task-filter formControlName="taskId" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
+      <app-task-filter formControlName="task" (laodingStart)="loading$.next(true)" (loadingEnd)="loading$.next(false)"
         class="w-full"></app-task-filter>
     </div>
 
     <div class="flex justify-between">
       <button mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
-      <button [disabled]="!assistantService.formTaskId.valid"
+      <button [disabled]="!assistantService.formTask.valid"
         mat-raised-button color="primary" (click)="assistantService.moveToNextStep()">Weiter</button>
     </div>
   </ng-container>

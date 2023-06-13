@@ -4,7 +4,7 @@
   </mat-card-header>
   <mat-list>
     <mat-list-item matRipple *ngFor="let task of tasks" class="hover:bg-stone-50"
-      (click)="openTimeTrackingDialog(task.id)">
+      (click)="openTimeTrackingDialog(task)">
       <i matListItemIcon class="material-icons-outlined text-stone-500">task</i>
 
       <div matListItemTitle class="truncate w-[200px] md:w-full">

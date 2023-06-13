@@ -111,7 +111,7 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
     for (let projectOrder of this.projectOrders.toArray()) {
       // Try to find an orderItem in the projectOrder that contains a task with the provided id
       const orderItem = projectOrder.orderItems?.find(item => {
-        const task = item.tasks.find(task => task.id === value)
+        const task = item.tasks.find(task => task.id === value.id)
         if (!task) return false
 
         foundTask = task
@@ -130,7 +130,7 @@ export class ProjectOrderFilterComponent extends BaseFilterComponent {
     if (foundProjectOrder && foundOrderItem && foundTask) {
       this.orderFormControl.setValue(foundProjectOrder.id)
       this.orderItemFormControl.setValue(foundOrderItem.id)
-      this.formControl.setValue(foundTask.id)
+      this.formControl.setValue(foundTask)
     }
   }
 

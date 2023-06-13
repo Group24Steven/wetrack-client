@@ -79,14 +79,14 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
     })
   }
 
-  openTimeTrackingDialog(taskId: string) {
+  openTimeTrackingDialog(task: Task) {
     const now = Date.now()
 
     const dialogRef: MatDialogRef<TimeTrackerDialogComponent> = this.dialog.open(TimeTrackerDialogComponent, {
       width: '400px',
       data: {
         searchType: TimeRecordType.Task,
-        taskId: taskId,
+        task: task,
         startDateTime: now,
         endDateTime: now
       }

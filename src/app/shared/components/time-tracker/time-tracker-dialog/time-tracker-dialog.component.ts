@@ -25,7 +25,7 @@ export class TimeTrackerDialogComponent {
     
     this.timeRecordConfig.set({
       id: data.id,
-      taskId: data.taskId,
+      task: data.task,
       projectId: data.projectId,
       startDateTime: data.startDateTime,
       endDateTime: data.endDateTime,
