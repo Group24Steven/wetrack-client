@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { List } from 'immutable';
-import { catchError, debounceTime, finalize, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
@@ -25,19 +25,24 @@ import { Task } from 'src/app/core/models/task';
 export class TaskFilterComponent extends BaseFilterComponent implements OnInit {
 
   filteredOptions: Observable<List<Task>>
+  tasksLoaded: Promise<void>
 
   constructor(private taskService: TaskService, private notificationService: NotificationService) {
-    super()
+    super();
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.formControl.valueChanges.pipe(startWith(''), debounceTime(300),
-      switchMap(value => this.blockSearch ? of([]) : this.load(value)),
-    )
+    this.tasksLoaded = new Promise(resolve => {
+      this.filteredOptions = this.formControl.valueChanges.pipe(startWith(''), debounceTime(300),
+        switchMap(value => {
+          return this.blockSearch ? of([]) : this.load(value)
+        })
+      )
+    })
   }
 
   load(searchText?: string): Observable<any> {
-    this.loadingStart.emit()
+    this.loadingStart.emit();
 
     const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
     if (searchText) params['subject-ilike'] = `%${searchText}%`
@@ -50,5 +55,9 @@ export class TaskFilterComponent extends BaseFilterComponent implements OnInit {
         return of([])
       })
     )
+  }
+
+  displayFn(task: Task): string {
+    return task ? `${task.id} - ${task.subject}` : ''
   }
 }

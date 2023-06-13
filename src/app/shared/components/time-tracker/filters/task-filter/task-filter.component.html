@@ -2,8 +2,8 @@
   <mat-label>Suche</mat-label>
   <input type="text" matInput [formControl]="formControl" [matAutocomplete]="auto" (ngModelChange)="onChange($event)"
     (blur)="onTouched()" (input)="resetSelection()">
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{ option.id}} - {{option.subject}}
     </mat-option>
   </mat-autocomplete>
