@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TimeRecordType } from '../enums/time-record-type';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,15 @@ export class TimeTrackerAssistantService {
     { value: TimeRecordType.Ticket, viewValue: 'Ticket' },
   ]
 
-  constructor(private fb: FormBuilder,) {
+  constructor(private fb: NonNullableFormBuilder,) {
     this.form = this.fb.group({
       searchType: ['', Validators.required],
       startDate: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       description: ['', Validators.required],
+      billable: [true, Validators.required],
+      articleId: [''],
       userId: [''],
       task: ['', Validators.required],
     })
@@ -72,6 +74,10 @@ export class TimeTrackerAssistantService {
 
   get formDescription() {
     return this.form.get('description')!
+  }
+
+  get formBillable() {
+    return this.form.get('billable')!
   }
 
   get formTask() {

@@ -65,7 +65,10 @@
         <span matTextSuffix>Uhr</span>
       </mat-form-field>
     </div>
-    <div class="flex justify-between">
+
+    <mat-slide-toggle formControlName="billable"><span class="ml-2">Abrechenbare Dauer?</span></mat-slide-toggle>
+
+    <div class="flex justify-between mt-6">
       <button *ngIf="!id()" mat-raised-button color="accent" (click)="assistantService.moveToPreviousStep()">Zurück</button>
       <div *ngIf="id()"></div>
       <button mat-raised-button color="primary"

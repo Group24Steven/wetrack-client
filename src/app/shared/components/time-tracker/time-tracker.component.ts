@@ -23,6 +23,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TimeRecord } from '../../../core/models/time-record';
 import { TimeRecordConfig } from 'src/app/core/interfaces/time-record-config';
 import { Task } from 'src/app/core/models/task';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-time-tracker',
@@ -37,6 +38,7 @@ import { Task } from 'src/app/core/models/task';
     MatOptionModule,
     MatSelectModule,
     MatDialogModule,
+    MatSlideToggleModule,
     MatDatepickerModule,
     ProjectOrderFilterComponent,
     TicketFilterComponent,
@@ -135,12 +137,16 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     this.loading$.next(true)
 
     const task: Task = this.assistantService.formTask.value
+    const billable: boolean = this.assistantService.formBillable.value
+
     const data: any = {
       title: this.assistantService.formDescription.value,
       description: this.assistantService.formDescription.value,
-      durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,
-      taskId: task.id
+      taskId: task.id,
+      billable: this.assistantService.formBillable.value,
+      durationSeconds: this.assistantService.durationSeconds,
+      billableDurationSeconds: billable ? this.assistantService.durationSeconds : 0,
     }
 
     this.timeRecordService.store(data).pipe(
@@ -162,13 +168,16 @@ export class TimerTrackerComponent implements OnInit, OnDestroy {
     this.loading$.next(true)
 
     const task: Task = this.assistantService.formTask.value
+    const billable: boolean = this.assistantService.formBillable.value
 
     const data: any = {
       title: this.assistantService.formDescription.value,
       description: this.assistantService.formDescription.value,
-      durationSeconds: this.assistantService.durationSeconds,
       startDate: this.assistantService.startTime,
       taskId: task.id,
+      billable: billable,
+      durationSeconds: this.assistantService.durationSeconds,
+      billableDurationSeconds: billable ? this.assistantService.durationSeconds : 0,
       userId: this.assistantService.form.get('userId')!.value,
     }
 

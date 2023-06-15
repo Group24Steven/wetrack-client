@@ -10,6 +10,7 @@ export class TimeRecord {
   startDate: Date
   startTime: string
   endTime: string
+  billable: boolean
 
   constructor(data: any) {
     this.id = data.id
@@ -25,6 +26,8 @@ export class TimeRecord {
 
     this.taskId = data.taskId
     this.userId = data.userId
+    
+    this.billable = data.billable
 
     this.task = data.task ?? null
   }
