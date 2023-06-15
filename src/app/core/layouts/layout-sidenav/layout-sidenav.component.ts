@@ -78,7 +78,7 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(SwitchTenantDialogComponent, {
       width: '400px',
       data: {
-        activeTenant: this.currentUser?.activeTenant
+        activeTenant: this.currentUser?.active_tenant
       }
     })
 

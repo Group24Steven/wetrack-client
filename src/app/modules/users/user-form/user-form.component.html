@@ -15,11 +15,14 @@
     </mat-error>
   </mat-form-field>
 
-  <div class="flex justify-between">
+  <mat-slide-toggle formControlName="is_admin"><span class="ml-2">ist Administrator?</span></mat-slide-toggle>
+
+  <div class="flex justify-between mt-6">
     <button *ngIf="_id; else new" mat-raised-button color="warn" (click)="delete()" type="button">Löschen</button>
     <ng-template #new>
       <div></div>
     </ng-template>
-    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click)="onSubmit()">Speichern</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid"
+      (click)="onSubmit()">Speichern</button>
   </div>
 </form>

@@ -1,15 +1,16 @@
 import { Component, Output, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ReactiveFormsModule } from '@angular/forms'
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatInputModule } from '@angular/material/input'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormGroup, Validators } from '@angular/forms'
 import { HttpErrorResponse } from '@angular/common/http'
 import { NotificationService } from '../../../core/services/notification.service';
-import { finalize } from 'rxjs'
+import { finalize, map } from 'rxjs'
 import { UserService } from 'src/app/core/services/api/user.service'
 import { User } from 'src/app/core/models/user'
 
@@ -18,7 +19,7 @@ import { User } from 'src/app/core/models/user'
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule,
-    MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule,
+    MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSlideToggleModule,
     ProgressBarComponent
   ],
   templateUrl: './user-form.component.html',
@@ -55,11 +56,12 @@ export class UserFormComponent {
     return this.form.get('email')
   }
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private notificationService: NotificationService) {
+  constructor(private formBuilder: NonNullableFormBuilder, private userService: UserService, private notificationService: NotificationService) {
     this.form = this.formBuilder.group({
       id: [''],
       name: [''],
       email: ['', [Validators.required, Validators.email]],
+      is_admin: [false, [Validators.required]]
     })
   }
 
@@ -91,10 +93,10 @@ export class UserFormComponent {
     })
   }
 
-  private update(data: User): void {
+  private update(user: User): void {
     this.startLoadingEvent.emit()
 
-    this.userService.update(data.id, data).pipe(
+    this.userService.update(user.id, user).pipe(
       finalize(() => {
         this.stopLoadingEvent.emit()
       })
@@ -115,10 +117,13 @@ export class UserFormComponent {
     this.userService.show(id).pipe(
       finalize(() => {
         this.stopLoadingEvent.emit()
+      }),
+      map((data: any) => {
+        return new User(data.data)
       })
     ).subscribe({
-      next: (data: any) => {
-        this.form.patchValue(data.data)
+      next: (data: User) => {
+        this.form.patchValue(data)
       },
       error: (error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
@@ -127,8 +132,8 @@ export class UserFormComponent {
   }
 
   public delete(): void {
-    if (!this._id) return 
-    
+    if (!this._id) return
+
     this.startLoadingEvent.emit()
 
     this.userService.delete(this._id).pipe(

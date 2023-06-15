@@ -14,12 +14,12 @@
           <span>Dashboard</span>
         </mat-list-item>
 
-        <mat-list-item *ngIf="currentUser?.isAdmin" routerLink="/users">
+        <mat-list-item *ngIf="currentUser?.is_admin" routerLink="/users">
           <mat-icon matListItemIcon>person</mat-icon>
           <span>Benutzer</span>
         </mat-list-item>
 
-        <mat-list-item *ngIf="currentUser?.isAdmin" routerLink="/tenants">
+        <mat-list-item *ngIf="currentUser?.is_admin" routerLink="/tenants">
           <mat-icon matListItemIcon>group</mat-icon>
           <span>Mandanten</span>
         </mat-list-item>

@@ -17,7 +17,7 @@
       </div>
       <button mat-menu-item (click)="switchTenantEvent.emit()">
         <mat-icon>supervisor_account</mat-icon>
-        <span>{{currentUser?.activeTenant?.name ?? '-'}}</span>
+        <span>{{currentUser?.active_tenant?.name ?? '-'}}</span>
       </button>
       <button mat-menu-item (click)="logoutEvent.emit()">
         <mat-icon>logout</mat-icon>
