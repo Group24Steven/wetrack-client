@@ -48,7 +48,7 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentUser = this.auth.getCurrentUser()
-
+    
     this.updateSubscription = this.eventService.userUpdated$.subscribe(() => {
       this.auth.getUser().subscribe({
         next: (user: User) => {
