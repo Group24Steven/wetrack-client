@@ -61,7 +61,7 @@ export class UserFormComponent {
       id: [''],
       name: [''],
       email: ['', [Validators.required, Validators.email]],
-      is_admin: [false, [Validators.required]]
+      is_admin: [0, [Validators.required]]
     })
   }
 
