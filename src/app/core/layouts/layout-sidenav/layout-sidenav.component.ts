@@ -41,7 +41,7 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
   updateSubscription?: Subscription
 
   constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog, private eventService: AppEventService,) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)')
+    this.mobileQuery = media.matchMedia('(max-width: 1024px)')
     this._mobileQueryListener = () => changeDetectorRef.detectChanges()
     this.mobileQuery.addListener(this._mobileQueryListener)
   }
