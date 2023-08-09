@@ -17,7 +17,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { User } from 'src/app/core/models/user'
 import { UserService } from 'src/app/core/services/api/user.service'
-import { RequestPaginator } from 'src/app/core/services/api/base-api.service'
+import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service'
 import { UserDialogComponent } from './user-dialog/user-dialog.component'
 import { AppEventService } from 'src/app/core/services/app-event.service'
 import { MatTooltipModule } from '@angular/material/tooltip'
@@ -31,7 +31,6 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 })
 
 export class UsersComponent implements OnInit, OnDestroy {
-
   searchTerm = ''
   loading$ = new BehaviorSubject<boolean>(false)
 
@@ -41,7 +40,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   paginator: RequestPaginator = {
     pageIndex: 0,
     pageSize: 15,
-    total: 0,
+    total: 0
   }
 
   updateSubscription?: Subscription
@@ -58,8 +57,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.updateSubscription?.unsubscribe()
   }
 
-  openForm(data?: number): void {
+  onSearch(event: any) {
+    this.paginator.pageIndex = 0
+    this.searchTerm = event.target.value
+    this.loadData()
+  }
 
+  openForm(data?: number): void {
     const dialogRef: MatDialogRef<UserDialogComponent> = this.dialog.open(UserDialogComponent, {
       width: '400px', data: {
         id: data
@@ -80,7 +84,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.loading$.next(true);
 
-    this.userService.index({}, this.paginator).pipe(
+    const params: RequestSearchParams = {
+      pageSize: this.paginator.pageSize,
+      search: this.searchTerm
+    }
+
+    this.userService.index(params, this.paginator, this.searchTerm).pipe(
       tap((response: any) => {
         this.paginator.total = response.data.total
       }),

@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { Task } from 'src/app/core/models/task';
 import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
@@ -24,16 +26,32 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-task-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, TruncatePipe, MatTooltipModule],
+  imports: [
+    CommonModule, 
+    MatCardModule, 
+    MatListModule, 
+    MatIconModule, 
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule, 
+    MatPaginatorModule, 
+    MatRippleModule, 
+    HeadlineTwoComponent, 
+    ProgressBarComponent, 
+    TruncatePipe, 
+    MatTooltipModule
+  ],
   templateUrl: './task-widget.component.html',
   styleUrls: ['./task-widget.component.scss']
 })
 export class TaskWidgetComponent implements OnInit, OnDestroy {
+  searchTerm = "";
   paginator: RequestPaginator = {
     pageIndex: 0,
     pageSize: 5,
-    total: 0,
+    total: 0
   }
+
 
   tasks?: Task[]
 
@@ -51,6 +69,12 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
     this.updateSubscription?.unsubscribe()
   }
 
+  onSearch(event: any) {
+    this.paginator.pageIndex = 0
+    this.searchTerm = event.target.value
+    this.loadTasks()
+  }
+
   onPageChange(event: any) {
     this.paginator.pageIndex = event.pageIndex
     this.loadTasks()
@@ -60,7 +84,14 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
     if (this.loading$.value) return 
     this.loading$.next(true)
 
-    const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
+    //const params: RequestSearchParams = { 'properties': 'id,subject,taskPriority', 'taskStatus-ne': 'COMPLETED', 'sort': 'subject', }
+    const params: RequestSearchParams = {
+      properties: 'id,subject,taskPriority',
+      'taskStatus-ne': 'COMPLETED',
+      sort: 'subject',
+      subject: this.searchTerm
+    }
+    //console.log(params);
 
     this.taskService.index(params, this.paginator).pipe(
       catchError((error: HttpErrorResponse) => {

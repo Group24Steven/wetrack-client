@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { HeadlineTwoComponent } from 'src/app/shared/ui/headline-two/headline-two.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
 import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -24,16 +26,30 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 @Component({
   selector: 'app-project-widget',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule, MatRippleModule, HeadlineTwoComponent, ProgressBarComponent, TruncatePipe, MatTooltipModule],
+  imports: [
+    CommonModule, 
+    MatCardModule, 
+    MatListModule, 
+    MatIconModule, 
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule, 
+    MatRippleModule, 
+    HeadlineTwoComponent, 
+    ProgressBarComponent, 
+    TruncatePipe, 
+    MatTooltipModule
+  ],
   templateUrl: './project-widget.component.html',
   styleUrls: ['./project-widget.component.scss'],
 
 })
 export class ProjectWidgetComponent {
+  searchTerm = "";
   paginator = signal({
     pageIndex: 0,
     pageSize: 5,
-    total: 0,
+    total: 0
   })
 
   projects: WritableSignal<ProjectOrder[]> = signal([])
@@ -52,6 +68,12 @@ export class ProjectWidgetComponent {
     this.updateSubscription?.unsubscribe()
   }
 
+  onSearch(event: any) {
+    //this.paginator.pageIndex = 0 (klappt momentan aufgrund Signal nicht...)
+    this.searchTerm = event.target.value
+    this.loadTasks()
+  }
+
   onPageChange(event: any) {
     this.paginator.mutate((paginator) => {
       paginator.pageIndex = event.pageIndex
@@ -67,7 +89,8 @@ export class ProjectWidgetComponent {
     const params: RequestSearchParams = {
       properties: 'id,commission,orderNumber',
       pageSize: 25,
-      'projectModeActive-eq': true
+      'projectModeActive-eq': true,
+      subject: this.searchTerm
     }
 
     this.projectService.index(params, this.paginator()).pipe(

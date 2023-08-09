@@ -53,6 +53,15 @@ const routes: Routes = [
     title: 'wetrack - Mandanten',
   },
   {
+    path: 'tasks',
+    canActivate: [authGuardFn({ redirectTo: ['/login'] })],
+    data: {
+      layout: AppLayoutType.Sidenav
+    },
+    loadComponent: () => import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
+    title: 'wetrack - Aufgaben/Aufträge',
+  },
+  {
     path: 'users',
     canActivate: [authGuardFn({ redirectTo: ['/login'] })],
     data: {
