@@ -45,7 +45,7 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 
 })
 export class ProjectWidgetComponent {
-  searchTerm = "";
+  searchTerm = '';
   paginator = signal({
     pageIndex: 0,
     pageSize: 5,
@@ -89,11 +89,10 @@ export class ProjectWidgetComponent {
     const params: RequestSearchParams = {
       properties: 'id,commission,orderNumber',
       pageSize: 25,
-      'projectModeActive-eq': true,
-      subject: this.searchTerm
+      'projectModeActive-eq': true
     }
 
-    this.projectService.index(params, this.paginator()).pipe(
+    this.projectService.index(params, this.paginator(), this.searchTerm).pipe(
       catchError((error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
         return of([])

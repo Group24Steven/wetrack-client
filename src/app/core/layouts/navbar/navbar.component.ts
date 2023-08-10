@@ -27,6 +27,11 @@ export class NavbarComponent {
 
   @Input() currentUser?: User | null
 
+  /*
+    Toggle speichern!!
+  */
+  toggled = false;
+
   toggle(): void {
     this.sidenavToggleEvent.next()
   }

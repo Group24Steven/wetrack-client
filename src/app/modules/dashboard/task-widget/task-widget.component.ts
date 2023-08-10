@@ -45,13 +45,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./task-widget.component.scss']
 })
 export class TaskWidgetComponent implements OnInit, OnDestroy {
-  searchTerm = "";
+  searchTerm = '';
   paginator: RequestPaginator = {
     pageIndex: 0,
     pageSize: 5,
     total: 0
   }
-
 
   tasks?: Task[]
 
@@ -88,12 +87,10 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
     const params: RequestSearchParams = {
       properties: 'id,subject,taskPriority',
       'taskStatus-ne': 'COMPLETED',
-      sort: 'subject',
-      subject: this.searchTerm
+      sort: 'subject'
     }
-    //console.log(params);
 
-    this.taskService.index(params, this.paginator).pipe(
+    this.taskService.index(params, this.paginator, this.searchTerm).pipe(
       catchError((error: HttpErrorResponse) => {
         this.notificationService.showError(error.error.message)
         return of([])

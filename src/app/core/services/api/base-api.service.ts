@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { MatPaginator } from '@angular/material/paginator';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -28,7 +29,7 @@ export class BaseApiService<T> {
       params = params.set('pageSize', paginator.pageSize.toString())
     }
     if(searchTerm) {
-      params.set('search', searchTerm)
+      params = params.set('search', searchTerm)
     }
     
     for (const key in filter) {
@@ -36,7 +37,6 @@ export class BaseApiService<T> {
         params = params.set(`filter[${key}]`, filter[key])
       }
     }
-    console.log(params);
 
     return this.http.get<T[]>(this.url, { params: params })
   }

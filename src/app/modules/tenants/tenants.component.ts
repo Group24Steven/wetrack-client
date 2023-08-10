@@ -20,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { AppEventService } from '../../core/services/app-event.service';
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service'
 
 @Component({
   selector: 'app-tenants',
@@ -30,7 +31,6 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 })
 
 export class TenantsComponent implements OnInit {
-
   searchTerm = ''
   loading$ = new BehaviorSubject<boolean>(false)
 
@@ -39,12 +39,23 @@ export class TenantsComponent implements OnInit {
 
   updateSubscription?: Subscription
   @ViewChild(MatPaginator) paginator: MatPaginator
+  reqPaginator: RequestPaginator = {
+    pageIndex: 0,
+    pageSize: 15,
+    total: 0
+  }
 
   constructor(private tenantService: TenantService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) { }
 
   ngOnInit(): void {
     this.load()
     this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.load())
+  }
+
+  onSearch(event: any) {
+    this.paginator.pageIndex = 0
+    this.searchTerm = event.target.value
+    this.load()
   }
 
   openTenantForm(data?: number): void {
@@ -64,7 +75,11 @@ export class TenantsComponent implements OnInit {
   private load(): void {
     this.loading$.next(true)
 
-    this.tenantService.index().pipe(
+    const params: RequestSearchParams = {
+      pageIndex: this.reqPaginator.pageIndex,
+      pageSize: 15
+    }
+    this.tenantService.index(params, this.reqPaginator, this.searchTerm).pipe(
       tap((tenants: Tenant[]) => {
         this.dataSource.data = tenants
         this.dataSource.paginator = this.paginator
