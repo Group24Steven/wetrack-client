@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,15 +32,16 @@ import { SwitchTenantDialogComponent } from 'src/app/shared/components/tenants/s
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LayoutSidenavComponent implements OnInit, OnDestroy {
+export class LayoutSidenavComponent implements OnInit, OnDestroy, AfterViewInit {
   mobileQuery: MediaQueryList
+  @ViewChild('snav') sidenav!: MatSidenav;
 
   currentUser: User | null = null
 
   private _mobileQueryListener: () => void
   updateSubscription?: Subscription
 
-  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog, private eventService: AppEventService,) {
+  constructor(public auth: AuthService, media: MediaMatcher, changeDetectorRef: ChangeDetectorRef, private notificationService: NotificationService, private router: Router, private matDialog: MatDialog, private eventService: AppEventService) {
     this.mobileQuery = media.matchMedia('(max-width: 1024px)')
     this._mobileQueryListener = () => changeDetectorRef.detectChanges()
     this.mobileQuery.addListener(this._mobileQueryListener)
@@ -48,7 +49,7 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentUser = this.auth.getCurrentUser()
-    
+
     this.updateSubscription = this.eventService.userUpdated$.subscribe(() => {
       this.auth.getUser().subscribe({
         next: (user: User) => {
@@ -56,6 +57,15 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
         }
       })
     })
+  }
+
+  ngAfterViewInit(): void {
+    const toggled = localStorage.getItem('sidebar-toggle') || 'empty';
+    if(toggled === 'collapsed') {
+      this.sidenav.toggle(true);
+    } else {
+      this.sidenav.toggle(false);
+    }
   }
 
   ngOnDestroy(): void {
@@ -72,6 +82,22 @@ export class LayoutSidenavComponent implements OnInit, OnDestroy {
         this.notificationService.showError(error.error.message)
       }
     })
+  }
+
+  toggle(): boolean {
+    switch(this.sidenav.opened) {
+      case true:
+        localStorage.removeItem('sidebar-toggle');
+        localStorage.setItem('sidebar-toggle', 'collapsed');
+        this.sidenav.toggle(false);
+        this.sidenav.opened
+        return false;
+      case false:
+        localStorage.removeItem('sidebar-toggle');  
+        localStorage.setItem('sidebar-toggle', 'expanded');
+        this.sidenav.toggle(true);
+        return true;
+    }
   }
 
   openSwitchTenantDialog() {

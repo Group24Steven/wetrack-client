@@ -58,7 +58,7 @@ const routes: Routes = [
     data: {
       layout: AppLayoutType.Sidenav
     },
-    loadChildren: () => import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
+    loadComponent: () => import('./modules/tasks/tasks.component').then((m) => m.TasksComponent),
     title: 'wetrack - Aufgaben/Aufträge',
   },
   {

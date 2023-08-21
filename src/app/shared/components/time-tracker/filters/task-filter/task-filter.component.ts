@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { List } from 'immutable';
-import { catchError, debounceTime, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service';
 import { Task } from 'src/app/core/models/task';
-import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, catchError, debounceTime, finalize, of, pipe } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TaskService } from 'src/app/core/services/api/task.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -22,6 +22,7 @@ import { TimeRecordType } from 'src/app/core/enums/time-record-type';
 import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-task-widget',
@@ -46,6 +47,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class TaskWidgetComponent implements OnInit, OnDestroy {
   searchTerm = '';
+  searchSubject = new Subject<string>();
+  destroyRef = inject(DestroyRef);
   paginator: RequestPaginator = {
     pageIndex: 0,
     pageSize: 5,
@@ -57,15 +60,25 @@ export class TaskWidgetComponent implements OnInit, OnDestroy {
   loading$ = new BehaviorSubject<boolean>(false)
   updateSubscription?: Subscription
 
-  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) { }
+  constructor(private taskService: TaskService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) { 
+    this.searchSubject
+      .pipe(debounceTime(300))
+      .subscribe(searchTerm => { 
+          this.onSearch(searchTerm);
+      });
+  }
 
   ngOnInit(): void {
     this.loadTasks()
     this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTasks())
+    this.eventService.userUpdated$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.loadTasks())
   }
 
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe()
+    this.searchSubject.unsubscribe()
   }
 
   onSearch(event: any) {

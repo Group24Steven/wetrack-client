@@ -1,4 +1,4 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component, DestroyRef, WritableSignal, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
-import { BehaviorSubject, Subscription, catchError, finalize, of } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError, debounceTime, finalize, of, Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TimeRecordType } from 'src/app/core/enums/time-record-type';
@@ -17,11 +17,11 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { TimeTrackerDialogComponent } from 'src/app/shared/components/time-tracker/time-tracker-dialog/time-tracker-dialog.component';
 import { ProjectOrderService } from 'src/app/core/services/api/project-order.service';
 import { ProjectOrder } from 'src/app/core/models/project-order';
-import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TruncatePipe } from 'src/app/shared/pipes/truncate.pipe';
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-project-widget',
@@ -46,6 +46,8 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 })
 export class ProjectWidgetComponent {
   searchTerm = '';
+  searchSubject = new Subject<string>();
+  destroyRef = inject(DestroyRef);
   paginator = signal({
     pageIndex: 0,
     pageSize: 5,
@@ -55,21 +57,31 @@ export class ProjectWidgetComponent {
   projects: WritableSignal<ProjectOrder[]> = signal([])
 
   loading$ = new BehaviorSubject<boolean>(false)
+  tasksLoaded: Promise<void>
   updateSubscription?: Subscription
 
-  constructor(private projectService: ProjectOrderService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) { }
+  constructor(private projectService: ProjectOrderService, private notificationService: NotificationService, private dialog: MatDialog, private eventService: AppEventService) {
+    this.searchSubject
+      .pipe(debounceTime(300))
+      .subscribe(searchTerm => { 
+          this.onSearch(searchTerm);
+      });
+  }
 
   ngOnInit(): void {
     this.loadTasks()
     this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.loadTasks())
+    this.eventService.userUpdated$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.loadTasks())
   }
 
   ngOnDestroy(): void {
     this.updateSubscription?.unsubscribe()
+    this.searchSubject.unsubscribe()
   }
 
   onSearch(event: any) {
-    //this.paginator.pageIndex = 0 (klappt momentan aufgrund Signal nicht...)
     this.searchTerm = event.target.value
     this.loadTasks()
   }

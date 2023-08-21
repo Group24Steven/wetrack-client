@@ -1,6 +1,6 @@
 <div class="layout__container" [class.is-mobile]="mobileQuery.matches">
   <app-navbar class="z-10" [currentUser]="currentUser" 
-    (sidenavToggleEvent)="snav.toggle()"
+    (sidenavToggleEvent)="this.toggle()"
     (logoutEvent)="logout()"
     (switchTenantEvent)="openSwitchTenantDialog()">
   </app-navbar>

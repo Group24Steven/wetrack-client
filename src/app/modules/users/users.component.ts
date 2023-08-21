@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
-import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { NotificationService } from '../../core/services/notification.service';
+import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component'
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
+import { NotificationService } from '../../core/services/notification.service'
 import { HttpErrorResponse } from '@angular/common/http'
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule } from '@angular/material/core'
 import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
 import { User } from 'src/app/core/models/user'

@@ -27,12 +27,18 @@ export class NavbarComponent {
 
   @Input() currentUser?: User | null
 
-  /*
-    Toggle speichern!!
-  */
-  toggled = false;
-
   toggle(): void {
     this.sidenavToggleEvent.next()
+    if(localStorage.getItem('sidebar-toggle') !== null) {
+      if(localStorage.getItem('sidebar-toggle') === 'expanded') {
+        localStorage.setItem('sidebar-toggle', 'collapsed');
+        return;
+      }
+      localStorage.setItem('sidebar-toggle', 'expanded');
+    }
+  }
+
+  isToggled(): boolean {
+    return localStorage.getItem('sidebar-toggle') === 'expanded';
   }
 }
