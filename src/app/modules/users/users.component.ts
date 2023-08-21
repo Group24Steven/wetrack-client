@@ -1,8 +1,8 @@
-import { Component, ViewChild, OnInit, OnDestroy, inject, DestroyRef } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
-import { BehaviorSubject, Subject, Subscription, catchError, debounceTime, finalize, map, of, tap } from 'rxjs'
+import { BehaviorSubject, Subscription, catchError, debounceTime, distinctUntilChanged, finalize, map, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
@@ -21,7 +21,7 @@ import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api
 import { UserDialogComponent } from './user-dialog/user-dialog.component'
 import { AppEventService } from 'src/app/core/services/app-event.service'
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { FormControl } from '@angular/forms'
 
 @Component({
   selector: 'app-users',
@@ -33,9 +33,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 export class UsersComponent implements OnInit, OnDestroy {
   searchTerm = ''
-  searchSubject = new Subject<string>();
+  searchCtrl = new FormControl()
+  searchSubscription: Subscription
   loading$ = new BehaviorSubject<boolean>(false)
-  destroyRef = inject(DestroyRef);
 
   displayedColumns: string[] = ['id', 'name', 'email']
   dataSource = new MatTableDataSource<User>()
@@ -46,23 +46,22 @@ export class UsersComponent implements OnInit, OnDestroy {
     total: 0
   }
 
-  constructor(private userService: UserService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) {
-    this.searchSubject
-      .pipe(debounceTime(300))
-      .subscribe(searchTerm => { 
-          this.onSearch(searchTerm);
-      });
-  }
+  constructor(private userService: UserService, private dialog: MatDialog, private notificationService: NotificationService, private eventService: AppEventService) {}
 
   ngOnInit(): void {
     this.loadData()
-    this.eventService.userUpdated$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.loadData())
+    this.searchSubscription = this.searchCtrl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(() => { 
+        this.loadData()
+      })
   }
 
   ngOnDestroy(): void {
-    this.searchSubject.unsubscribe()
+    if(this.searchSubscription) this.searchSubscription.unsubscribe();
   }
 
   onSearch(event: any) {
@@ -82,10 +81,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       if (!value) return
       this.loadData()
     })
-  }
-
-  onInputChange(value: string) {
-     this.searchSubject.next(value); 
   }
 
   onPageChange(event: any) {

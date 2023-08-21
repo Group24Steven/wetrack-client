@@ -1,9 +1,9 @@
-import { Component, ViewChild, OnInit } from '@angular/core'
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
 import { Tenant } from 'src/app/core/models/tenant'
-import { BehaviorSubject, Subscription, catchError, finalize, of, tap } from 'rxjs'
+import { BehaviorSubject, Subscription, catchError, debounceTime, distinctUntilChanged, finalize, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
@@ -21,6 +21,7 @@ import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-ba
 import { AppEventService } from '../../core/services/app-event.service';
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service'
+import { FormControl } from '@angular/forms'
 
 @Component({
   selector: 'app-tenants',
@@ -32,6 +33,8 @@ import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api
 
 export class TenantsComponent implements OnInit {
   searchTerm = ''
+  searchCtrl = new FormControl()
+  searchSubscription: Subscription
   loading$ = new BehaviorSubject<boolean>(false)
 
   displayedColumns: string[] = ['id', 'name', 'weclappUrl']
@@ -49,7 +52,18 @@ export class TenantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.load()
-    this.updateSubscription = this.eventService.userUpdated$.subscribe(() => this.load())
+    this.searchSubscription = this.searchCtrl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(() => { 
+        this.load()
+      })
+  }
+
+  ngOnDestroy(): void {
+    if(this.searchSubscription) this.searchSubscription.unsubscribe();
   }
 
   onSearch(event: any) {

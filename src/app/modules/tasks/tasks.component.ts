@@ -1,30 +1,30 @@
-import { Component, ViewChild, OnInit, OnDestroy, inject, DestroyRef, ChangeDetectionStrategy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { MatTableModule, MatTableDataSource, MatTableDataSourcePaginator } from '@angular/material/table'
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator'
-import { BehaviorSubject, Subject, Subscription, catchError, debounceTime, finalize, map, of, tap } from 'rxjs'
+import { MatTableModule, MatTableDataSource } from '@angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { BehaviorSubject, Subscription, catchError, debounceTime, distinctUntilChanged, finalize, map, of, tap } from 'rxjs'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card'
 import { HeadlineComponent } from 'src/app/shared/ui/headline/headline.component'
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { NotificationService } from '../../core/services/notification.service'
 import { HttpErrorResponse } from '@angular/common/http'
 import { MatRippleModule } from '@angular/material/core'
 import { MatDividerModule } from '@angular/material/divider'
 import { ProgressBarComponent } from 'src/app/shared/ui/progress-bar/progress-bar.component'
-import { BaseApiService, RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service'
+import { RequestPaginator, RequestSearchParams } from 'src/app/core/services/api/base-api.service'
 import { AppEventService } from 'src/app/core/services/app-event.service'
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { TaskService } from 'src/app/core/services/api/task.service'
 import { ProjectOrderService } from 'src/app/core/services/api/project-order.service'
 import { Task } from 'src/app/core/models/task'
 import { OrderItem } from 'src/app/core/models/project-order'
 import { TasksPageTable } from 'src/app/core/enums/tasks-page-table'
 import { __values } from 'tslib'
+import { FormControl } from '@angular/forms'
 
 
 @Component({
@@ -51,13 +51,15 @@ import { __values } from 'tslib'
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TasksComponent implements OnInit, OnDestroy {
-  searchTerm = ''
-  searchSubject = new Subject<string>();
-  destroyRef = inject(DestroyRef);
-
+  searchTerm = '';
+  taskSearchCtrl = new FormControl();
+  taskSearchSubscription: Subscription;
   taskColumns: string[] = ['id', 'subject', 'taskPriority']
   tasksDataSource = new MatTableDataSource<Task>()
   tasksLoading$ = new BehaviorSubject<boolean>(false)
+
+  orderSearchCtrl = new FormControl();
+  orderSearchSubscription: Subscription;
   orderColumns: string[] = ['id', 'commission', 'orderNumber']
   ordersDataSource = new MatTableDataSource<OrderItem>()
   ordersLoading$ = new BehaviorSubject<boolean>(false)
@@ -82,16 +84,27 @@ export class TasksComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadData(TasksPageTable.TASKS)
     this.loadData(TasksPageTable.ORDERS)
-    this.eventService.userUpdated$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+    this.taskSearchSubscription = this.taskSearchCtrl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
       .subscribe(() => { 
         this.loadData(TasksPageTable.TASKS)
+      })
+    this.orderSearchSubscription = this.orderSearchCtrl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(() => { 
         this.loadData(TasksPageTable.ORDERS)
-       })
+      })
   }
 
   ngOnDestroy(): void {
-    this.searchSubject.unsubscribe()
+    if(this.taskSearchSubscription) this.taskSearchSubscription.unsubscribe();
+    if(this.orderSearchSubscription) this.orderSearchSubscription.unsubscribe();
   }
 
   onSearch(event: any, table: TasksPageTable) {
@@ -109,10 +122,6 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
 
-  onInputChange(value: string) {
-     this.searchSubject.next(value); 
-  }
-
   onPageChange(event: any, table: TasksPageTable) {
     switch(table) {
       case TasksPageTable.TASKS: //TasksPageTable.TASKS
@@ -125,27 +134,6 @@ export class TasksComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
-  /*openTaskForm(): void {
-    const dialogRef: MatDialogRef<TaskDialogComponent> = this.dialog.open(TaskDialogComponent, {
-      width: '400px'
-    })
-
-    dialogRef.afterClosed().subscribe((value: any) => {
-      if (!value) return
-      this.loadData(this.taskPaginator, this.tasksDataSource, this.tasksLoading$);
-    })
-  }
-  openOrderForm(): void {
-    const dialogRef: MatDialogRef<OrderDialogComponent> = this.dialog.open(OrderDialogComponent, {
-      width: '400px'
-    })
-
-    dialogRef.afterClosed().subscribe((value: any) => {
-      if (!value) return
-      this.loadData(this.orderPaginator, this.ordersDataSource, this.ordersLoading$);
-    })
-  }*/
   
   private loadData(table: TasksPageTable): void {
     switch(table) {
